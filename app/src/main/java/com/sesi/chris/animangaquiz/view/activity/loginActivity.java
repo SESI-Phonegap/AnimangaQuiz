@@ -1,7 +1,9 @@
-package com.sesi.chris.animangaquiz;
+package com.sesi.chris.animangaquiz.view.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.sesi.chris.animangaquiz.R;
 
 public class loginActivity extends AppCompatActivity {
 

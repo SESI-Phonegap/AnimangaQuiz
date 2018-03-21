@@ -20,9 +20,28 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation supportDependencies.design
+    implementation supportDependencies.constraint_layout
+
+    //Dependencias para Retrofit
+    implementation squareDependencies.retrofit
+    implementation squareDependencies.adapter_rx_java
+    implementation squareDependencies.logging_interceptor
+    implementation squareDependencies.converter_gson
+
+    //Dependencia de Gson
+    implementation googleDependencies.gson
+
+    //Dependencias para RxJava
+    implementation reactiveDependencies.rxjava
+    implementation reactiveDependencies.rxandroid
+
+    // Dependencias de Glide
+    implementation bumptechGlideDependencies.glide
+    annotationProcessor bumptechGlideDependencies.compiler
+
+
+    testImplementation testingDependencies.junit
+    androidTestImplementation testingDependencies.runner
+    androidTestImplementation testingDependencies.espresso
 }

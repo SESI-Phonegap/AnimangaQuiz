@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AniMangaQuiz</string>
+    <string name="imgdescription">Description</string>
 </resources>
