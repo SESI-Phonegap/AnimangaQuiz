@@ -2,7 +2,13 @@ package com.sesi.chris.animangaquiz.data.api.retrofit;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.sesi.chris.animangaquiz.data.api.Constants;
+import com.sesi.chris.animangaquiz.data.api.retrofit.deserializer.LoginResponseDeserializer;
+import com.sesi.chris.animangaquiz.data.model.LoginResponse;
+
+import java.util.List;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -44,10 +50,8 @@ public class QuizRetrofitClient {
     }
 
     private Gson getSpotifyDeserializer() {
-        return new GsonBuilder().registerTypeAdapter(new TypeToken<List<Artist>>() {
-        }.getType(), new ArtistsDeserializer<Artist>())
-                .registerTypeAdapter(new TypeToken<List<Track>>() {
-                }.getType(), new TracksDeserializer<Track>())
+        return new GsonBuilder().registerTypeAdapter(new TypeToken<List<LoginResponse>>() {
+        }.getType(), new LoginResponseDeserializer<>())
                 .create();
     }
 
