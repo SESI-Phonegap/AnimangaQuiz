@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">AniMangaQuiz</string>
     <string name="imgdescription">Description</string>
+
+    <!-- LoginActivity -->
+    <string name="userName">Nombre de usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="btnLogin">Login</string>
+
 </resources>

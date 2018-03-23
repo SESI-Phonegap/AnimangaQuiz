@@ -26,32 +26,6 @@ public class LoginPresenter extends Presenter<LoginPresenter.View> {
 
     public void onLogin(String userName, String password){
         getView().showLoading();
-      /*  Call<LoginResponse> callLogin = interactor.login(userName,password);
-        callLogin.enqueue(new Callback<LoginResponse>() {
-            @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if (!response.isSuccessful()) {
-                    Log.d("LOGINPRESENTER--","No hay conexion");
-                } else {
-
-                        User user = response.body().getUser();
-                        Log.d("LOGINPRESENTER--", response.body().getEstatus());
-
-                        if (null != user) {
-                            Log.d("LOGINPRESENTER--", user.getName());
-                        } else {
-                            Log.d("", response.body().getError());
-                        }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
-                t.printStackTrace();
-
-            }
-        });*/
 
         Disposable disposable = interactor.login(userName,password).subscribe(login -> {
             if (null != login){
@@ -70,15 +44,6 @@ public class LoginPresenter extends Presenter<LoginPresenter.View> {
         super.terminate();
         setView(null);
     }
-/*
-    public RequestBody getLoginRequestBody(String userName, String password){
-        Gson gson = new Gson();
-        User user = new User();
-        user.setUserName(userName);
-        user.setPassword(password);
-        String json = gson.toJson(user);
-       return RequestBody.create(MediaType.parse("application/json"),gson.toJson(user));
-    }*/
 
     public interface View extends Presenter.View{
         void showLoading();
