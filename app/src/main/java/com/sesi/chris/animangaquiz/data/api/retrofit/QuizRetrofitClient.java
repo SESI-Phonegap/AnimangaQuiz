@@ -55,7 +55,7 @@ public class QuizRetrofitClient {
                 .create();
     }
 
-    protected QuizRetrofitService getSpotifyService() {
+    protected QuizRetrofitService getQuizService() {
         return quizRetrofitService;
     }
 
