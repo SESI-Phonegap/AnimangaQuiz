@@ -16,4 +16,11 @@
         <item name="android:visibility">visible</item>
         <item name="android:columnWidth">@dimen/recycler_column_width</item>
     </style>
+
+    <style name="styleProgressBar">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:visibility">gone</item>
+    </style>
 </resources>

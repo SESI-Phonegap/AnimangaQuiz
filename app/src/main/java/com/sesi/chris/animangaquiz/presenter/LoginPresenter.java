@@ -1,6 +1,8 @@
 package com.sesi.chris.animangaquiz.presenter;
 
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
@@ -9,8 +11,10 @@ import com.sesi.chris.animangaquiz.data.model.User;
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class LoginPresenter extends Presenter<LoginPresenter.View> {
 
@@ -22,8 +26,35 @@ public class LoginPresenter extends Presenter<LoginPresenter.View> {
 
     public void onLogin(String userName, String password){
         getView().showLoading();
-        Disposable disposable = interactor.login(getLoginRequestBody(userName,password)).subscribe(login -> {
-            if (!login.isEmpty() && login.size() > 0){
+      /*  Call<LoginResponse> callLogin = interactor.login(userName,password);
+        callLogin.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (!response.isSuccessful()) {
+                    Log.d("LOGINPRESENTER--","No hay conexion");
+                } else {
+
+                        User user = response.body().getUser();
+                        Log.d("LOGINPRESENTER--", response.body().getEstatus());
+
+                        if (null != user) {
+                            Log.d("LOGINPRESENTER--", user.getName());
+                        } else {
+                            Log.d("", response.body().getError());
+                        }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                t.printStackTrace();
+
+            }
+        });*/
+
+        Disposable disposable = interactor.login(userName,password).subscribe(login -> {
+            if (null != login){
                 getView().hideLoading();
                 getView().renderLogin(login);
             } else {
@@ -31,6 +62,7 @@ public class LoginPresenter extends Presenter<LoginPresenter.View> {
             }
         }, Throwable::printStackTrace);
         addDisposableObserver(disposable);
+
     }
 
     @Override
@@ -38,14 +70,15 @@ public class LoginPresenter extends Presenter<LoginPresenter.View> {
         super.terminate();
         setView(null);
     }
-
+/*
     public RequestBody getLoginRequestBody(String userName, String password){
         Gson gson = new Gson();
         User user = new User();
         user.setUserName(userName);
         user.setPassword(password);
+        String json = gson.toJson(user);
        return RequestBody.create(MediaType.parse("application/json"),gson.toJson(user));
-    }
+    }*/
 
     public interface View extends Presenter.View{
         void showLoading();
@@ -58,6 +91,6 @@ public class LoginPresenter extends Presenter<LoginPresenter.View> {
 
         void showServerError();
 
-        void renderLogin(List<LoginResponse> posts);
+        void renderLogin(LoginResponse loginResponse);
     }
 }

@@ -7,6 +7,11 @@ public class LoginResponse {
     @SerializedName("estatus")
     @Expose
     private String estatus;
+
+    @SerializedName("error")
+    @Expose
+    private String error;
+
     @SerializedName("user")
     @Expose
     private User user;
@@ -25,5 +30,13 @@ public class LoginResponse {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 }

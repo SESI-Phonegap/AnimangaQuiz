@@ -7,7 +7,6 @@ import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.api.retrofit.deserializer.LoginResponseDeserializer;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 
-import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -25,12 +24,12 @@ public class QuizRetrofitClient {
 
     private void initRetrofit() {
         Retrofit retrofit = retrofitBuilder();
-        quizRetrofitService = retrofit.create(getSpotifyServiceClass());
+        quizRetrofitService = retrofit.create(getQuizServiceClass());
     }
 
     private Retrofit retrofitBuilder() {
         return new Retrofit.Builder().baseUrl(Constants.URL_BASE)
-                .addConverterFactory(GsonConverterFactory.create(getSpotifyDeserializer()))
+                .addConverterFactory(GsonConverterFactory.create(getQuizDeserializer()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(getOkHttpClient())
                 .build();
@@ -45,13 +44,13 @@ public class QuizRetrofitClient {
     }
 
 
-    private Class<QuizRetrofitService> getSpotifyServiceClass() {
+    private Class<QuizRetrofitService> getQuizServiceClass() {
         return QuizRetrofitService.class;
     }
 
-    private Gson getSpotifyDeserializer() {
-        return new GsonBuilder().registerTypeAdapter(new TypeToken<List<LoginResponse>>() {
-        }.getType(), new LoginResponseDeserializer<>())
+    private Gson getQuizDeserializer() {
+        return new GsonBuilder().registerTypeAdapter(new TypeToken<LoginResponse>() {
+        }.getType(), new LoginResponseDeserializer<LoginResponse>())
                 .create();
     }
 

@@ -10,12 +10,13 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.RequestBody;
+import retrofit2.Call;
 import retrofit2.http.Body;
 
 public class QuizClient extends QuizRetrofitClient implements QuizServiceClient{
     @Override
-    public Observable<List<LoginResponse>> login(RequestBody json) {
-        return getQuizService().login(json)
+    public Observable<LoginResponse> login(String userName, String pass) {
+        return getQuizService().login(userName,pass)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

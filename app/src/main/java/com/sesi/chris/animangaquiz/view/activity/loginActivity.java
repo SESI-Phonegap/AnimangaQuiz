@@ -8,6 +8,7 @@ import android.util.Log;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
+import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.presenter.LoginPresenter;
 
@@ -57,7 +58,14 @@ public class loginActivity extends AppCompatActivity implements LoginPresenter.V
     }
 
     @Override
-    public void renderLogin(List<LoginResponse> posts) {
-        Log.d("Respuesta--",posts.toString());
+    public void renderLogin(LoginResponse loginResponse) {
+
+        User user = loginResponse.getUser();
+        Log.d("Respuesta--",loginResponse.getEstatus());
+        if (null != user) {
+            Log.d("LOGINPRESENTER--", user.getName());
+        } else {
+            Log.d("", loginResponse.getError());
+        }
     }
 }
