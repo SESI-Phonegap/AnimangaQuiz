@@ -2,9 +2,18 @@
     <string name="app_name">AniMangaQuiz</string>
     <string name="imgdescription">Description</string>
 
+    <string name="noInternet">No tienes conexión a Internet</string>
     <!-- LoginActivity -->
     <string name="userName">Nombre de usuario</string>
     <string name="password">Contraseña</string>
     <string name="btnLogin">Login</string>
+    <string name="registrarse"><u>Registrarse</u></string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
