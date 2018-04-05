@@ -19,7 +19,7 @@ import com.sesi.chris.animangaquiz.presenter.LoginPresenter;
 
 import java.util.List;
 
-public class loginActivity extends AppCompatActivity implements LoginPresenter.View {
+public class LoginActivity extends AppCompatActivity implements LoginPresenter.View {
 
     private LoginPresenter loginPresenter;
     private ConstraintLayout background;

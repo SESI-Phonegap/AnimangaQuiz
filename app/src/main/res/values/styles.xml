@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -15,6 +15,24 @@
         <item name="android:scrollbars">vertical</item>
         <item name="android:visibility">visible</item>
         <item name="android:columnWidth">@dimen/recycler_column_width</item>
+    </style>
+
+    <style name="styleEditText">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/editTextHeigh</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:paddingEnd">5dp</item>
+        <item name="android:layout_marginStart">@dimen/layoutMarginStartEnd</item>
+        <item name="android:layout_marginEnd">@dimen/layoutMarginStartEnd</item>
+        <item name="android:background">@drawable/fondotextview</item>
+        <item name="android:textColor">@color/text_primary_dark</item>
+    </style>
+
+    <style name="styleBtn">
+        <item name="android:layout_height">@dimen/btnHeigh</item>
+        <item name="android:textColor">@color/text_primary_light</item>
+        <item name="android:background">@drawable/btn</item>
     </style>
 
 </resources>

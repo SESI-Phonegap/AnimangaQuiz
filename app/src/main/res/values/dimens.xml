@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="recycler_column_width">200dp</dimen>
+    <dimen name="editTextHeigh">50dp</dimen>
+    <dimen name="layoutMarginStartEnd">24dp</dimen>
+    <dimen name="btnHeigh">50dp</dimen>
 </resources>
