@@ -4,9 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.sesi.chris.animangaquiz.data.api.Constants;
+import com.sesi.chris.animangaquiz.data.api.retrofit.deserializer.AnimeResponseDeserializer;
 import com.sesi.chris.animangaquiz.data.api.retrofit.deserializer.LoginResponseDeserializer;
+import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 
+
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -51,6 +55,8 @@ public class QuizRetrofitClient {
     private Gson getQuizDeserializer() {
         return new GsonBuilder().registerTypeAdapter(new TypeToken<LoginResponse>() {
         }.getType(), new LoginResponseDeserializer<LoginResponse>())
+                .registerTypeAdapter(new TypeToken<List<Anime>>(){}
+                .getType(), new AnimeResponseDeserializer<Anime>())
                 .create();
     }
 

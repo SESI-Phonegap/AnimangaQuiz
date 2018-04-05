@@ -16,4 +16,6 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <!-- MenuActivity -->
+    <string name="titleMenu">Animes disponibles</string>
 </resources>

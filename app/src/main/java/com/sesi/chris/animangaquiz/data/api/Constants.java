@@ -14,6 +14,7 @@ public class Constants {
 
     public static final class EndPoint{
         public static final String LOGIN_MOBILE = "/AnimangaBackEnd/service/loginmobile.php";
+        public static final String GET_ALL_ANIMES = "/AnimangaBackEnd/service/getanimes.php";
     }
 
     public static final class ParametersBackEnd{
@@ -23,5 +24,6 @@ public class Constants {
 
     public static final class Deserializer{
         public static final String LOGIN = "login";
+        public static final String ANIMES = "animes";
     }
 }
