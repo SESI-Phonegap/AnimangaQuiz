@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">AniMangaQuiz</string>
     <string name="imgdescription">Description</string>
+    <string name="action_search">Buscar…</string>
 
     <string name="noInternet">No tienes conexión a Internet</string>
     <!-- LoginActivity -->

@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 
 public class AutoRecyclerView extends RecyclerView {
     private GridLayoutManager manager;
@@ -36,8 +37,15 @@ public class AutoRecyclerView extends RecyclerView {
             array.recycle();
         }
 
-        manager = new GridLayoutManager(getContext(), 1);
+        manager = new GridLayoutManager(getContext(), calculateNoColumns(context));
         setLayoutManager(manager);
+    }
+
+    public int calculateNoColumns(Context context){
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        int noOfColumns = (int) (dpWidth / 180);
+        return noOfColumns;
     }
 
     @Override protected void onMeasure(int widthSpec, int heightSpec) {

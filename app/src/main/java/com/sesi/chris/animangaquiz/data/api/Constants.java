@@ -6,7 +6,7 @@ public class Constants {
     //URL Produccion
    // public static final String URL_BASE = "http://www.animangaquiz.com";
     // URL WAMP Server localhost Desarrollo
-    public static final String URL_BASE = "http://9.86.173.27:80/";
+    public static final String URL_BASE = "http://9.86.172.83:80/";
 
     // URL MAMP Server localhost Desarrollo
   //  public static final String URL_BASE = "http://localhost:8888/AnimangaBackEnd";

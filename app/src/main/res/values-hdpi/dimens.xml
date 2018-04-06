@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- General -->
+    <dimen name="recycler_column_width">200dp</dimen>
     <dimen name="paddingStartEndEditText">5dp</dimen>
     <dimen name="btnWidth">160dp</dimen>
     <dimen name="btnHeigh">50dp</dimen>
