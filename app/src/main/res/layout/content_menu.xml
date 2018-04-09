@@ -10,11 +10,12 @@
     tools:showIn="@layout/app_bar_menu">
 
 
+    <!--
     <FrameLayout
         android:id="@+id/mainFrame"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
+-->
 
     <com.sesi.chris.animangaquiz.view.widget.AutoRecyclerView
         android:id="@+id/recyclerViewAnime"
