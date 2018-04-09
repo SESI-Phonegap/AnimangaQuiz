@@ -9,21 +9,18 @@
     android:background="@color/cardview_dark_background"
     tools:showIn="@layout/app_bar_menu">
 
-
-    <!--
     <FrameLayout
         android:id="@+id/mainFrame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
--->
-
-    <com.sesi.chris.animangaquiz.view.widget.AutoRecyclerView
-        android:id="@+id/recyclerViewAnime"
-        style="@style/styleRecyclerView"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
 </android.support.constraint.ConstraintLayout>

@@ -44,7 +44,7 @@ public class MenuPresenter extends Presenter<MenuPresenter.View>{
 
         void showServerError();
 
-        void renderAnimes(List<Anime> artists);
+        void renderAnimes(List<Anime> lstAnimes);
 
         void launchAnimeTest(Anime anime);
     }
