@@ -37,8 +37,8 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.AnimeViewHol
         holder.tvAnimeNombre.setText(anime.getAnime());
         GlideApp.with(holder.imgAnime.getContext())
                 .load(Constants.URL_BASE+"AnimangaBackEnd"+anime.getImgUrl())
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+               // .skipMemoryCache(true)
                 .into(holder.imgAnime);
 
     }

@@ -41,6 +41,7 @@ dependencies {
     implementation reactiveDependencies.rxandroid
     // Dependencias de Glide
     implementation bumptechGlideDependencies.glide
+    implementation 'com.android.support:support-v4:27.1.1'
     annotationProcessor bumptechGlideDependencies.compiler
     testImplementation testingDependencies.junit
     androidTestImplementation testingDependencies.runner
