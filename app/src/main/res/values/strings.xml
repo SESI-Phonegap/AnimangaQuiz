@@ -2,6 +2,10 @@
     <string name="app_name">AniMangaQuiz</string>
     <string name="imgdescription">Description</string>
     <string name="action_search">Buscar…</string>
+    <string name="facil">Facil</string>
+    <string name="medio">Normal</string>
+    <string name="dificil">Dificil</string>
+    <string name="mododios">Otaku</string>
 
     <string name="noInternet">No tienes conexión a Internet</string>
     <!-- LoginActivity -->

@@ -39,6 +39,16 @@
         <item name="android:background">@drawable/btn</item>
     </style>
 
+    <style name="styleBtnLevel">
+        <item name="android:layout_height">@dimen/btnHeigh</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginStart">@dimen/layoutMarginStartEnd</item>
+        <item name="android:layout_marginEnd">@dimen/layoutMarginStartEnd</item>
+        <item name="android:textColor">@color/text_primary_light</item>
+        <item name="android:textStyle">bold|italic</item>
+        <item name="android:background">@drawable/btn</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

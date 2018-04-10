@@ -40,7 +40,11 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.AnimeViewHol
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                // .skipMemoryCache(true)
                 .into(holder.imgAnime);
-
+        holder.itemView.setOnClickListener(v -> {
+            if (null != itemClickListener){
+                itemClickListener.onItemClick(anime);
+            }
+        });
     }
 
     @Override

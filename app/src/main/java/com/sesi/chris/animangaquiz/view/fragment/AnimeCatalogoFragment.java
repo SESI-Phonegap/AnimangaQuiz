@@ -1,5 +1,6 @@
 package com.sesi.chris.animangaquiz.view.fragment;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -18,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.sesi.chris.animangaquiz.R;
@@ -40,6 +43,8 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
     private RecyclerView recyclerViewAnimes;
     private Toolbar toolbar;
     private Context context;
+    private AlertDialog dialog;
+    private User user;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -89,7 +94,7 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
 
         recyclerViewAnimes = getActivity().findViewById(R.id.recyclerViewAnime);
         Bundle bundle =  getActivity().getIntent().getExtras();
-        User user = (User) bundle.getSerializable("user");
+        user = (User) bundle.getSerializable("user");
         if (UtilInternetConnection.isOnline(context())){
             if (null != user) {
                 menuPresenter.getAllAnimes(user.getUserName(), user.getPassword());
@@ -177,7 +182,7 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
 
     @Override
     public void launchAnimeTest(Anime anime) {
-
+        createDialogLevel(anime.getIdAnime(),user.getUserName(),user.getPassword());
     }
 
     @Override
@@ -193,5 +198,37 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
     @Override
     public boolean onQueryTextChange(String newText) {
         return false;
+    }
+
+    public void createDialogLevel(String idAnime, String usuario, String passw) {
+
+        AlertDialog.Builder builder =  new AlertDialog.Builder(context());
+        final View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_nivel, null);
+
+        Button btnFacil = view.findViewById(R.id.btn_level_facil);
+        Button btnNormal = view.findViewById(R.id.btn_level_normal);
+        Button btnDificil = view.findViewById(R.id.btn_level_dificil);
+        Button btnOtaku = view.findViewById(R.id.btn_level_dios);
+
+        btnFacil.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+
+        btnNormal.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+
+        btnDificil.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+
+        btnOtaku.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+
+        builder.setView(view);
+        dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
     }
 }
