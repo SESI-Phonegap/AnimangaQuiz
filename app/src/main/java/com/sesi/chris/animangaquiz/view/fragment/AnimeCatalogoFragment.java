@@ -83,14 +83,7 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         context = getContext();
         menuPresenter = new MenuPresenter(new MenuInteractor(new QuizClient()));
         menuPresenter.setView(this);
-        toolbar = getActivity().findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = getActivity().findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
 
         recyclerViewAnimes = getActivity().findViewById(R.id.recyclerViewAnime);
         Bundle bundle =  getActivity().getIntent().getExtras();
@@ -113,23 +106,6 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         AnimeAdapter adapter = new AnimeAdapter();
         adapter.setItemClickListener((Anime anime) -> menuPresenter.launchAnimeTest(anime));
         recyclerViewAnimes.setAdapter(adapter);
-    }
-
-    private void setupSearchView(Menu menu) {
-        SearchManager searchManager =
-                (SearchManager)  ((AppCompatActivity)getActivity()).getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-        searchView.setQueryHint(getString(R.string.action_search));
-        searchView.setMaxWidth(toolbar.getWidth());
-        searchView.setOnQueryTextListener(this);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        getActivity().getMenuInflater().inflate(R.menu.menu_search,menu);
-        setupSearchView(menu);
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
