@@ -4,9 +4,9 @@ package com.sesi.chris.animangaquiz.data.api;
 public class Constants {
 
     //URL Produccion
-    //public static final String URL_BASE = "http://www.animangaquiz.mx/";
+    public static final String URL_BASE = "http://www.animangaquiz.mx/";
     // URL WAMP Server localhost Desarrollo
-    public static final String URL_BASE = "http://9.86.173.127:80/";
+   // public static final String URL_BASE = "http://9.86.173.127:80/";
 
     // URL MAMP Server localhost Desarrollo
    // public static final String URL_BASE = "http://192.168.0.3:8888/";

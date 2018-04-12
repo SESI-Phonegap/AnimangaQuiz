@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,6 +22,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sesi.chris.animangaquiz.R;
@@ -45,6 +47,8 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
     private Context context;
     private AlertDialog dialog;
     private User user;
+    private TextView tvSearch;
+    private ConstraintLayout constraintLayoutSearch;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -84,7 +88,8 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         menuPresenter = new MenuPresenter(new MenuInteractor(new QuizClient()));
         menuPresenter.setView(this);
 
-
+        tvSearch = getActivity().findViewById(R.id.tv_search);
+        constraintLayoutSearch = getActivity().findViewById(R.id.constraintSearch);
         recyclerViewAnimes = getActivity().findViewById(R.id.recyclerViewAnime);
         Bundle bundle =  getActivity().getIntent().getExtras();
         user = (User) bundle.getSerializable("user");
