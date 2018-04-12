@@ -52,6 +52,10 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.AnimeViewHol
         return lstAnimes.size();
     }
 
+    public List<Anime> getLstAnimes(){
+        return lstAnimes;
+    }
+
     public void setLstAnimes(List<Anime> lstAnimes){
         this.lstAnimes = lstAnimes;
     }

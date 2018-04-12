@@ -16,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,6 +37,7 @@ import com.sesi.chris.animangaquiz.view.activity.LoginActivity;
 import com.sesi.chris.animangaquiz.view.adapter.AnimeAdapter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.View, SearchView.OnQueryTextListener {
@@ -47,8 +50,9 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
     private Context context;
     private AlertDialog dialog;
     private User user;
-    private TextView tvSearch;
+    private TextView et_Search;
     private ConstraintLayout constraintLayoutSearch;
+    private List<Anime> lstAnime;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -88,7 +92,8 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         menuPresenter = new MenuPresenter(new MenuInteractor(new QuizClient()));
         menuPresenter.setView(this);
 
-        tvSearch = getActivity().findViewById(R.id.tv_search);
+        et_Search = getActivity().findViewById(R.id.et_search);
+        et_Search.addTextChangedListener(textWatcherFilter);
         constraintLayoutSearch = getActivity().findViewById(R.id.constraintSearch);
         recyclerViewAnimes = getActivity().findViewById(R.id.recyclerViewAnime);
         Bundle bundle =  getActivity().getIntent().getExtras();
@@ -159,6 +164,7 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         AnimeAdapter adapter = (AnimeAdapter) recyclerViewAnimes.getAdapter();
         adapter.setLstAnimes(lstAnimes);
         adapter.notifyDataSetChanged();
+        this.lstAnime = lstAnimes;
     }
 
     @Override
@@ -212,4 +218,33 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
     }
+
+    TextWatcher textWatcherFilter = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            //EMPTY
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            //AnimeAdapter adapter = (AnimeAdapter) recyclerViewAnimes.getAdapter();
+            List<Anime> lstAnimeFilter = new ArrayList<>();
+            for (Anime anime : lstAnime){
+               String textAnime = anime.getAnime().toLowerCase();
+               if (textAnime.contains(s)){
+                   lstAnimeFilter.add(anime);
+               }
+            }
+            AnimeAdapter adapterFilter = new AnimeAdapter();
+            adapterFilter.setLstAnimes(lstAnimeFilter);
+            recyclerViewAnimes.setAdapter(adapterFilter);
+            adapterFilter.notifyDataSetChanged();
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            //EMPTY
+        }
+    };
 }
