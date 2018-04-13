@@ -21,11 +21,14 @@ public class Constants {
     public static final class ParametersBackEnd{
         public static final String USER_NAME = "userName";
         public static final String PASSWORD = "pass";
+        public static final String ID_ANIME = "anime";
+        public static final String LEVEL = "level";
     }
 
     public static final class Deserializer{
         public static final String LOGIN = "login";
         public static final String ANIMES = "animes";
         public static final String PREGUNTAS = "preguntas";
+
     }
 }

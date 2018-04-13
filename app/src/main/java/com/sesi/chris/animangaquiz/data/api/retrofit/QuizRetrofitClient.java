@@ -6,8 +6,10 @@ import com.google.gson.reflect.TypeToken;
 import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.api.retrofit.deserializer.AnimeResponseDeserializer;
 import com.sesi.chris.animangaquiz.data.api.retrofit.deserializer.LoginResponseDeserializer;
+import com.sesi.chris.animangaquiz.data.api.retrofit.deserializer.PreguntasDeserializer;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
+import com.sesi.chris.animangaquiz.data.model.Preguntas;
 
 
 import java.util.List;
@@ -57,6 +59,8 @@ public class QuizRetrofitClient {
         }.getType(), new LoginResponseDeserializer<LoginResponse>())
                 .registerTypeAdapter(new TypeToken<List<Anime>>(){}
                 .getType(), new AnimeResponseDeserializer<Anime>())
+                .registerTypeAdapter(new TypeToken<List<Preguntas>>(){}
+                .getType(), new PreguntasDeserializer<Preguntas>())
                 .create();
     }
 

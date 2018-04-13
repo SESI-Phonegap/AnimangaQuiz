@@ -18,7 +18,7 @@ public class MenuPresenter extends Presenter<MenuPresenter.View>{
     public void getAllAnimes(String userName, String pass){
         getView().showLoading();
         Disposable disposable = interactor.animes(userName,pass).subscribe(animes -> {
-            if (!animes.isEmpty() && animes.size() > 0){
+            if (!animes.isEmpty()){
                 getView().hideLoading();
                 getView().renderAnimes(animes);
             } else {
