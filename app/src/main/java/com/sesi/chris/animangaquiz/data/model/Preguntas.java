@@ -15,7 +15,7 @@ public class Preguntas {
     private String question;
     @SerializedName("puntos")
     @Expose
-    private String puntos;
+    private int puntos;
     @SerializedName("arrayRespuestas")
     @Expose
     private List<Respuesta> respuestas = null;
@@ -36,11 +36,11 @@ public class Preguntas {
         this.question = question;
     }
 
-    public String getPuntos() {
+    public int getPuntos() {
         return puntos;
     }
 
-    public void setPuntos(String puntos) {
+    public void setPuntos(int puntos) {
         this.puntos = puntos;
     }
 

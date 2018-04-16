@@ -1,6 +1,7 @@
 package com.sesi.chris.animangaquiz.presenter;
 
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
+import com.sesi.chris.animangaquiz.data.model.Respuesta;
 import com.sesi.chris.animangaquiz.interactor.PreguntasInteractor;
 
 import java.util.List;
@@ -28,6 +29,10 @@ public class PreguntasPresenter extends Presenter<PreguntasPresenter.View>{
         addDisposableObserver(disposable);
     }
 
+    public void calculaPuntos(Respuesta respuesta){
+        getView().calcularPuntos(respuesta);
+    }
+
     public interface View extends Presenter.View {
 
         void showLoading();
@@ -42,7 +47,7 @@ public class PreguntasPresenter extends Presenter<PreguntasPresenter.View>{
 
         void renderQuestions(List<Preguntas> lstPreguntas);
 
-        void calcularPuntos();
+        void calcularPuntos(Respuesta respuesta);
 
       //  void launchAnimeTest(Preguntas pregunta);
     }
