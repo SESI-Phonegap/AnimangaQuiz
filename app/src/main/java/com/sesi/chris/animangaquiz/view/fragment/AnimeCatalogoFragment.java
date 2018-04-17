@@ -34,6 +34,7 @@ import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.MenuInteractor;
 import com.sesi.chris.animangaquiz.presenter.MenuPresenter;
 import com.sesi.chris.animangaquiz.view.activity.LoginActivity;
+import com.sesi.chris.animangaquiz.view.activity.PreguntasActivity;
 import com.sesi.chris.animangaquiz.view.adapter.AnimeAdapter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
 
@@ -44,6 +45,10 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "usuario";
+    private static final int FACIL = 1;
+    private static final int MEDIO = 2;
+    private static final int DIFICIL = 3;
+    private static final int OTAKU = 4;
     private MenuPresenter menuPresenter;
     private RecyclerView recyclerViewAnimes;
     private Toolbar toolbar;
@@ -199,24 +204,37 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
 
         btnFacil.setOnClickListener(v -> {
             dialog.dismiss();
+            startQuiz(idAnime,FACIL,usuario,passw);
         });
 
         btnNormal.setOnClickListener(v -> {
             dialog.dismiss();
+            startQuiz(idAnime,MEDIO,usuario,passw);
         });
 
         btnDificil.setOnClickListener(v -> {
             dialog.dismiss();
+            startQuiz(idAnime,DIFICIL,usuario,passw);
         });
 
         btnOtaku.setOnClickListener(v -> {
             dialog.dismiss();
+            startQuiz(idAnime,OTAKU,usuario,passw);
         });
 
         builder.setView(view);
         dialog = builder.create();
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
+    }
+
+    public void startQuiz(String idAnime, int level, String userName, String pass){
+        Intent intent = new Intent(getContext(), PreguntasActivity.class);
+        intent.putExtra("level",level);
+        intent.putExtra("anime",idAnime);
+        intent.putExtra("userName",userName);
+        intent.putExtra("pass",pass);
+        startActivity(intent);
     }
 
     TextWatcher textWatcherFilter = new TextWatcher() {
