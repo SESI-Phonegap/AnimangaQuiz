@@ -120,6 +120,19 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
     private void setupRecyclerView(){
         AnimeAdapter adapter = new AnimeAdapter();
         adapter.setItemClickListener((Anime anime) -> menuPresenter.launchAnimeTest(anime));
+        recyclerViewAnimes.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) {
+                    // Scrolling up
+                    constraintLayoutSearch.setVisibility(View.GONE);
+                } else {
+                    // Scrolling down
+                    constraintLayoutSearch.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         recyclerViewAnimes.setAdapter(adapter);
     }
 
