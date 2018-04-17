@@ -37,9 +37,10 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
     private TextView tv_pregunta;
     private RecyclerView rv_respuestas;
     private TextView tv_timer;
+    private TextView tv_numPreguntas;
     private ProgressBar progressBar;
     private List<Preguntas> lstPreguntas;
-    private int index = 0;
+    private int index = 1;
     private User user;
     private int score = 0;
     private int gemas = 0;
@@ -64,6 +65,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         rv_respuestas = findViewById(R.id.rv_respuestas);
         progressBar = findViewById(R.id.pb_login);
         tv_timer = findViewById(R.id.tv_timer);
+        tv_numPreguntas = findViewById(R.id.numPreguntas);
         Bundle bundle = getIntent().getExtras();
         user = (User) bundle.getSerializable("user");
         String idAnime = bundle.getString("anime");
@@ -125,17 +127,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
     @Override
     public void renderQuestions(List<Preguntas> lstPreguntas) {
         this.lstPreguntas = lstPreguntas;
-        Preguntas pregunta = lstPreguntas.get(index);
-        puntos = pregunta.getPuntos();
-        RespuestasAdapter adapter = (RespuestasAdapter) rv_respuestas.getAdapter();
-        adapter.setItemClickListener((Respuesta respuesta) -> {
-            presenter.calculaPuntos(respuesta);
-        });
-        adapter.setLstRespuesta(pregunta.getArrayRespuestas());
-        rv_respuestas.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-        tv_pregunta.setText(pregunta.getQuestion());
-        starTime();
+        nextQuestion();
     }
 
     @Override
@@ -156,7 +148,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         resetTimer();
         starTime();
 
-        if (index < lstPreguntas.size()){
+        if (index <= lstPreguntas.size()){
             Preguntas pregunta = lstPreguntas.get(index);
             puntos = pregunta.getPuntos();
             RespuestasAdapter adapter = new RespuestasAdapter();
@@ -167,6 +159,8 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
             rv_respuestas.setAdapter(adapter);
             adapter.notifyDataSetChanged();
             tv_pregunta.setText(pregunta.getQuestion());
+            String sNumPreguntas = index + "/" + lstPreguntas.size();
+            tv_numPreguntas.setText(sNumPreguntas);
             index++;
         } else {
             //Mostrar Resultados
