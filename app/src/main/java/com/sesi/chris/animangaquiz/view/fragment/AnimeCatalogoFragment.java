@@ -41,7 +41,7 @@ import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.View, SearchView.OnQueryTextListener {
+public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.View {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "usuario";
@@ -103,10 +103,10 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         recyclerViewAnimes = getActivity().findViewById(R.id.recyclerViewAnime);
         Bundle bundle =  getActivity().getIntent().getExtras();
         user = (User) bundle.getSerializable("user");
+        setupRecyclerView();
         if (UtilInternetConnection.isOnline(context())){
             if (null != user) {
                 menuPresenter.getAllAnimes(user.getUserName(), user.getPassword());
-                setupRecyclerView();
             } else {
                 Toast.makeText(context(),"Ocurrio un error",Toast.LENGTH_LONG).show();
             }
@@ -174,7 +174,7 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
 
     @Override
     public void launchAnimeTest(Anime anime) {
-        createDialogLevel(anime.getIdAnime(),user.getUserName(),user.getPassword());
+        createDialogLevel(anime.getIdAnime(),user);
     }
 
     @Override
@@ -182,17 +182,7 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         return context;
     }
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
-    }
-
-    public void createDialogLevel(String idAnime, String usuario, String passw) {
+    public void createDialogLevel(String idAnime, User user) {
 
         AlertDialog.Builder builder =  new AlertDialog.Builder(context());
         final View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_nivel, null);
@@ -204,22 +194,22 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
 
         btnFacil.setOnClickListener(v -> {
             dialog.dismiss();
-            startQuiz(idAnime,FACIL,usuario,passw);
+            startQuiz(idAnime,FACIL,user);
         });
 
         btnNormal.setOnClickListener(v -> {
             dialog.dismiss();
-            startQuiz(idAnime,MEDIO,usuario,passw);
+            startQuiz(idAnime,MEDIO,user);
         });
 
         btnDificil.setOnClickListener(v -> {
             dialog.dismiss();
-            startQuiz(idAnime,DIFICIL,usuario,passw);
+            startQuiz(idAnime,DIFICIL,user);
         });
 
         btnOtaku.setOnClickListener(v -> {
             dialog.dismiss();
-            startQuiz(idAnime,OTAKU,usuario,passw);
+            startQuiz(idAnime,OTAKU,user);
         });
 
         builder.setView(view);
@@ -228,12 +218,11 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         dialog.show();
     }
 
-    public void startQuiz(String idAnime, int level, String userName, String pass){
+    public void startQuiz(String idAnime, int level, User user){
         Intent intent = new Intent(getContext(), PreguntasActivity.class);
         intent.putExtra("level",level);
         intent.putExtra("anime",idAnime);
-        intent.putExtra("userName",userName);
-        intent.putExtra("pass",pass);
+        intent.putExtra("user",user);
         startActivity(intent);
     }
 
@@ -254,6 +243,7 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
                }
             }
             AnimeAdapter adapterFilter = new AnimeAdapter();
+            adapterFilter.setItemClickListener((Anime anime) -> menuPresenter.launchAnimeTest(anime));
             adapterFilter.setLstAnimes(lstAnimeFilter);
             recyclerViewAnimes.setAdapter(adapterFilter);
             adapterFilter.notifyDataSetChanged();

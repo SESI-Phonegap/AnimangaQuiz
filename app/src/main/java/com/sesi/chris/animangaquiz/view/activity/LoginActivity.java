@@ -59,6 +59,8 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
         btn_login = findViewById(R.id.btn_login);
         context = this;
 
+        et_username.setText("chris_slash10");
+        et_password.setText("Mexico-17");
         //Stilo de texto tipo Link para Registro
         SpannableString content = new SpannableString(getString(R.string.registrarse));
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
@@ -105,7 +107,8 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
     }
 
     @Override
-    public void showServerError() {
+    public void showServerError(String error) {
+        Toast.makeText(context(),getString(R.string.serverError,error),Toast.LENGTH_LONG).show();
         progressBar.setVisibility(View.GONE);
     }
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -30,6 +31,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
     private static final int MEDIO = 2;
     private static final int DIFICIL = 3;
     private static final int OTAKU = 4;
+    private static final int TIME_QUESTIONS = 15000;
     private Context context;
     private PreguntasPresenter presenter;
     private TextView tv_pregunta;
@@ -64,12 +66,13 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         tv_timer = findViewById(R.id.tv_timer);
         Bundle bundle = getIntent().getExtras();
         user = (User) bundle.getSerializable("user");
-        int idAnime = bundle.getInt("anime");
+        String idAnime = bundle.getString("anime");
+        int iIdAnime = Integer.parseInt(idAnime);
         level = bundle.getInt("level");
+        setupRecyclerView();
         if (UtilInternetConnection.isOnline(context())){
             if (null != user) {
-                presenter.getQuestionsByAnimeAndLevel(user.getUserName(),user.getPassword(),idAnime,level);
-                setupRecyclerView();
+                presenter.getQuestionsByAnimeAndLevel(user.getUserName(),user.getPassword(),iIdAnime,level);
             } else {
                 Toast.makeText(context(),"Ocurrio un error",Toast.LENGTH_LONG).show();
             }
@@ -83,6 +86,8 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         adapter.setItemClickListener((Respuesta respuesta) -> {
             presenter.calculaPuntos(respuesta);
         });
+        rv_respuestas.setLayoutManager(new LinearLayoutManager(this));
+        rv_respuestas.setHasFixedSize(true);
         rv_respuestas.setAdapter(adapter);
     }
 
@@ -123,9 +128,14 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         Preguntas pregunta = lstPreguntas.get(index);
         puntos = pregunta.getPuntos();
         RespuestasAdapter adapter = (RespuestasAdapter) rv_respuestas.getAdapter();
+        adapter.setItemClickListener((Respuesta respuesta) -> {
+            presenter.calculaPuntos(respuesta);
+        });
         adapter.setLstRespuesta(pregunta.getArrayRespuestas());
+        rv_respuestas.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         tv_pregunta.setText(pregunta.getQuestion());
+        starTime();
     }
 
     @Override
@@ -150,7 +160,11 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
             Preguntas pregunta = lstPreguntas.get(index);
             puntos = pregunta.getPuntos();
             RespuestasAdapter adapter = new RespuestasAdapter();
+            adapter.setItemClickListener((Respuesta respuesta) -> {
+                presenter.calculaPuntos(respuesta);
+            });
             adapter.setLstRespuesta(pregunta.getArrayRespuestas());
+            rv_respuestas.setAdapter(adapter);
             adapter.notifyDataSetChanged();
             tv_pregunta.setText(pregunta.getQuestion());
             index++;
@@ -160,7 +174,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
     }
 
     public void starTime(){
-        timer = new CountDownTimer(10000,1000) {
+        timer = new CountDownTimer(TIME_QUESTIONS,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 tv_timer.setText(getString(R.string.timer,String.valueOf(millisUntilFinished / 1000)));
@@ -175,9 +189,11 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
     }
 
     public void resetTimer(){
-        timer.cancel();
-        timer = null;
-        segundos = 0;
-        tv_timer.setText(getString(R.string.timer,"10"));
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+            segundos = 0;
+            tv_timer.setText(getString(R.string.timer, "10"));
+        }
     }
 }

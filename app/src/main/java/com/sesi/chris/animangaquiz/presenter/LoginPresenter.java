@@ -10,6 +10,7 @@ import com.sesi.chris.animangaquiz.data.model.User;
 
 import java.util.List;
 
+import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,7 +28,7 @@ public class LoginPresenter extends Presenter<LoginPresenter.View> {
     public void onLogin(String userName, String password){
         getView().showLoading();
 
-        Disposable disposable = interactor.login(userName,password).subscribe(login -> {
+        Disposable disposable = interactor.login(userName,password).doOnError(error -> getView().showServerError(error.getMessage())).subscribe(login -> {
             if (null != login){
                 getView().hideLoading();
                 getView().renderLogin(login);
@@ -54,7 +55,7 @@ public class LoginPresenter extends Presenter<LoginPresenter.View> {
 
         void showConnectionErrorMessage();
 
-        void showServerError();
+        void showServerError(String error);
 
         void renderLogin(LoginResponse loginResponse);
     }

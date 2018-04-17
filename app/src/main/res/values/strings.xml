@@ -7,6 +7,7 @@
     <string name="dificil">Dificil</string>
     <string name="mododios">Otaku</string>
     <string name="timer">Tiempo \n %1$s</string>
+    <string name="serverError">No fue posible conectar con el servidor: %1$s</string>
 
     <string name="noInternet">No tienes conexión a Internet</string>
     <!-- LoginActivity -->
