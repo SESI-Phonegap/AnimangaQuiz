@@ -53,8 +53,6 @@ public class LoginPresenter extends Presenter<LoginPresenter.View> {
 
         void showLoginNotFoundMessage();
 
-        void showConnectionErrorMessage();
-
         void showServerError(String error);
 
         void renderLogin(LoginResponse loginResponse);

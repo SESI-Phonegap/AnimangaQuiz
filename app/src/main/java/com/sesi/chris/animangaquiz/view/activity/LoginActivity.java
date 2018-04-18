@@ -7,14 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
@@ -22,8 +20,6 @@ import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.presenter.LoginPresenter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
-
-import java.util.List;
 
 public class LoginActivity extends AppCompatActivity implements LoginPresenter.View {
 
@@ -98,11 +94,6 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
 
     @Override
     public void showLoginNotFoundMessage() {
-        progressBar.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void showConnectionErrorMessage() {
         progressBar.setVisibility(View.GONE);
     }
 
