@@ -22,7 +22,9 @@
         android:text="@string/medio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_level_facil" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_level_facil"
+        android:alpha="0.5"
+        android:enabled="false"/>
 
     <Button
         android:id="@+id/btn_level_dificil"
@@ -31,7 +33,9 @@
         android:text="@string/dificil"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_level_normal" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_level_normal"
+        android:alpha="0.5"
+        android:enabled="false"/>
 
     <Button
         android:id="@+id/btn_level_dios"
@@ -42,5 +46,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_level_dificil" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_level_dificil"
+        android:alpha="0.5"
+        android:enabled="false"/>
 </android.support.constraint.ConstraintLayout>

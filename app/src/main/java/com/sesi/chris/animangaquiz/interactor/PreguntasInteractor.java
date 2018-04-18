@@ -2,6 +2,7 @@ package com.sesi.chris.animangaquiz.interactor;
 
 import com.sesi.chris.animangaquiz.data.api.client.QuizServiceClient;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
+import com.sesi.chris.animangaquiz.data.model.Score;
 
 import java.util.List;
 

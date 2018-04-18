@@ -1,7 +1,5 @@
 package com.sesi.chris.animangaquiz.view.fragment;
 
-import android.app.Activity;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,27 +7,23 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.Anime;
+import com.sesi.chris.animangaquiz.data.model.Score;
+import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.MenuInteractor;
 import com.sesi.chris.animangaquiz.presenter.MenuPresenter;
@@ -40,47 +34,39 @@ import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.View {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "usuario";
-    private static final int FACIL = 1;
-    private static final int MEDIO = 2;
-    private static final int DIFICIL = 3;
-    private static final int OTAKU = 4;
+
     private MenuPresenter menuPresenter;
     private RecyclerView recyclerViewAnimes;
-    private Toolbar toolbar;
+    private ProgressBar progressBar;
     private Context context;
     private AlertDialog dialog;
     private User user;
-    private TextView et_Search;
     private ConstraintLayout constraintLayoutSearch;
     private List<Anime> lstAnime;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
+    private int iLevel;
+    private int iScore;
+    private int idAnime;
 
     public AnimeCatalogoFragment() {
         // Required empty public constructor
     }
 
     public static AnimeCatalogoFragment newInstance() {
-        AnimeCatalogoFragment fragment = new AnimeCatalogoFragment();
-        return fragment;
+        return new AnimeCatalogoFragment();
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-        }
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_anime_catalogo, container, false);
@@ -97,10 +83,11 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         menuPresenter = new MenuPresenter(new MenuInteractor(new QuizClient()));
         menuPresenter.setView(this);
 
-        et_Search = getActivity().findViewById(R.id.et_search);
+        TextView et_Search = Objects.requireNonNull(getActivity()).findViewById(R.id.et_search);
         et_Search.addTextChangedListener(textWatcherFilter);
         constraintLayoutSearch = getActivity().findViewById(R.id.constraintSearch);
         recyclerViewAnimes = getActivity().findViewById(R.id.recyclerViewAnime);
+        progressBar = getActivity().findViewById(R.id.pb_login);
         Bundle bundle =  getActivity().getIntent().getExtras();
         user = (User) bundle.getSerializable("user");
         setupRecyclerView();
@@ -154,27 +141,28 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
 
     @Override
     public void showLoading() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void showAnimesNotFoundMessage() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void showConnectionErrorMessage() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void showServerError() {
-
+    public void showServerError(String error) {
+        progressBar.setVisibility(View.VISIBLE);
+        Toast.makeText(context(),error,Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -186,8 +174,31 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
     }
 
     @Override
+    public void renderScoreAndLevel(ScoreResponse scoreResponse) {
+        Score score = scoreResponse.getScore();
+        if (null != score) {
+            iLevel = Integer.parseInt(score.getLevel());
+            iScore = Integer.parseInt(score.getScore());
+            createDialogLevel(user);
+        } else {
+            Toast.makeText(context(),scoreResponse.getError(),Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void showScoreError() {
+        Toast.makeText(context(),"Error !!!!",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     public void launchAnimeTest(Anime anime) {
-        createDialogLevel(anime.getIdAnime(),user);
+        if (UtilInternetConnection.isOnline(context())){
+            idAnime = anime.getIdAnime();
+            menuPresenter.checkScoreAndLevel(user.getUserName(),user.getPassword(),anime.getIdAnime(),user.getIdUser());
+        } else {
+            Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
+        }
+       // createDialogLevel(anime.getIdAnime(),user);
     }
 
     @Override
@@ -195,34 +206,53 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         return context;
     }
 
-    public void createDialogLevel(String idAnime, User user) {
+    public void createDialogLevel(User user) {
 
         AlertDialog.Builder builder =  new AlertDialog.Builder(context());
-        final View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_nivel, null);
+        final View view = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.dialog_nivel, null);
 
         Button btnFacil = view.findViewById(R.id.btn_level_facil);
         Button btnNormal = view.findViewById(R.id.btn_level_normal);
         Button btnDificil = view.findViewById(R.id.btn_level_dificil);
         Button btnOtaku = view.findViewById(R.id.btn_level_dios);
 
+        switch (iLevel){
+            case 1: break;
+            case 2: btnNormal.setAlpha(1f);
+                    btnNormal.setEnabled(true);
+                    break;
+            case 3: btnNormal.setAlpha(1f);
+                    btnNormal.setEnabled(true);
+                    btnDificil.setAlpha(1f);
+                    btnDificil.setEnabled(true);
+                    break;
+            case 4: btnNormal.setAlpha(1f);
+                    btnNormal.setEnabled(true);
+                    btnDificil.setAlpha(1f);
+                    btnDificil.setEnabled(true);
+                    btnOtaku.setAlpha(1f);
+                    btnDificil.setEnabled(true);
+                    break;
+        }
+
         btnFacil.setOnClickListener(v -> {
             dialog.dismiss();
-            startQuiz(idAnime,FACIL,user);
+            startQuiz(idAnime,iLevel,user);
         });
 
         btnNormal.setOnClickListener(v -> {
             dialog.dismiss();
-            startQuiz(idAnime,MEDIO,user);
+            startQuiz(idAnime,iLevel,user);
         });
 
         btnDificil.setOnClickListener(v -> {
             dialog.dismiss();
-            startQuiz(idAnime,DIFICIL,user);
+            startQuiz(idAnime,iLevel,user);
         });
 
         btnOtaku.setOnClickListener(v -> {
             dialog.dismiss();
-            startQuiz(idAnime,OTAKU,user);
+            startQuiz(idAnime,iLevel,user);
         });
 
         builder.setView(view);
@@ -231,10 +261,11 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         dialog.show();
     }
 
-    public void startQuiz(String idAnime, int level, User user){
+    public void startQuiz(int idAnime, int level, User user){
         Intent intent = new Intent(getContext(), PreguntasActivity.class);
         intent.putExtra("level",level);
         intent.putExtra("anime",idAnime);
+        intent.putExtra("score",iScore);
         intent.putExtra("user",user);
         startActivity(intent);
     }

@@ -1,6 +1,8 @@
 package com.sesi.chris.animangaquiz.presenter;
 
 import com.sesi.chris.animangaquiz.data.model.Anime;
+import com.sesi.chris.animangaquiz.data.model.Score;
+import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
 import com.sesi.chris.animangaquiz.interactor.MenuInteractor;
 
 import java.util.List;
@@ -28,6 +30,23 @@ public class MenuPresenter extends Presenter<MenuPresenter.View>{
         addDisposableObserver(disposable);
     }
 
+    public void checkScoreAndLevel(String userName, String pass, int idAnime, int idUser){
+        getView().showLoading();
+        Disposable disposable = interactor.checkScoreAndLevel(userName,pass,idAnime,idUser)
+                .doOnError(error ->
+                getView().showServerError(error.getMessage())
+                )
+                .subscribe(score -> {
+            if (null != score){
+                getView().hideLoading();
+                getView().renderScoreAndLevel(score);
+            } else {
+                getView().showScoreError();
+            }
+        },Throwable::printStackTrace);
+        addDisposableObserver(disposable);
+    }
+
     public void launchAnimeTest(Anime anime){
         getView().launchAnimeTest(anime);
     }
@@ -42,9 +61,13 @@ public class MenuPresenter extends Presenter<MenuPresenter.View>{
 
         void showConnectionErrorMessage();
 
-        void showServerError();
+        void showServerError(String Error);
 
         void renderAnimes(List<Anime> lstAnimes);
+
+        void renderScoreAndLevel(ScoreResponse score);
+
+        void showScoreError();
 
         void launchAnimeTest(Anime anime);
     }

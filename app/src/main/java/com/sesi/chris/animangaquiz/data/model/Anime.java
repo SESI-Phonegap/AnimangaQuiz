@@ -7,7 +7,7 @@ public class Anime {
 
     @SerializedName("idAnime")
     @Expose
-    private String idAnime;
+    private int idAnime;
     @SerializedName("anime")
     @Expose
     private String anime;
@@ -15,11 +15,11 @@ public class Anime {
     @Expose
     private String imgUrl;
 
-    public String getIdAnime() {
+    public int getIdAnime() {
         return idAnime;
     }
 
-    public void setIdAnime(String idAnime) {
+    public void setIdAnime(int idAnime) {
         this.idAnime = idAnime;
     }
 

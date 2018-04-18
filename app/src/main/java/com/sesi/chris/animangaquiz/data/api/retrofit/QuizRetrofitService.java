@@ -1,10 +1,14 @@
 package com.sesi.chris.animangaquiz.data.api.retrofit;
 
 
+import android.support.constraint.ConstraintLayout;
+
 import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
+import com.sesi.chris.animangaquiz.data.model.Score;
+import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
 
 import java.util.List;
 
@@ -32,4 +36,11 @@ public interface QuizRetrofitService {
                                                             @Field(Constants.ParametersBackEnd.PASSWORD) String pass,
                                                             @Field(Constants.ParametersBackEnd.ID_ANIME) int idAnime,
                                                             @Field(Constants.ParametersBackEnd.LEVEL) int level);
+
+    @POST(Constants.EndPoint.CHECK_LEVEL_AND_SCORE_BY_ANIME_AND_USER)
+    @FormUrlEncoded
+    Observable<ScoreResponse> checkLevelAndScore(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
+                                                 @Field(Constants.ParametersBackEnd.PASSWORD) String pass,
+                                                 @Field(Constants.ParametersBackEnd.ID_ANIME) int idAnime,
+                                                 @Field(Constants.ParametersBackEnd.ID_USER) int idUser);
 }

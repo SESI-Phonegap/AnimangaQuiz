@@ -2,6 +2,8 @@ package com.sesi.chris.animangaquiz.interactor;
 
 import com.sesi.chris.animangaquiz.data.api.client.QuizServiceClient;
 import com.sesi.chris.animangaquiz.data.model.Anime;
+import com.sesi.chris.animangaquiz.data.model.Score;
+import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
 
 import java.util.List;
 
@@ -17,5 +19,9 @@ public class MenuInteractor {
 
     public Observable<List<Anime>> animes(String userName, String pass){
         return quizServiceClient.getAllAnimes(userName,pass);
+    }
+
+    public Observable<ScoreResponse> checkScoreAndLevel(String userName, String pass, int idAnime, int idUser){
+        return quizServiceClient.checkScoreAndLevel(userName,pass,idAnime,idUser);
     }
 }

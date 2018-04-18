@@ -5,11 +5,13 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.api.retrofit.deserializer.AnimeResponseDeserializer;
+import com.sesi.chris.animangaquiz.data.api.retrofit.deserializer.CheckLevelAndScoreDeserializer;
 import com.sesi.chris.animangaquiz.data.api.retrofit.deserializer.LoginResponseDeserializer;
 import com.sesi.chris.animangaquiz.data.api.retrofit.deserializer.PreguntasDeserializer;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
+import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
 
 
 import java.util.List;
@@ -55,12 +57,15 @@ public class QuizRetrofitClient {
     }
 
     private Gson getQuizDeserializer() {
-        return new GsonBuilder().registerTypeAdapter(new TypeToken<LoginResponse>() {
-        }.getType(), new LoginResponseDeserializer<LoginResponse>())
+        return new GsonBuilder()
+                .registerTypeAdapter(new TypeToken<LoginResponse>() {}
+                .getType(), new LoginResponseDeserializer<LoginResponse>())
                 .registerTypeAdapter(new TypeToken<List<Anime>>(){}
                 .getType(), new AnimeResponseDeserializer<Anime>())
                 .registerTypeAdapter(new TypeToken<List<Preguntas>>(){}
                 .getType(), new PreguntasDeserializer<Preguntas>())
+                .registerTypeAdapter(new TypeToken<ScoreResponse>(){}
+                .getType(), new CheckLevelAndScoreDeserializer<ScoreResponse>())
                 .create();
     }
 

@@ -42,7 +42,8 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
     private List<Preguntas> lstPreguntas;
     private int index = 1;
     private User user;
-    private int score = 0;
+    private int iLocalScore = 0;
+    private int iActualScore;
     private int gemas = 0;
     private int level;
     private CountDownTimer timer;
@@ -71,6 +72,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         String idAnime = bundle.getString("anime");
         int iIdAnime = Integer.parseInt(idAnime);
         level = bundle.getInt("level");
+        iActualScore = bundle.getInt("score");
         setupRecyclerView();
         if (UtilInternetConnection.isOnline(context())){
             if (null != user) {
@@ -133,7 +135,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
     @Override
     public void calcularPuntos(Respuesta respuesta) {
         if (respuesta.getIsCorrect().equals(TRUE)){
-            score += (puntos * segundos);
+            iLocalScore += (puntos * segundos);
             iCorrectas++;
         }
         nextQuestion();
