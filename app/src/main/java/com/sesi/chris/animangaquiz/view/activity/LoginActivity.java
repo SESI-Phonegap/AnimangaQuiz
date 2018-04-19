@@ -111,6 +111,7 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
             Intent intent = new Intent(context(),MenuActivity.class);
             intent.putExtra("user",user);
             startActivity(intent);
+            finish();
         } else {
            // Log.d("", loginResponse.getError());
             Toast.makeText(context(),loginResponse.getError(),Toast.LENGTH_LONG).show();

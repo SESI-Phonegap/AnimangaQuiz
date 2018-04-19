@@ -32,7 +32,10 @@ public class User implements Serializable{
     private String token;
     @SerializedName("coins")
     @Expose
-    private String coins;
+    private int coins;
+    @SerializedName("totalScore")
+    @Expose
+    private int totalScore;
 
     public Integer getIdUser() {
         return idUser;
@@ -98,11 +101,19 @@ public class User implements Serializable{
         this.token = token;
     }
 
-    public String getCoins() {
+    public int getCoins() {
         return coins;
     }
 
-    public void setCoins(String coins) {
+    public void setCoins(int coins) {
         this.coins = coins;
+    }
+
+    public int getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(int totalScore) {
+        this.totalScore = totalScore;
     }
 }

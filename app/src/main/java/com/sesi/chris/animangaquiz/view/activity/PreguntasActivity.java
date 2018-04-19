@@ -156,6 +156,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
             index++;
         } else {
             //Mostrar Resultados
+            finish();
         }
     }
 
