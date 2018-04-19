@@ -2,11 +2,14 @@ package com.sesi.chris.animangaquiz.view.activity;
 
 import android.content.Context;
 import android.os.CountDownTimer;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +25,7 @@ import com.sesi.chris.animangaquiz.view.adapter.RespuestasAdapter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
 
 import java.util.List;
+import java.util.Objects;
 
 public class PreguntasActivity extends AppCompatActivity implements PreguntasPresenter.View{
 
@@ -34,6 +38,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
     private TextView tv_timer;
     private TextView tv_numPreguntas;
     private ProgressBar progressBar;
+    private AlertDialog dialog;
     private List<Preguntas> lstPreguntas;
     private int index = 0;
     private User user;
@@ -53,7 +58,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         init();
     }
 
-    public void init(){
+    private void init(){
         context = this;
         presenter = new PreguntasPresenter(new PreguntasInteractor(new QuizClient()));
         presenter.setView(this);
@@ -136,7 +141,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         return context;
     }
 
-    public void nextQuestion(){
+    private void nextQuestion(){
         resetTimer();
         starTime();
 
@@ -160,7 +165,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         }
     }
 
-    public void starTime(){
+    private void starTime(){
         timer = new CountDownTimer(TIME_QUESTIONS,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -175,12 +180,48 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         }.start();
     }
 
-    public void resetTimer(){
+    private void resetTimer(){
         if (timer != null) {
             timer.cancel();
             timer = null;
             segundos = 0;
             tv_timer.setText(getString(R.string.timer, "10"));
         }
+    }
+
+    private void showDialogResultados(){
+        AlertDialog.Builder builder =  new AlertDialog.Builder(context());
+        final View view = getLayoutInflater().inflate(R.layout.dialog_resultados, null);
+        TextView tv_dialog_pCorrectas = view.findViewById(R.id.tv_pCorrectas);
+        TextView tv_dialog_puntos = view.findViewById(R.id.tv_puntos);
+        TextView tv_dialog_gemas = view.findViewById(R.id.tv_dialog_gemas);
+        TextView tv_dialgo_newRecord = view.findViewById(R.id.tv_newRecord);
+        Button btn_dialog_aceptar = view.findViewById(R.id.btn_aceptar);
+
+        String sPreguntasCorrectas = iCorrectas + "/" + lstPreguntas.size();
+        tv_dialog_pCorrectas.setText(sPreguntasCorrectas);
+        tv_dialog_puntos.setText(String.valueOf(iLocalScore));
+
+        // --- Nuevo Record ----
+        if (iLocalScore > iActualScore){
+            tv_dialgo_newRecord.setVisibility(View.VISIBLE);
+            AlphaAnimation animation1 = new AlphaAnimation(0.2f, 1.0f);
+            animation1.setDuration(10000);
+            animation1.setRepeatCount(20);
+            tv_dialgo_newRecord.startAnimation(animation1);
+        }
+
+        //--- Calcular cuantas gemas obtienes
+
+        btn_dialog_aceptar.setOnClickListener(v -> {
+            dialog.cancel();
+            finish();
+        });
+
+        builder.setView(view);
+        dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.show();
     }
 }

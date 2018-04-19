@@ -5,6 +5,7 @@
     <dimen name="paddingStartEndEditText">5dp</dimen>
     <dimen name="btnWidth">160dp</dimen>
     <dimen name="btnHeigh">50dp</dimen>
+    <dimen name="btnDialog">30dp</dimen>
     <dimen name="marginBottomTop8dp">8dp</dimen>
     <dimen name="editTextHeigh">50dp</dimen>
     <!-- LoginActivity -->

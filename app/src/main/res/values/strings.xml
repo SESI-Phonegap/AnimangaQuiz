@@ -27,7 +27,16 @@
     <string name="titleMenu">Animes disponibles</string>
     <string name="score">Puntos: %1$s</string>
 
+    <!-- Dialog Resultado -->
+    <string name="titlePreguntasCorrectas">Correctas</string>
+    <string name="puntuacion">Puntuación</string>
+    <string name="gemas">Gemas</string>
+    <string name="btnAceptar">Aceptar</string>
+
+    <!-- PreguntasActivity -->
+    <string name="newRecord">Felicidades has batido un nuevo récord !!</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="buscar">Buscar...</string>
+    <string name="buscar">Buscar…</string>
 </resources>
