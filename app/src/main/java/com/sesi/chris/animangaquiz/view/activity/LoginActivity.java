@@ -2,6 +2,7 @@ package com.sesi.chris.animangaquiz.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,7 +25,6 @@ import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
 public class LoginActivity extends AppCompatActivity implements LoginPresenter.View {
 
     private LoginPresenter loginPresenter;
-    private ConstraintLayout background;
     private ProgressBar progressBar;
     private EditText et_username;
     private EditText et_password;
@@ -45,7 +45,8 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
     public void init (){
         loginPresenter = new LoginPresenter(new LoginInteractor(new QuizClient()));
         loginPresenter.setView(this);
-        background = findViewById(R.id.Constraint_background);
+        ConstraintLayout background = findViewById(R.id.Constraint_background);
+        ((AnimationDrawable) background.getBackground()).start();
         progressBar = findViewById(R.id.pb_login);
         et_username = findViewById(R.id.et_userName);
         et_password = findViewById(R.id.et_password);

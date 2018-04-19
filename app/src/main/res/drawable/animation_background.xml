@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+
+    <item
+        android:duration="@integer/animDuration"
+        android:drawable="@drawable/fondo1"/>
+
+    <item
+        android:duration="@integer/animDuration"
+        android:drawable="@drawable/fondo2"/>
+
+    <item
+        android:duration="@integer/animDuration"
+        android:drawable="@drawable/fondo3"/>
+
+    <item
+        android:duration="@integer/animDuration"
+        android:drawable="@drawable/fondo4"/>
+
+    <item
+        android:duration="@integer/animDuration"
+        android:drawable="@drawable/fondo5"/>
+
+    <item
+        android:duration="@integer/animDuration"
+        android:drawable="@drawable/fondo6"/>
+
+    <item
+        android:duration="@integer/animDuration"
+        android:drawable="@drawable/fondo7"/>
+
+    <item
+        android:duration="@integer/animDuration"
+        android:drawable="@drawable/fondo8"/>
+
+    <item
+        android:duration="@integer/animDuration"
+        android:drawable="@drawable/fondo9"/>
+
+    <item
+        android:duration="@integer/animDuration"
+        android:drawable="@drawable/fondo10"/>
+
+    <item
+        android:duration="@integer/animDuration"
+        android:drawable="@drawable/fondo11"/>
+
+    <item
+        android:duration="@integer/animDuration"
+        android:drawable="@drawable/fondo12"/>
+
+    <item
+        android:duration="@integer/animDuration"
+        android:drawable="@drawable/fondo13"/>
+
+
+</animation-list>
