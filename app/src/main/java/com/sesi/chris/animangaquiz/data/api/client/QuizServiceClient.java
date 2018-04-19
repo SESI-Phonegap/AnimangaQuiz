@@ -3,7 +3,6 @@ package com.sesi.chris.animangaquiz.data.api.client;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
-import com.sesi.chris.animangaquiz.data.model.Score;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
 
 import java.util.List;

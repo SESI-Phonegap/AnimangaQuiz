@@ -1,17 +1,11 @@
 package com.sesi.chris.animangaquiz.data.api.retrofit;
 
-
-import android.support.constraint.ConstraintLayout;
-
 import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
-import com.sesi.chris.animangaquiz.data.model.Score;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
-
 import java.util.List;
-
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

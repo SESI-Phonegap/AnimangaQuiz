@@ -28,8 +28,6 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
     private ProgressBar progressBar;
     private EditText et_username;
     private EditText et_password;
-    private TextView tv_registro;
-    private Button btn_login;
     private Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +49,8 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
         progressBar = findViewById(R.id.pb_login);
         et_username = findViewById(R.id.et_userName);
         et_password = findViewById(R.id.et_password);
-        tv_registro = findViewById(R.id.tv_registro);
-        btn_login = findViewById(R.id.btn_login);
+        TextView tv_registro = findViewById(R.id.tv_registro);
+        Button btn_login = findViewById(R.id.btn_login);
         context = this;
 
         et_username.setText("chris_slash10");
@@ -110,9 +108,7 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
        // Log.d("Respuesta--",loginResponse.getEstatus());
         if (null != user) {
             Intent intent = new Intent(context(),MenuActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("user",user);
-            intent.putExtras(bundle);
+            intent.putExtra("user",user);
             startActivity(intent);
         } else {
            // Log.d("", loginResponse.getError());

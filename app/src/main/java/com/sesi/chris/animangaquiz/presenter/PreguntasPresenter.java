@@ -18,7 +18,9 @@ public class PreguntasPresenter extends Presenter<PreguntasPresenter.View>{
 
     public void getQuestionsByAnimeAndLevel(String userName, String pass, int idAnime, int level){
         getView().showLoading();
-        Disposable disposable = interactor.preguntasByAnimeAndLevel(userName,pass,idAnime,level).subscribe(preguntas ->{
+        Disposable disposable = interactor.preguntasByAnimeAndLevel(userName,pass,idAnime,level)
+                .doOnError(error -> getView().showServerError(error.getMessage()))
+                .subscribe(preguntas ->{
             if (!preguntas.isEmpty()){
                 getView().hideLoading();
                 getView().renderQuestions(preguntas);
@@ -41,14 +43,11 @@ public class PreguntasPresenter extends Presenter<PreguntasPresenter.View>{
 
         void showQuestionsNotFoundMessage();
 
-        void showConnectionErrorMessage();
-
-        void showServerError();
+        void showServerError(String error);
 
         void renderQuestions(List<Preguntas> lstPreguntas);
 
         void calcularPuntos(Respuesta respuesta);
 
-      //  void launchAnimeTest(Preguntas pregunta);
     }
 }

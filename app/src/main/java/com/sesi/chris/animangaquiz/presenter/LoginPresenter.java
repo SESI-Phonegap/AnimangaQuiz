@@ -1,20 +1,8 @@
 package com.sesi.chris.animangaquiz.presenter;
 
-
-import android.util.Log;
-
-import com.google.gson.Gson;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
-import com.sesi.chris.animangaquiz.data.model.User;
-
-import java.util.List;
-
-import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class LoginPresenter extends Presenter<LoginPresenter.View> {

@@ -1,7 +1,6 @@
 package com.sesi.chris.animangaquiz.presenter;
 
 import com.sesi.chris.animangaquiz.data.model.Anime;
-import com.sesi.chris.animangaquiz.data.model.Score;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
 import com.sesi.chris.animangaquiz.interactor.MenuInteractor;
 
@@ -58,8 +57,6 @@ public class MenuPresenter extends Presenter<MenuPresenter.View>{
         void hideLoading();
 
         void showAnimesNotFoundMessage();
-
-        void showConnectionErrorMessage();
 
         void showServerError(String Error);
 

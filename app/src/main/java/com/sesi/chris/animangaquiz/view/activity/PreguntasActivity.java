@@ -1,7 +1,6 @@
 package com.sesi.chris.animangaquiz.view.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,10 +26,6 @@ import java.util.List;
 public class PreguntasActivity extends AppCompatActivity implements PreguntasPresenter.View{
 
     private static final String TRUE = "1";
-    private static final int FACIL = 1;
-    private static final int MEDIO = 2;
-    private static final int DIFICIL = 3;
-    private static final int OTAKU = 4;
     private static final int TIME_QUESTIONS = 15000;
     private Context context;
     private PreguntasPresenter presenter;
@@ -116,13 +111,9 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
     }
 
     @Override
-    public void showConnectionErrorMessage() {
+    public void showServerError(String error) {
         progressBar.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void showServerError() {
-        progressBar.setVisibility(View.GONE);
+        Toast.makeText(context(),getString(R.string.serverError,error),Toast.LENGTH_LONG).show();
     }
 
     @Override

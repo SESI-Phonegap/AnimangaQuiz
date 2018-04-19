@@ -88,8 +88,7 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         constraintLayoutSearch = getActivity().findViewById(R.id.constraintSearch);
         recyclerViewAnimes = getActivity().findViewById(R.id.recyclerViewAnime);
         progressBar = getActivity().findViewById(R.id.pb_login);
-        Bundle bundle =  getActivity().getIntent().getExtras();
-        user = (User) bundle.getSerializable("user");
+        user = (User) getActivity().getIntent().getSerializableExtra("user");
         setupRecyclerView();
         if (UtilInternetConnection.isOnline(context())){
             if (null != user) {
@@ -155,11 +154,6 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
     }
 
     @Override
-    public void showConnectionErrorMessage() {
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
     public void showServerError(String error) {
         progressBar.setVisibility(View.VISIBLE);
         Toast.makeText(context(),error,Toast.LENGTH_LONG).show();
@@ -198,7 +192,6 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         } else {
             Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
         }
-       // createDialogLevel(anime.getIdAnime(),user);
     }
 
     @Override
