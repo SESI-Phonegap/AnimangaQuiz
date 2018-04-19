@@ -264,7 +264,7 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
     public void startQuiz(int idAnime, int level, User user){
         Intent intent = new Intent(getContext(), PreguntasActivity.class);
         intent.putExtra("level",level);
-        intent.putExtra("anime",idAnime);
+        intent.putExtra("idAnime",idAnime);
         intent.putExtra("score",iScore);
         intent.putExtra("user",user);
         startActivity(intent);

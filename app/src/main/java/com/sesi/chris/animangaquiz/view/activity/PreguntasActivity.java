@@ -40,7 +40,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
     private TextView tv_numPreguntas;
     private ProgressBar progressBar;
     private List<Preguntas> lstPreguntas;
-    private int index = 1;
+    private int index = 0;
     private User user;
     private int iLocalScore = 0;
     private int iActualScore;
@@ -69,8 +69,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         tv_numPreguntas = findViewById(R.id.numPreguntas);
         Bundle bundle = getIntent().getExtras();
         user = (User) bundle.getSerializable("user");
-        String idAnime = bundle.getString("anime");
-        int iIdAnime = Integer.parseInt(idAnime);
+        int iIdAnime = bundle.getInt("idAnime");
         level = bundle.getInt("level");
         iActualScore = bundle.getInt("score");
         setupRecyclerView();
@@ -150,7 +149,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         resetTimer();
         starTime();
 
-        if (index <= lstPreguntas.size()){
+        if (index < lstPreguntas.size()){
             Preguntas pregunta = lstPreguntas.get(index);
             puntos = pregunta.getPuntos();
             RespuestasAdapter adapter = new RespuestasAdapter();
@@ -161,7 +160,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
             rv_respuestas.setAdapter(adapter);
             adapter.notifyDataSetChanged();
             tv_pregunta.setText(pregunta.getQuestion());
-            String sNumPreguntas = index + "/" + lstPreguntas.size();
+            String sNumPreguntas = (index + 1) + "/" + lstPreguntas.size();
             tv_numPreguntas.setText(sNumPreguntas);
             index++;
         } else {
