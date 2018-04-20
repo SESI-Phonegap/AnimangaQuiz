@@ -230,22 +230,22 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
 
         btnFacil.setOnClickListener(v -> {
             dialog.dismiss();
-            startQuiz(idAnime,iLevel,user);
+            startQuiz(idAnime,1,user);
         });
 
         btnNormal.setOnClickListener(v -> {
             dialog.dismiss();
-            startQuiz(idAnime,iLevel,user);
+            startQuiz(idAnime,2,user);
         });
 
         btnDificil.setOnClickListener(v -> {
             dialog.dismiss();
-            startQuiz(idAnime,iLevel,user);
+            startQuiz(idAnime,3,user);
         });
 
         btnOtaku.setOnClickListener(v -> {
             dialog.dismiss();
-            startQuiz(idAnime,iLevel,user);
+            startQuiz(idAnime,4,user);
         });
 
         builder.setView(view);

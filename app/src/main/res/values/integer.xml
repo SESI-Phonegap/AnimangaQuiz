@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="animDuration">1500</integer>
+
+    <!-- Gemas Nivel Facil 10-->
+    <integer name="facilMin">30</integer>
+    <integer name="facilMed">60</integer>
+    <integer name="facilMax">100</integer>
+
+    <!-- Gemas Nivel Medio 20-->
+    <integer name="medMin">60</integer>
+    <integer name="medMed">120</integer>
+    <integer name="medMax">200</integer>
+
+    <!-- Gemas Nivel Dificil 30-->
+    <integer name="dificilMin">120</integer>
+    <integer name="dificilMed">240</integer>
+    <integer name="dificilMax">480</integer>
+
+    <!-- Gemas Nivel Otaku 40-->
+    <integer name="otakuMin">240</integer>
+    <integer name="otakuMed">480</integer>
+    <integer name="otakuMax">960</integer>
 </resources>
