@@ -8,6 +8,9 @@
     <dimen name="btnDialog">30dp</dimen>
     <dimen name="marginBottomTop8dp">8dp</dimen>
     <dimen name="editTextHeigh">50dp</dimen>
+
+    <dimen name="textviewTitleDialog">22sp</dimen>
+    <dimen name="textviewResultDialog">20sp</dimen>
     <!-- LoginActivity -->
 
     <dimen name="titleHeigh">150dp</dimen>

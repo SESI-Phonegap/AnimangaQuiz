@@ -59,9 +59,8 @@
     </style>
 
     <style name="styleText">
-        <item name="android:textColor">@color/text_primary_light</item>
+        <item name="android:textColor">@color/text_primary_dark</item>
         <item name="android:textStyle">bold|italic</item>
-        <item name="android:textSize">@dimen/textContentSize</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
