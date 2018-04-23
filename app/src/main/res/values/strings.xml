@@ -8,6 +8,14 @@
     <string name="mododios">Otaku</string>
     <string name="timer">Tiempo \n %1$s</string>
     <string name="serverError">No fue posible conectar con el servidor: %1$s</string>
+    <string name="playstore">www.playstore.com</string>
+
+    <!-- Menu -->
+    <string name="quiz">Quiz</string>
+    <string name="wallpapers">Wallpapers</string>
+    <string name="tienda">Tienda</string>
+    <string name="compartir">Compartir</string>
+    <string name="redesSociales">Redes Sociales</string>
 
     <string name="noInternet">No tienes conexión a Internet</string>
     <!-- LoginActivity -->
