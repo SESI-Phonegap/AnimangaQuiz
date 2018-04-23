@@ -7,13 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
@@ -26,7 +26,6 @@ import com.sesi.chris.animangaquiz.view.adapter.RespuestasAdapter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
 
 import java.util.List;
-import java.util.Objects;
 
 public class PreguntasActivity extends AppCompatActivity implements PreguntasPresenter.View {
 
@@ -92,9 +91,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
 
     private void setupRecyclerView() {
         RespuestasAdapter adapter = new RespuestasAdapter();
-        adapter.setItemClickListener((Respuesta respuesta) -> {
-            presenter.calculaPuntos(respuesta);
-        });
+        adapter.setItemClickListener((Respuesta respuesta) -> presenter.calculaPuntos(respuesta));
         rv_respuestas.setLayoutManager(new LinearLayoutManager(this));
         rv_respuestas.setHasFixedSize(true);
         rv_respuestas.setAdapter(adapter);
@@ -144,7 +141,8 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
 
     @Override
     public void renderUpdateScoreLevelGems(UpdateResponse updateResponse) {
-
+        Log.d("UPDATE--",updateResponse.error);
+        finish();
     }
 
     @Override
@@ -160,9 +158,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
             Preguntas pregunta = lstPreguntas.get(index);
             puntos = pregunta.getPuntos();
             RespuestasAdapter adapter = new RespuestasAdapter();
-            adapter.setItemClickListener((Respuesta respuesta) -> {
-                presenter.calculaPuntos(respuesta);
-            });
+            adapter.setItemClickListener((Respuesta respuesta) -> presenter.calculaPuntos(respuesta));
             adapter.setLstRespuesta(pregunta.getArrayRespuestas());
             rv_respuestas.setAdapter(adapter);
             adapter.notifyDataSetChanged();
@@ -172,6 +168,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
             index++;
         } else {
             //Mostrar Resultados
+            resetTimer();
             showDialogResultados();
         }
     }
@@ -216,10 +213,10 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         tv_dialog_puntos.setText(String.valueOf(iLocalScore));
 
         //--- Calcular cuantas gemas obtienes
-        int gemas = calculaGemas(iLocalScore, level);
+        gemas = calculaGemas(iLocalScore, level);
         tv_dialog_gemas.setText(String.valueOf(gemas));
 
-        int iscoreAux = iLocalScore;
+        int iscoreAux;
         // --- Nuevo Record ----
         if (iLocalScore > iActualScore) {
             tv_dialgo_newRecord.setVisibility(View.VISIBLE);
@@ -227,15 +224,17 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
             animation1.setDuration(10000);
             animation1.setRepeatCount(20);
             tv_dialgo_newRecord.startAnimation(animation1);
+            iscoreAux = iLocalScore;
+        } else {
             iscoreAux = iActualScore;
         }
 
+        int finalIscoreAux = iscoreAux;
         btn_dialog_aceptar.setOnClickListener(v -> {
             dialog.dismiss();
-            finish();
+            updataLevelScoreGems(user.getUserName(),user.getPassword(),gemas, finalIscoreAux,level,user.getIdUser(),iIdAnime);
+            //finish();
         });
-
-        updataLevelScoreGems(user.getUserName(),user.getPassword(),gemas,iscoreAux,level,user.getIdUser(),iIdAnime);
 
         builder.setView(view);
         dialog = builder.create();
@@ -294,6 +293,6 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
                 }
                 break;
         }
-        return gemas;
+        return gemas + user.getCoins();
     }
 }
