@@ -13,10 +13,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
@@ -24,8 +29,10 @@ import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.presenter.LoginPresenter;
 import com.sesi.chris.animangaquiz.view.fragment.AnimeCatalogoFragment;
-import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
+import com.sesi.chris.animangaquiz.view.fragment.WallpaperFragment;
 import com.sesi.chris.animangaquiz.view.utils.Utils;
+
+import static com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection.isOnline;
 
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LoginPresenter.View{
@@ -38,6 +45,9 @@ public class MenuActivity extends AppCompatActivity
     private LoginPresenter loginPresenter;
     private User userActual;
     private Context context;
+    private AdView mAdview;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +57,7 @@ public class MenuActivity extends AppCompatActivity
 
     public void init(){
         context = this;
+        MobileAds.initialize(this, getString(R.string.admodId));
         loginPresenter = new LoginPresenter(new LoginInteractor(new QuizClient()));
         loginPresenter.setView(this);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -66,10 +77,30 @@ public class MenuActivity extends AppCompatActivity
         userActual = (User) getIntent().getSerializableExtra("user");
         refreshUserData();
         changeFragment(AnimeCatalogoFragment.newInstance(),R.id.mainFrame,false,false);
+        cargarPublicidad();
+    }
+
+    private void cargarPublicidad(){
+        if (isOnline(context())) {
+            mAdview = findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdview.loadAd(adRequest);
+            mAdview.setAdListener(new AdListener() {
+                @Override
+                public void onAdClosed() {
+                    // Load the next interstitial.
+                    mAdview.loadAd(new AdRequest.Builder().build());
+                }
+            });
+
+        } else {
+            ImageView imgPubli = findViewById(R.id.img_publi_no_internet);
+            imgPubli.setVisibility(View.VISIBLE);
+        }
     }
 
     public void refreshUserData(){
-        if (UtilInternetConnection.isOnline(context())) {
+        if (isOnline(context())) {
             loginPresenter.onLogin(userActual.getUserName(), userActual.getPassword());
         } else {
             Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
@@ -123,7 +154,7 @@ public class MenuActivity extends AppCompatActivity
             // Handle the camera action
             changeFragment(AnimeCatalogoFragment.newInstance(),R.id.mainFrame,false,false);
         } else if (id == R.id.nav_wallpaper) {
-
+            changeFragment(WallpaperFragment.newInstance(),R.id.mainFrame, false, false);
         } else if (id == R.id.nav_tienda) {
 
         } else if (id == R.id.nav_compartit) {

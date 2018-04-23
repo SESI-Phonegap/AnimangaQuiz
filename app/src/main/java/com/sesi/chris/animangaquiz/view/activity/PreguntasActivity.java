@@ -14,6 +14,10 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
@@ -55,6 +59,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
     private int puntos = 0;
     private int iCorrectas = 0;
     private int iIdAnime;
+    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +84,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         iActualScore = bundle.getInt("score");
         setupRecyclerView();
         if (UtilInternetConnection.isOnline(context())) {
+            cargarInterstitial();
             if (null != user) {
                 presenter.getQuestionsByAnimeAndLevel(user.getUserName(), user.getPassword(), iIdAnime, level);
             } else {
@@ -95,6 +101,28 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         rv_respuestas.setLayoutManager(new LinearLayoutManager(this));
         rv_respuestas.setHasFixedSize(true);
         rv_respuestas.setAdapter(adapter);
+    }
+
+    private void cargarInterstitial(){
+        mInterstitialAd = new InterstitialAd(context());
+        mInterstitialAd.setAdUnitId(getString(R.string.interstitialId));
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                // Load the next interstitial.
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            }
+
+        });
+    }
+
+    public void showInterstitialAd(){
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        } else {
+            Log.d("TAG", "The interstitial wasn't loaded yet.");
+        }
     }
 
     @Override
@@ -199,7 +227,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
     }
 
     private void showDialogResultados() {
-
+        showInterstitialAd();
         AlertDialog.Builder builder = new AlertDialog.Builder(context());
         final View view = getLayoutInflater().inflate(R.layout.dialog_resultados, null);
         TextView tv_dialog_pCorrectas = view.findViewById(R.id.tv_pCorrectas);

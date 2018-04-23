@@ -9,6 +9,10 @@
     <string name="timer">Tiempo \n %1$s</string>
     <string name="serverError">No fue posible conectar con el servidor: %1$s</string>
     <string name="playstore">www.playstore.com</string>
+    <string name="admodId">ca-app-pub-2449148181464779~1186776862</string>
+    <string name="bannerId">ca-app-pub-2449148181464779/4983262083</string>
+    <string name="interstitialId">ca-app-pub-2449148181464779/3826927234</string>
+    <string name="bannerBonificacion">ca-app-pub-2449148181464779/7334216966</string>
 
     <!-- Menu -->
     <string name="quiz">Quiz</string>
