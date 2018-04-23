@@ -107,6 +107,14 @@
             android:textSize="@dimen/textviewResultDialog"
             android:textColor="@color/colorRed"/>
 
+        <TextView
+            android:id="@+id/tv_btn_anuncio"
+            style="@style/styleBtnDialog"
+            android:textAlignment="center"
+            android:text="@string/btnBannerBonificacion"
+            android:layout_toEndOf="@id/tv_dialog_gemas"
+            android:gravity="center"/>
+
     </RelativeLayout>
 
     <Button

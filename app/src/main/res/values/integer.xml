@@ -21,4 +21,7 @@
     <integer name="otakuMin">240</integer>
     <integer name="otakuMed">480</integer>
     <integer name="otakuMax">960</integer>
+
+    <!-- Bono Publicidad -->
+    <integer name="bono">20</integer>
 </resources>

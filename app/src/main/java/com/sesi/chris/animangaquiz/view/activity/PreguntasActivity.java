@@ -18,6 +18,10 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
@@ -31,7 +35,7 @@ import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
 
 import java.util.List;
 
-public class PreguntasActivity extends AppCompatActivity implements PreguntasPresenter.View {
+public class PreguntasActivity extends AppCompatActivity implements RewardedVideoAdListener,PreguntasPresenter.View {
 
     private static final String TRUE = "1";
     private static final int TIME_QUESTIONS = 16000;
@@ -60,6 +64,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
     private int iCorrectas = 0;
     private int iIdAnime;
     private InterstitialAd mInterstitialAd;
+    private RewardedVideoAd mRewardedVideoAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,11 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
 
     private void init() {
         context = this;
+        // Use an activity context to get the rewarded video instance.
+        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context());
+        mRewardedVideoAd.setRewardedVideoAdListener(this);
+        mRewardedVideoAd.loadAd(getString(R.string.bannerBonificacion),
+                new AdRequest.Builder().build());
         presenter = new PreguntasPresenter(new PreguntasInteractor(new QuizClient()));
         presenter.setView(this);
         tv_pregunta = findViewById(R.id.tv_pregunta);
@@ -127,8 +137,21 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
 
     @Override
     protected void onDestroy() {
+        mRewardedVideoAd.destroy(this);
         presenter.terminate();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        mRewardedVideoAd.resume(this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        mRewardedVideoAd.pause(this);
+        super.onPause();
     }
 
     @Override
@@ -234,6 +257,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         TextView tv_dialog_puntos = view.findViewById(R.id.tv_puntos);
         TextView tv_dialog_gemas = view.findViewById(R.id.tv_dialog_gemas);
         TextView tv_dialgo_newRecord = view.findViewById(R.id.tv_newRecord);
+        TextView tv_btn_anuncio = view.findViewById(R.id.tv_btn_anuncio);
         Button btn_dialog_aceptar = view.findViewById(R.id.btn_aceptar);
 
         String sPreguntasCorrectas = iCorrectas + "/" + lstPreguntas.size();
@@ -262,6 +286,12 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
             dialog.dismiss();
             updataLevelScoreGems(user.getUserName(),user.getPassword(),gemas, finalIscoreAux,level,user.getIdUser(),iIdAnime);
             //finish();
+        });
+
+        tv_btn_anuncio.setOnClickListener(v -> {
+            if (mRewardedVideoAd.isLoaded()) {
+                mRewardedVideoAd.show();
+            }
         });
 
         builder.setView(view);
@@ -322,5 +352,45 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
                 break;
         }
         return gemas + user.getCoins();
+    }
+
+    @Override
+    public void onRewardedVideoAdLoaded() {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdOpened() {
+
+    }
+
+    @Override
+    public void onRewardedVideoStarted() {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdClosed() {
+
+    }
+
+    @Override
+    public void onRewarded(RewardItem rewardItem) {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdLeftApplication() {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdFailedToLoad(int i) {
+
+    }
+
+    @Override
+    public void onRewardedVideoCompleted() {
+        gemas += getResources().getInteger(R.integer.bono);
     }
 }

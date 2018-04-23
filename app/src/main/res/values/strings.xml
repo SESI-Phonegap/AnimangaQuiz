@@ -13,6 +13,7 @@
     <string name="bannerId">ca-app-pub-2449148181464779/4983262083</string>
     <string name="interstitialId">ca-app-pub-2449148181464779/3826927234</string>
     <string name="bannerBonificacion">ca-app-pub-2449148181464779/7334216966</string>
+    <string name="btnBannerBonificacion">Obten Gemas extras viendo un anuncio</string>
 
     <!-- Menu -->
     <string name="quiz">Quiz</string>
