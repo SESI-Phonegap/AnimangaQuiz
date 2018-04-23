@@ -5,6 +5,8 @@ import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+
 import java.util.List;
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -37,4 +39,14 @@ public interface QuizRetrofitService {
                                                  @Field(Constants.ParametersBackEnd.PASSWORD) String pass,
                                                  @Field(Constants.ParametersBackEnd.ID_ANIME) int idAnime,
                                                  @Field(Constants.ParametersBackEnd.ID_USER) int idUser);
+
+    @POST(Constants.EndPoint.UPDATE_LEVEL_AND_SCORE)
+    @FormUrlEncoded
+    Observable<UpdateResponse> updateLevelScoreGemsTotalScore(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
+                                                              @Field(Constants.ParametersBackEnd.PASSWORD) String pass,
+                                                              @Field(Constants.ParametersBackEnd.GEMS) int gems,
+                                                              @Field(Constants.ParametersBackEnd.SCORE) int score,
+                                                              @Field(Constants.ParametersBackEnd.LEVEL) int level,
+                                                              @Field(Constants.ParametersBackEnd.ID_USER) int idUser,
+                                                              @Field(Constants.ParametersBackEnd.ID_ANIME) int idAnime);
 }

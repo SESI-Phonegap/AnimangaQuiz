@@ -18,6 +18,7 @@ import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
 import com.sesi.chris.animangaquiz.data.model.Respuesta;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.PreguntasInteractor;
 import com.sesi.chris.animangaquiz.presenter.PreguntasPresenter;
@@ -54,6 +55,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
     private int segundos = 0;
     private int puntos = 0;
     private int iCorrectas = 0;
+    private int iIdAnime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +75,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         tv_numPreguntas = findViewById(R.id.numPreguntas);
         Bundle bundle = getIntent().getExtras();
         user = (User) bundle.getSerializable("user");
-        int iIdAnime = bundle.getInt("idAnime");
+        iIdAnime = bundle.getInt("idAnime");
         level = bundle.getInt("level");
         iActualScore = bundle.getInt("score");
         setupRecyclerView();
@@ -141,6 +143,11 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
     }
 
     @Override
+    public void renderUpdateScoreLevelGems(UpdateResponse updateResponse) {
+
+    }
+
+    @Override
     public Context context() {
         return context;
     }
@@ -195,6 +202,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
     }
 
     private void showDialogResultados() {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(context());
         final View view = getLayoutInflater().inflate(R.layout.dialog_resultados, null);
         TextView tv_dialog_pCorrectas = view.findViewById(R.id.tv_pCorrectas);
@@ -211,6 +219,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         int gemas = calculaGemas(iLocalScore, level);
         tv_dialog_gemas.setText(String.valueOf(gemas));
 
+        int iscoreAux = iLocalScore;
         // --- Nuevo Record ----
         if (iLocalScore > iActualScore) {
             tv_dialgo_newRecord.setVisibility(View.VISIBLE);
@@ -218,6 +227,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
             animation1.setDuration(10000);
             animation1.setRepeatCount(20);
             tv_dialgo_newRecord.startAnimation(animation1);
+            iscoreAux = iActualScore;
         }
 
         btn_dialog_aceptar.setOnClickListener(v -> {
@@ -225,11 +235,21 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
             finish();
         });
 
+        updataLevelScoreGems(user.getUserName(),user.getPassword(),gemas,iscoreAux,level,user.getIdUser(),iIdAnime);
+
         builder.setView(view);
         dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
         dialog.show();
+    }
+
+    public void updataLevelScoreGems(String userName, String pass, int gems, int score, int level,int idUser, int idAnime) {
+        if (UtilInternetConnection.isOnline(context())) {
+            presenter.updateLevelSocreGems(userName,pass,gems,score,level,idUser,idAnime);
+        } else {
+            Toast.makeText(context(), getString(R.string.noInternet), Toast.LENGTH_LONG).show();
+        }
     }
 
     private int calculaGemas(int puntos, int level) {
@@ -245,31 +265,31 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
                 }
                 break;
             case MEDIO:
-                if (puntos >= 161 && puntos <= 320){
+                if (puntos >= 161 && puntos <= 320) {
                     gemas = getResources().getInteger(R.integer.medMin);
-                } else if (puntos >= 321 && puntos <= 480){
+                } else if (puntos >= 321 && puntos <= 480) {
                     gemas = getResources().getInteger(R.integer.medMed);
-                } else if (puntos >= 481 && puntos <= 640){
+                } else if (puntos >= 481 && puntos <= 640) {
                     gemas = getResources().getInteger(R.integer.medMax);
                 }
                 break;
 
             case DIFICIL:
-                if (puntos >= 241 && puntos <= 480){
+                if (puntos >= 241 && puntos <= 480) {
                     gemas = getResources().getInteger(R.integer.dificilMin);
-                } else if (puntos >= 481 && puntos <= 720){
+                } else if (puntos >= 481 && puntos <= 720) {
                     gemas = getResources().getInteger(R.integer.dificilMed);
-                } else if (puntos >= 721 && puntos <= 960){
+                } else if (puntos >= 721 && puntos <= 960) {
                     gemas = getResources().getInteger(R.integer.dificilMax);
                 }
                 break;
 
             case OTAKU:
-                if (puntos >= 321 && puntos <= 640){
+                if (puntos >= 321 && puntos <= 640) {
                     gemas = getResources().getInteger(R.integer.otakuMin);
-                } else if (puntos >= 641 && puntos <= 960){
+                } else if (puntos >= 641 && puntos <= 960) {
                     gemas = getResources().getInteger(R.integer.otakuMed);
-                } else if (puntos >= 961 && puntos <= 1280){
+                } else if (puntos >= 961 && puntos <= 1280) {
                     gemas = getResources().getInteger(R.integer.otakuMax);
                 }
                 break;

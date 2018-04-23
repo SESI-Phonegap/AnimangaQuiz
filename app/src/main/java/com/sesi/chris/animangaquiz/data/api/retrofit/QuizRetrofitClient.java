@@ -8,10 +8,12 @@ import com.sesi.chris.animangaquiz.data.api.retrofit.deserializer.AnimeResponseD
 import com.sesi.chris.animangaquiz.data.api.retrofit.deserializer.CheckLevelAndScoreDeserializer;
 import com.sesi.chris.animangaquiz.data.api.retrofit.deserializer.LoginResponseDeserializer;
 import com.sesi.chris.animangaquiz.data.api.retrofit.deserializer.PreguntasDeserializer;
+import com.sesi.chris.animangaquiz.data.api.retrofit.deserializer.UpdateDeserializer;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
 
 
 import java.util.List;
@@ -66,6 +68,8 @@ public class QuizRetrofitClient {
                 .getType(), new PreguntasDeserializer<Preguntas>())
                 .registerTypeAdapter(new TypeToken<ScoreResponse>(){}
                 .getType(), new CheckLevelAndScoreDeserializer<ScoreResponse>())
+                .registerTypeAdapter(new TypeToken<UpdateResponse>(){}
+                .getType(), new UpdateDeserializer<UpdateResponse>())
                 .create();
     }
 

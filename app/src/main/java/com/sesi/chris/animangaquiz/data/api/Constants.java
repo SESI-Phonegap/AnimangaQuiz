@@ -17,6 +17,7 @@ public class Constants {
         public static final String GET_ALL_ANIMES = "/AnimangaBackEnd/service/getanimes.php";
         public static final String GET_QUESTIONS_BY_ANIME_AND_LEVEL = "/AnimangaBackEnd/service/preguntasByAnimeByLeve.php";
         public static final String CHECK_LEVEL_AND_SCORE_BY_ANIME_AND_USER = "/AnimangaBackEnd/service/checkLevelAndScoreByAnimeAndUser.php";
+        public static final String UPDATE_LEVEL_AND_SCORE = "/AnimangaBackEnd/service/updateScoreAndGems.php";
     }
 
     public static final class ParametersBackEnd{
@@ -25,6 +26,9 @@ public class Constants {
         public static final String ID_ANIME = "anime";
         public static final String LEVEL = "level";
         public static final String ID_USER = "iduser";
+        public static final String GEMS = "gems";
+        public static final String SCORE = "score";
+
     }
 
     public static final class Deserializer{
