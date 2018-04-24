@@ -1,24 +1,49 @@
 package com.sesi.chris.animangaquiz.view.utils;
 
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.os.Environment;
 import android.os.Parcelable;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.sesi.chris.animangaquiz.R;
-import com.sesi.chris.animangaquiz.data.api.Constants;
-
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 public class Utils {
+
+    public static void SaveImage(Bitmap finalBitmap,String formato) {
+
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/AnimangaQuiz/wallpapers");
+        if (!myDir.exists()) {
+            myDir.mkdirs();
+        }
+        String date = (DateFormat.format("yyyyMMdd_hhmmss", new java.util.Date()).toString());
+        String fname = "Image-"+ date +formato;
+        File file = new File (myDir, fname);
+        if (file.exists()) {
+            file.delete();
+        }
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void sharedSocial(Context context) {
         List<Intent> targetShareIntents = new ArrayList<>();

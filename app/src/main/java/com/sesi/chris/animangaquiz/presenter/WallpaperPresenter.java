@@ -47,6 +47,10 @@ public class WallpaperPresenter extends Presenter<WallpaperPresenter.View> {
         addDisposableObserver(disposable);
     }
 
+    public void launchWallpaperAnime(Anime anime){
+        getView().launchWallpaperByanime(anime);
+    }
+
     public interface View extends Presenter.View {
 
         void showLoading();
@@ -55,11 +59,13 @@ public class WallpaperPresenter extends Presenter<WallpaperPresenter.View> {
 
         void showAnimesNotFoundMessage();
 
-        void showServerError(String Error);
+        void showServerError(String error);
 
         void renderAnimes(List<Anime> lstAnimes);
 
         void renderWallpaperByAnimes(List<Wallpaper> lstWallpaper);
+
+        void launchWallpaperByanime(Anime anime);
 
     }
 }

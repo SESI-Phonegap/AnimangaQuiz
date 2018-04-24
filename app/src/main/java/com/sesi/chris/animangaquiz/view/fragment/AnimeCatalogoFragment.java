@@ -2,6 +2,9 @@ package com.sesi.chris.animangaquiz.view.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,6 +28,7 @@ import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.Score;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
 import com.sesi.chris.animangaquiz.data.model.User;
+import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 import com.sesi.chris.animangaquiz.interactor.MenuInteractor;
 import com.sesi.chris.animangaquiz.presenter.MenuPresenter;
 import com.sesi.chris.animangaquiz.view.activity.LoginActivity;
@@ -32,6 +36,8 @@ import com.sesi.chris.animangaquiz.view.activity.PreguntasActivity;
 import com.sesi.chris.animangaquiz.view.adapter.AnimeAdapter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -292,4 +298,5 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
             //EMPTY
         }
     };
+
 }
