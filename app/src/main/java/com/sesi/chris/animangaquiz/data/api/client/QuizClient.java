@@ -7,6 +7,7 @@ import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 
 import java.util.List;
 import io.reactivex.Observable;
@@ -45,6 +46,13 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient{
     @Override
     public Observable<UpdateResponse> updateLevelScoreGems(String userName, String pass, int gemas, int score, int level, int idUser, int idAnime) {
         return getQuizService().updateLevelScoreGemsTotalScore(userName,pass,gemas,score,level,idUser,idAnime)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<List<Wallpaper>> getWallpaperByAnime(String userName, String pass, int idAnime) {
+        return getQuizService().getWallpaperByAnime(userName,pass,idAnime)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

@@ -6,6 +6,8 @@ import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.Wallpaper;
+import com.sesi.chris.animangaquiz.data.model.WallpaperResponse;
 
 import java.util.List;
 import io.reactivex.Observable;
@@ -49,4 +51,10 @@ public interface QuizRetrofitService {
                                                               @Field(Constants.ParametersBackEnd.LEVEL) int level,
                                                               @Field(Constants.ParametersBackEnd.ID_USER) int idUser,
                                                               @Field(Constants.ParametersBackEnd.ID_ANIME) int idAnime);
+
+    @POST(Constants.EndPoint.GET_WALLPAPER_BY_ANIME)
+    @FormUrlEncoded
+    Observable<List<Wallpaper>> getWallpaperByAnime(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
+                                                    @Field(Constants.ParametersBackEnd.PASSWORD) String pass,
+                                                    @Field(Constants.ParametersBackEnd.ID_ANIME) int idAnime);
 }
