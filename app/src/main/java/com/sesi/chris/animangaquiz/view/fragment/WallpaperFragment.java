@@ -192,6 +192,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
                 download.execute(wallpaper.getUrl(),formato);
             }
         });
+        adapter.notifyDataSetChanged();
         recyclerViewWallpapers.setAdapter(adapter);
         this.lstWallpaper = lstWallpaper;
     }

@@ -37,7 +37,7 @@ public class WallpaperAdapter extends RecyclerView.Adapter<WallpaperAdapter.Wall
     public void onBindViewHolder(@NonNull WallpaperViewHolder holder, int position) {
         Wallpaper wallpaper = lstWallpaper.get(position);
         holder.wallpaper = wallpaper;
-        holder.tvCosto.setText(wallpaper.getCosto());
+        holder.tvCosto.setText(String.valueOf(wallpaper.getCosto()));
 
         //No guarda imagen en cache
         GlideApp.with(holder.imgAnime.getContext())
