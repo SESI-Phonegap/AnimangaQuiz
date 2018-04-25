@@ -32,6 +32,37 @@
             app:layout_constraintTop_toTopOf="parent"
             android:visibility="gone"/>
 
+        <RelativeLayout
+            android:id="@+id/relativeGemas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/imgGemas"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/gems" />
+
+            <TextView
+                android:id="@+id/tv_gemas_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/imgGemas"
+                android:text="50000"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/text_primary_light"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
         <EditText
             android:id="@+id/et_search"
             android:layout_width="0dp"
@@ -41,7 +72,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:drawableStart="@mipmap/ic_action_search"
-            android:hint="@string/buscar"
+            android:hint="@string/buscarWallpapers"
             android:textColor="@color/text_primary_light"
             android:textColorHint="@color/text_primary_light"
             android:drawablePadding="15dp"

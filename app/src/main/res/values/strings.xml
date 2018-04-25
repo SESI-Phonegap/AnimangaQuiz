@@ -52,4 +52,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="buscar">Buscar…</string>
+    <string name="buscarWallpapers">Buscar Wallpapers…</string>
+    <string name="noAlcanza">No tienes sufucientes gemas.</string>
+    <string name="msgWallpaperSaved">Se guardo exitosamente en: %1$s</string>
+    <string name="msgWallpaperNoSaved">Ocurrio un error al intentar guardar el Wallpaper en la SD</string>
+    <string name="msgNoSd">Necesitas tener montada la SD para descargar el Wallpaper</string>
 </resources>

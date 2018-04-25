@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +53,8 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
     private List<Wallpaper> lstWallpaper;
     private User user;
     private ConstraintLayout constraintLayoutSearch;
+    private RelativeLayout relativeGemas;
+    private TextView tvGemasUser;
 
     public WallpaperFragment() {
         // Required empty public constructor
@@ -84,6 +87,8 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         context = getContext();
         presenter = new WallpaperPresenter(new WallpaperInteractor(new QuizClient()));
         presenter.setView(this);
+        relativeGemas = getActivity().findViewById(R.id.relativeGemas);
+        tvGemasUser = getActivity().findViewById(R.id.tv_gemas_user);
         imgBtnBack = getActivity().findViewById(R.id.imgBtnBack);
         et_Search = Objects.requireNonNull(getActivity()).findViewById(R.id.et_search);
         et_Search.addTextChangedListener(textWatcherFilter);
@@ -111,6 +116,8 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         recyclerViewWallpapers.setVisibility(View.VISIBLE);
         et_Search.setVisibility(View.GONE);
         imgBtnBack.setVisibility(View.VISIBLE);
+        relativeGemas.setVisibility(View.VISIBLE);
+        tvGemasUser.setText(String.valueOf(user.getCoins()));
     }
 
     private void changeUiAnimeList(){
@@ -118,6 +125,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         recyclerViewWallpapers.setVisibility(View.GONE);
         et_Search.setVisibility(View.VISIBLE);
         imgBtnBack.setVisibility(View.GONE);
+        relativeGemas.setVisibility(View.GONE);
     }
 
     @Override
@@ -190,6 +198,8 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
                 //Descargar la imagen
                 DownloadWallpaperTask download = new DownloadWallpaperTask();
                 download.execute(wallpaper.getUrl(),formato);
+            } else {
+                Toast.makeText(context(),getString(R.string.noAlcanza),Toast.LENGTH_LONG).show();
             }
         });
         adapter.notifyDataSetChanged();
@@ -271,7 +281,14 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
-            Utils.SaveImage(bitmap,sFormato);
+            if (Utils.isExternalStorageWritable()) {
+                if (Utils.SaveImage(bitmap, sFormato, context())) {
+                    //Descontar Gemas
+
+                }
+            } else {
+                Toast.makeText(context(),getString(R.string.msgNoSd),Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

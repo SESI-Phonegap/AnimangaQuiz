@@ -21,27 +21,33 @@ import java.util.List;
 
 public class Utils {
 
-    public static void SaveImage(Bitmap finalBitmap,String formato) {
+    public static boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        return Environment.MEDIA_MOUNTED.equals(state);
+    }
 
-        String root = Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + "/AnimangaQuiz/wallpapers");
+    public static boolean SaveImage(Bitmap finalBitmap,String formato, Context context) {
+        String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
+        File myDir = new File(root + "animangaquiz");
         if (!myDir.exists()) {
-            myDir.mkdirs();
+            if (!myDir.mkdirs()) {
+                Log.d("NOOO--","No se creo el directorio");
+            }
         }
         String date = (DateFormat.format("yyyyMMdd_hhmmss", new java.util.Date()).toString());
         String fname = "Image-"+ date +formato;
         File file = new File (myDir, fname);
-        if (file.exists()) {
-            file.delete();
-        }
         try {
             FileOutputStream out = new FileOutputStream(file);
             finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
             out.flush();
             out.close();
-
+            Toast.makeText(context,context.getString(R.string.msgWallpaperSaved,root + "/AnimangaQuiz/wallpapers"),Toast.LENGTH_LONG).show();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(context,context.getString(R.string.msgWallpaperNoSaved),Toast.LENGTH_LONG).show();
+            return false;
         }
     }
 
