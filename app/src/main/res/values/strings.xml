@@ -62,4 +62,7 @@
     <string name="msg_confirmacion">¿Estas seguro de descargar este Wallpaper? \n Gastaras %1$s Gemas</string>
     <string name="btn_aceptar">Aceptar</string>
     <string name="btn_calcel">Cancelar</string>
+
+    <!-- Activity Registro -->
+    <string name="titleRegitro">Registro</string>
 </resources>

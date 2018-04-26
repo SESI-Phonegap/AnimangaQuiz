@@ -246,7 +246,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
     public void showConfirmDialog(int costoWallpaper, String url, String formato){
         AlertDialog dialog;
         AlertDialog.Builder builder =  new AlertDialog.Builder(context());
-        final View view = this.getLayoutInflater().inflate(R.layout.dialog_nivel, null);
+        final View view = this.getLayoutInflater().inflate(R.layout.dialog_confirmar, null);
 
         TextView tvMensaje = view.findViewById(R.id.tv_mensaje);
         Button btnAceptar = view.findViewById(R.id.btn_aceptar);
@@ -332,7 +332,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
             if (Utils.isExternalStorageWritable()) {
-                if (!Utils.SaveImage(bitmap, sFormato, context())) {
+                if (Utils.SaveImage(bitmap, sFormato, context())) {
                     //Descontar Gemas
                     restaGemas();
                 }
