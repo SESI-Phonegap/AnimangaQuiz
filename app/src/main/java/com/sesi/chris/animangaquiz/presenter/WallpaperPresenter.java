@@ -2,6 +2,7 @@ package com.sesi.chris.animangaquiz.presenter;
 
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 import com.sesi.chris.animangaquiz.interactor.WallpaperInteractor;
 
@@ -47,6 +48,19 @@ public class WallpaperPresenter extends Presenter<WallpaperPresenter.View> {
         addDisposableObserver(disposable);
     }
 
+    public void updateGemas(String userName, String pass, int idUser, int gemas){
+        getView().showLoading();
+        Disposable disposable = wallpaperInteractor.updateGemas(userName,pass,idUser,gemas)
+                .doOnError(error -> error.printStackTrace())
+                .subscribe(updateResponse -> {
+                    if (null != updateResponse){
+                        getView().hideLoading();
+                        getView().renderUpdateGemas(updateResponse);
+                    }
+                },Throwable::printStackTrace);
+        addDisposableObserver(disposable);
+    }
+
     public void launchWallpaperAnime(Anime anime){
         getView().launchWallpaperByanime(anime);
     }
@@ -66,6 +80,8 @@ public class WallpaperPresenter extends Presenter<WallpaperPresenter.View> {
         void renderWallpaperByAnimes(List<Wallpaper> lstWallpaper);
 
         void launchWallpaperByanime(Anime anime);
+
+        void renderUpdateGemas(UpdateResponse updateResponse);
 
     }
 }

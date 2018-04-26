@@ -57,5 +57,12 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient{
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
+    public Observable<UpdateResponse> updateGemas(String userName, String pass, int idUser, int gemas) {
+        return getQuizService().updateGemas(userName,pass,idUser,gemas)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 
 }

@@ -10,12 +10,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -25,10 +28,12 @@ import android.widget.Toast;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.Anime;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 import com.sesi.chris.animangaquiz.interactor.WallpaperInteractor;
 import com.sesi.chris.animangaquiz.presenter.WallpaperPresenter;
+import com.sesi.chris.animangaquiz.view.activity.MenuActivity;
 import com.sesi.chris.animangaquiz.view.adapter.AnimeAdapter;
 import com.sesi.chris.animangaquiz.view.adapter.WallpaperAdapter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
@@ -53,8 +58,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
     private List<Wallpaper> lstWallpaper;
     private User user;
     private ConstraintLayout constraintLayoutSearch;
-    private RelativeLayout relativeGemas;
-    private TextView tvGemasUser;
+    private int costoWalpaper;
 
     public WallpaperFragment() {
         // Required empty public constructor
@@ -87,8 +91,6 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         context = getContext();
         presenter = new WallpaperPresenter(new WallpaperInteractor(new QuizClient()));
         presenter.setView(this);
-        relativeGemas = getActivity().findViewById(R.id.relativeGemas);
-        tvGemasUser = getActivity().findViewById(R.id.tv_gemas_user);
         imgBtnBack = getActivity().findViewById(R.id.imgBtnBack);
         et_Search = Objects.requireNonNull(getActivity()).findViewById(R.id.et_search);
         et_Search.addTextChangedListener(textWatcherFilter);
@@ -116,8 +118,6 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         recyclerViewWallpapers.setVisibility(View.VISIBLE);
         et_Search.setVisibility(View.GONE);
         imgBtnBack.setVisibility(View.VISIBLE);
-        relativeGemas.setVisibility(View.VISIBLE);
-        tvGemasUser.setText(String.valueOf(user.getCoins()));
     }
 
     private void changeUiAnimeList(){
@@ -125,7 +125,6 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         recyclerViewWallpapers.setVisibility(View.GONE);
         et_Search.setVisibility(View.VISIBLE);
         imgBtnBack.setVisibility(View.GONE);
-        relativeGemas.setVisibility(View.GONE);
     }
 
     @Override
@@ -193,11 +192,11 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         adapter.setLstWallpaper(lstWallpaper);
         adapter.setItemClickListener((Wallpaper wallpaper) -> {
             if (user.getCoins() >= wallpaper.getCosto()){
+                costoWalpaper = wallpaper.getCosto();
                 String url = wallpaper.getUrl();
                 String formato = url.substring(url.length()-4,url.length());
-                //Descargar la imagen
-                DownloadWallpaperTask download = new DownloadWallpaperTask();
-                download.execute(wallpaper.getUrl(),formato);
+                showConfirmDialog(costoWalpaper, url,formato);
+
             } else {
                 Toast.makeText(context(),getString(R.string.noAlcanza),Toast.LENGTH_LONG).show();
             }
@@ -217,8 +216,59 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
     }
 
     @Override
+    public void renderUpdateGemas(UpdateResponse updateResponse) {
+        if (null != updateResponse){
+            Log.d("GEMASRESPONSE--",updateResponse.estatus);
+            Log.d("GEMASRESPONSE--",updateResponse.error);
+        }
+        ((MenuActivity) getActivity()).refreshUserData();
+
+    }
+
+    @Override
     public Context context() {
         return context;
+    }
+
+    private void restaGemas(){
+        int gemasDisponibles = user.getCoins();
+        //Update Gemas
+        int gemasUpdate = gemasDisponibles - costoWalpaper;
+        presenter.updateGemas(user.getUserName(),user.getPassword(),user.getIdUser(),gemasUpdate);
+    }
+
+    private void guardarWallpaper(String url, String formato){
+        //Descargar la imagen
+        DownloadWallpaperTask download = new DownloadWallpaperTask();
+        download.execute(url,formato);
+    }
+
+    public void showConfirmDialog(int costoWallpaper, String url, String formato){
+        AlertDialog dialog;
+        AlertDialog.Builder builder =  new AlertDialog.Builder(context());
+        final View view = this.getLayoutInflater().inflate(R.layout.dialog_nivel, null);
+
+        TextView tvMensaje = view.findViewById(R.id.tv_mensaje);
+        Button btnAceptar = view.findViewById(R.id.btn_aceptar);
+        Button btnCancel = view.findViewById(R.id.btn_cancel);
+
+        builder.setView(view);
+        dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.show();
+
+        tvMensaje.setText(context().getString(R.string.msg_confirmacion,String.valueOf(costoWallpaper)));
+
+        btnAceptar.setOnClickListener(v -> {
+            guardarWallpaper(url,formato);
+            dialog.dismiss();
+        });
+
+        btnCancel.setOnClickListener((View v) -> {
+            dialog.dismiss();
+        });
+
     }
 
     TextWatcher textWatcherFilter = new TextWatcher() {
@@ -282,9 +332,9 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
             if (Utils.isExternalStorageWritable()) {
-                if (Utils.SaveImage(bitmap, sFormato, context())) {
+                if (!Utils.SaveImage(bitmap, sFormato, context())) {
                     //Descontar Gemas
-
+                    restaGemas();
                 }
             } else {
                 Toast.makeText(context(),getString(R.string.msgNoSd),Toast.LENGTH_LONG).show();

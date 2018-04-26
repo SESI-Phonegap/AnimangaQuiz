@@ -57,4 +57,11 @@ public interface QuizRetrofitService {
     Observable<List<Wallpaper>> getWallpaperByAnime(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
                                                     @Field(Constants.ParametersBackEnd.PASSWORD) String pass,
                                                     @Field(Constants.ParametersBackEnd.ID_ANIME) int idAnime);
+
+    @POST(Constants.EndPoint.UPDATE_GEMAS)
+    @FormUrlEncoded
+    Observable<UpdateResponse> updateGemas(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
+                                                 @Field(Constants.ParametersBackEnd.PASSWORD) String pass,
+                                                 @Field(Constants.ParametersBackEnd.ID_USER) int idUser,
+                                                 @Field(Constants.ParametersBackEnd.GEMS) int gems);
 }

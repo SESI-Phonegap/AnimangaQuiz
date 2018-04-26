@@ -57,4 +57,9 @@
     <string name="msgWallpaperSaved">Se guardo exitosamente en: %1$s</string>
     <string name="msgWallpaperNoSaved">Ocurrio un error al intentar guardar el Wallpaper en la SD</string>
     <string name="msgNoSd">Necesitas tener montada la SD para descargar el Wallpaper</string>
+
+    <!-- Dialog Confirmar -->
+    <string name="msg_confirmacion">¿Estas seguro de descargar este Wallpaper? \n Gastaras %1$s Gemas</string>
+    <string name="btn_aceptar">Aceptar</string>
+    <string name="btn_calcel">Cancelar</string>
 </resources>

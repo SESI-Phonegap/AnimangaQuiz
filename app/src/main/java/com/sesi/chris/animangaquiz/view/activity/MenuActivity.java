@@ -43,7 +43,7 @@ public class MenuActivity extends AppCompatActivity
     private TextView tv_totalScore;
     private ProgressBar progressBar;
     private LoginPresenter loginPresenter;
-    private User userActual;
+    public User userActual;
     private Context context;
     private AdView mAdview;
 
@@ -99,7 +99,7 @@ public class MenuActivity extends AppCompatActivity
         }
     }
 
-    public void refreshUserData(){
+    public  void refreshUserData(){
         if (isOnline(context())) {
             loginPresenter.onLogin(userActual.getUserName(), userActual.getPassword());
         } else {

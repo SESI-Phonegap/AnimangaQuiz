@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.text.format.DateFormat;
@@ -29,9 +28,7 @@ public class Utils {
 
     public static boolean SaveImage(Bitmap finalBitmap,String formato, Context context) {
 
-        String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath();
-        Uri uri = Uri.parse(root);
-        String realPath = ImageFilePath.getPath(context,uri);
+        String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
         File myDir = new File(root + "/Animangaquiz");
         if (!myDir.exists()) {
             if (!myDir.mkdirs()) {

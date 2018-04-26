@@ -19,6 +19,7 @@ public class Constants {
         public static final String CHECK_LEVEL_AND_SCORE_BY_ANIME_AND_USER = "/AnimangaBackEnd/service/checkLevelAndScoreByAnimeAndUser.php";
         public static final String UPDATE_LEVEL_AND_SCORE = "/AnimangaBackEnd/service/updateScoreAndGems.php";
         public static final String GET_WALLPAPER_BY_ANIME = "/AnimangaBackEnd/service/getWallpaperByAnime.php";
+        public static final String UPDATE_GEMAS = "/AnimangaBackEnd/service/updateGems.php";
     }
 
     public static final class ParametersBackEnd{
