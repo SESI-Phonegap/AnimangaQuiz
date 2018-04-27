@@ -64,4 +64,14 @@ public interface QuizRetrofitService {
                                                  @Field(Constants.ParametersBackEnd.PASSWORD) String pass,
                                                  @Field(Constants.ParametersBackEnd.ID_USER) int idUser,
                                                  @Field(Constants.ParametersBackEnd.GEMS) int gems);
+
+    @POST(Constants.EndPoint.REGISTRO_NUEVO_USUARIO)
+    @FormUrlEncoded
+    Observable<UpdateResponse> registroNuevoUsuario(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
+                                                    @Field(Constants.ParametersBackEnd.NOMBRE) String nombre,
+                                                    @Field(Constants.ParametersBackEnd.EMAIL) String email,
+                                                    @Field(Constants.ParametersBackEnd.EDAD) int edad,
+                                                    @Field(Constants.ParametersBackEnd.GENERO) String genero,
+                                                    @Field(Constants.ParametersBackEnd.PASSWORD) String password);
+
 }

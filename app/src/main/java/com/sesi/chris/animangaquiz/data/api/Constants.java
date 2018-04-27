@@ -20,6 +20,7 @@ public class Constants {
         public static final String UPDATE_LEVEL_AND_SCORE = "/AnimangaBackEnd/service/updateScoreAndGems.php";
         public static final String GET_WALLPAPER_BY_ANIME = "/AnimangaBackEnd/service/getWallpaperByAnime.php";
         public static final String UPDATE_GEMAS = "/AnimangaBackEnd/service/updateGems.php";
+        public static final String REGISTRO_NUEVO_USUARIO = "/AnimangaBackEnd/service/registroNuevoUsuario.php";
     }
 
     public static final class ParametersBackEnd{
@@ -30,6 +31,10 @@ public class Constants {
         public static final String ID_USER = "iduser";
         public static final String GEMS = "gems";
         public static final String SCORE = "score";
+        public static final String GENERO = "genero";
+        public static final String EDAD = "edad";
+        public static final String EMAIL = "email";
+        public static final String NOMBRE = "nombre";
 
     }
 

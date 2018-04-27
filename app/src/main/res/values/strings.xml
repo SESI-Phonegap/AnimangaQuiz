@@ -65,4 +65,11 @@
 
     <!-- Activity Registro -->
     <string name="titleRegitro">Registro</string>
+    <string name="nombre">Nombre</string>
+    <string name="edad">Edad</string>
+    <string name="genero">Genero</string>
+    <string name="hombre">Hombre</string>
+    <string name="mujer">Mujer</string>
+    <string name="email">Email</string>
+
 </resources>

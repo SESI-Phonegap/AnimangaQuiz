@@ -22,4 +22,5 @@ public interface QuizServiceClient {
                                                     int idAnime);
     Observable<List<Wallpaper>> getWallpaperByAnime(String userName, String pass, int idAnime);
     Observable<UpdateResponse> updateGemas(String userName, String pass, int idUser, int gemas);
+    Observable<UpdateResponse> registroNuevoUsuario(String username,String nombre,String email,int edad,String genero,String password);
 }

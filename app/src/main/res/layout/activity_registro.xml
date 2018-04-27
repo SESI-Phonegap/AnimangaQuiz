@@ -17,6 +17,7 @@
             android:background="@drawable/animation_background">
 
             <TextView
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
@@ -28,7 +29,139 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-            
+
+            <EditText
+                android:id="@+id/et_userName"
+                style="@style/styleEditText"
+                android:layout_marginTop="@dimen/marginTopEditTextRe"
+                android:hint="@string/userName"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title" />
+
+            <EditText
+                android:id="@+id/et_nombre"
+                style="@style/styleEditText"
+                android:layout_marginTop="@dimen/marginTopEditTextRe"
+                android:hint="@string/nombre"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_userName" />
+
+            <EditText
+                android:id="@+id/et_email"
+                style="@style/styleEditText"
+                android:layout_marginTop="@dimen/marginTopEditTextRe"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_nombre" />
+            <EditText
+                android:id="@+id/et_edad"
+                style="@style/styleEditText"
+                android:layout_marginTop="@dimen/marginTopEditTextRe"
+                android:hint="@string/edad"
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_email" />
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/relativeRadio"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="@dimen/marginTopEditTextRe"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_edad"
+                android:background="@drawable/fondotextview">
+
+                <TextView
+                    android:id="@+id/tvGenero"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/genero"
+                    android:textColor="@color/text_primary_dark"
+                    android:textSize="@dimen/textSizeRegistro"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvGenero"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioMujer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/mujer"
+                        android:textStyle="italic|bold"/>
+
+                    <RadioButton
+                        android:id="@+id/radioHombre"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hombre"
+                        android:textStyle="italic|bold"/>
+                </RadioGroup>
+            </android.support.constraint.ConstraintLayout>
+
+            <EditText
+                android:id="@+id/et_password"
+                style="@style/styleEditText"
+                android:layout_marginTop="@dimen/marginTopEditTextRe"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/relativeRadio" />
+
+            <Button
+                android:id="@+id/btn_registrar"
+                style="@style/styleBtn"
+                android:layout_marginBottom="@dimen/marginBottomTop8dp"
+                android:layout_marginTop="@dimen/marginBottomTop8dp"
+                android:text="@string/registrarse"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_password" />
+
+            <ProgressBar
+                android:id="@+id/pb_registro"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>

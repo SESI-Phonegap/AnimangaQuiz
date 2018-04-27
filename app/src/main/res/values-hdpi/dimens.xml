@@ -15,6 +15,7 @@
 
     <dimen name="titleHeigh">150dp</dimen>
     <dimen name="marginTopEditText">40dp</dimen>
+    <dimen name="marginTopEditTextRe">20dp</dimen>
     <dimen name="layoutMarginStartEnd">24dp</dimen>
     <dimen name="textSizeRegistro">17sp</dimen>
 
