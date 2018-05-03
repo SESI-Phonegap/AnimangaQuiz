@@ -41,9 +41,11 @@ dependencies {
     implementation reactiveDependencies.rxjava
     implementation reactiveDependencies.rxandroid
     // Dependencias de Glide
-    implementation bumptechGlideDependencies.glide
+   // implementation bumptechGlideDependencies.glide
+    //Dependencias de Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.android.support:support-v4:27.1.1'
-    annotationProcessor bumptechGlideDependencies.compiler
+  //  annotationProcessor bumptechGlideDependencies.compiler
     testImplementation testingDependencies.junit
     androidTestImplementation testingDependencies.runner
     androidTestImplementation testingDependencies.espresso

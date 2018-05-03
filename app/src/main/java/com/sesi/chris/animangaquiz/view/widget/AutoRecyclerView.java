@@ -37,7 +37,7 @@ public class AutoRecyclerView extends RecyclerView {
             array.recycle();
         }
 
-        manager = new GridLayoutManager(getContext(), calculateNoColumns(context));
+        manager = new GridLayoutManager(getContext(), calculateNoColumns(getContext()));
         setLayoutManager(manager);
     }
 

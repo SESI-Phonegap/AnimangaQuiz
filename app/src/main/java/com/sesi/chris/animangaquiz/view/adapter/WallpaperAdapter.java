@@ -8,11 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sesi.chris.animangaquiz.R;
-import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
-import com.sesi.chris.animangaquiz.view.utils.GlideApp;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
 import java.util.List;
@@ -40,10 +39,15 @@ public class WallpaperAdapter extends RecyclerView.Adapter<WallpaperAdapter.Wall
         holder.tvCosto.setText(String.valueOf(wallpaper.getCosto()));
 
         //No guarda imagen en cache
-        GlideApp.with(holder.imgAnime.getContext())
+  /*      GlideApp.with(holder.imgAnime.getContext())
                 .load(holder.wallpaper.getUrl())
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
+                .into(holder.imgAnime);*/
+
+        Picasso.get()
+                .load(holder.wallpaper.getUrl())
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                 .into(holder.imgAnime);
 
         holder.imgAnime.setOnClickListener(v -> {

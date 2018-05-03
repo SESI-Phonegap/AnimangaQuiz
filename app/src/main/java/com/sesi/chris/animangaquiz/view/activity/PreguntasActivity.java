@@ -65,6 +65,7 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
     private int iIdAnime;
     private InterstitialAd mInterstitialAd;
     private RewardedVideoAd mRewardedVideoAd;
+    private TextView tv_dialog_gemas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,7 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
     private void init() {
         context = this;
         // Use an activity context to get the rewarded video instance.
-        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context());
+        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
         mRewardedVideoAd.setRewardedVideoAdListener(this);
         mRewardedVideoAd.loadAd(getString(R.string.bannerBonificacion),
                 new AdRequest.Builder().build());
@@ -255,7 +256,7 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
         final View view = getLayoutInflater().inflate(R.layout.dialog_resultados, null);
         TextView tv_dialog_pCorrectas = view.findViewById(R.id.tv_pCorrectas);
         TextView tv_dialog_puntos = view.findViewById(R.id.tv_puntos);
-        TextView tv_dialog_gemas = view.findViewById(R.id.tv_dialog_gemas);
+        tv_dialog_gemas = view.findViewById(R.id.tv_dialog_gemas);
         TextView tv_dialgo_newRecord = view.findViewById(R.id.tv_newRecord);
         TextView tv_btn_anuncio = view.findViewById(R.id.tv_btn_anuncio);
         Button btn_dialog_aceptar = view.findViewById(R.id.btn_aceptar);
@@ -392,5 +393,6 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
     @Override
     public void onRewardedVideoCompleted() {
         gemas += getResources().getInteger(R.integer.bono);
+        tv_dialog_gemas.setText(String.valueOf(gemas));
     }
 }

@@ -64,5 +64,12 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient{
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
+    public Observable<UpdateResponse> registroNuevoUsuario(String username, String nombre, String email, int edad, String genero, String password) {
+        return getQuizService().registroNuevoUsuario(username,nombre,email,edad,genero,password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 
 }

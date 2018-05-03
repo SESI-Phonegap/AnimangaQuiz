@@ -3,7 +3,6 @@ package com.sesi.chris.animangaquiz.view.fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,7 +53,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
     private RecyclerView recyclerViewWallpapers;
     private ProgressBar progressBar;
     private List<Anime> lstAnime;
-    private List<Wallpaper> lstWallpaper;
+
     private User user;
     private ConstraintLayout constraintLayoutSearch;
     private int costoWalpaper;
@@ -65,8 +63,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
     }
 
     public static WallpaperFragment newInstance() {
-        WallpaperFragment fragment = new WallpaperFragment();
-        return fragment;
+        return new WallpaperFragment();
     }
 
     @Override
@@ -75,7 +72,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_wallpaper, container, false);
@@ -91,7 +88,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         context = getContext();
         presenter = new WallpaperPresenter(new WallpaperInteractor(new QuizClient()));
         presenter.setView(this);
-        imgBtnBack = getActivity().findViewById(R.id.imgBtnBack);
+        imgBtnBack = Objects.requireNonNull(getActivity()).findViewById(R.id.imgBtnBack);
         et_Search = Objects.requireNonNull(getActivity()).findViewById(R.id.et_search);
         et_Search.addTextChangedListener(textWatcherFilter);
         recyclerViewAnimes = getActivity().findViewById(R.id.recyclerViewAnime);
@@ -191,7 +188,8 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         WallpaperAdapter adapter = new WallpaperAdapter();
         adapter.setLstWallpaper(lstWallpaper);
         adapter.setItemClickListener((Wallpaper wallpaper) -> {
-            if (user.getCoins() >= wallpaper.getCosto()){
+
+            if (((MenuActivity) Objects.requireNonNull(getActivity())).userActual.getCoins() >= wallpaper.getCosto()){
                 costoWalpaper = wallpaper.getCosto();
                 String url = wallpaper.getUrl();
                 String formato = url.substring(url.length()-4,url.length());
@@ -203,7 +201,6 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         });
         adapter.notifyDataSetChanged();
         recyclerViewWallpapers.setAdapter(adapter);
-        this.lstWallpaper = lstWallpaper;
     }
 
     @Override
@@ -221,7 +218,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
             Log.d("GEMASRESPONSE--",updateResponse.estatus);
             Log.d("GEMASRESPONSE--",updateResponse.error);
         }
-        ((MenuActivity) getActivity()).refreshUserData();
+        ((MenuActivity) Objects.requireNonNull(getActivity())).refreshUserData();
 
     }
 
@@ -231,7 +228,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
     }
 
     private void restaGemas(){
-        int gemasDisponibles = user.getCoins();
+        int gemasDisponibles = ((MenuActivity) Objects.requireNonNull(getActivity())).userActual.getCoins();
         //Update Gemas
         int gemasUpdate = gemasDisponibles - costoWalpaper;
         presenter.updateGemas(user.getUserName(),user.getPassword(),user.getIdUser(),gemasUpdate);
@@ -265,9 +262,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
             dialog.dismiss();
         });
 
-        btnCancel.setOnClickListener((View v) -> {
-            dialog.dismiss();
-        });
+        btnCancel.setOnClickListener((View v) -> dialog.dismiss());
 
     }
 

@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.sesi.chris.animangaquiz.R;
-import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.Respuesta;
 import java.util.Collections;
 import java.util.List;

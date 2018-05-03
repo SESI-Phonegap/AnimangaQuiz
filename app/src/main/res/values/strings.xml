@@ -12,7 +12,8 @@
     <string name="admodId">ca-app-pub-2449148181464779~1186776862</string>
     <string name="bannerId">ca-app-pub-2449148181464779/4983262083</string>
     <string name="interstitialId">ca-app-pub-2449148181464779/3826927234</string>
-    <string name="bannerBonificacion">ca-app-pub-2449148181464779/7334216966</string>
+   <!-- <string name="bannerBonificacion">ca-app-pub-2449148181464779/7334216966</string> -->
+    <string name="bannerBonificacion">ca-app-pub-3940256099942544/5224354917</string>
     <string name="btnBannerBonificacion">Obten Gemas extras viendo un anuncio</string>
 
     <!-- Menu -->
@@ -71,5 +72,7 @@
     <string name="hombre">Hombre</string>
     <string name="mujer">Mujer</string>
     <string name="email">Email</string>
+    <string name="msg_registro_exitoso">Registro Exitoso !</string>
+    <string name="datosincompletos">Datos incompletos</string>
 
 </resources>

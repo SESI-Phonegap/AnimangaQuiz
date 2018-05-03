@@ -72,7 +72,9 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
         });
 
         tv_registro.setOnClickListener(v -> {
-
+            Intent intent = new Intent(this,RegistroActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 

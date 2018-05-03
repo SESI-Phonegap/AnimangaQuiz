@@ -7,11 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.model.Anime;
-import com.sesi.chris.animangaquiz.view.utils.GlideApp;
+import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
 import java.util.List;
@@ -35,11 +34,17 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.AnimeViewHol
         Anime anime = lstAnimes.get(position);
         holder.anime = anime;
         holder.tvAnimeNombre.setText(anime.getAnime());
-        GlideApp.with(holder.imgAnime.getContext())
+
+   /*     GlideApp.with(holder.imgAnime.getContext())
                 .load(Constants.URL_BASE+"AnimangaBackEnd"+anime.getImgUrl())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                // .skipMemoryCache(true)
+                .into(holder.imgAnime);*/
+
+        Picasso.get()
+                .load(Constants.URL_BASE+"AnimangaBackEnd"+anime.getImgUrl())
                 .into(holder.imgAnime);
+
         holder.itemView.setOnClickListener(v -> {
             if (null != itemClickListener){
                 itemClickListener.onItemClick(anime);
