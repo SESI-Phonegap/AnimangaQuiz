@@ -19,7 +19,7 @@ public class WallpaperPresenter extends Presenter<WallpaperPresenter.View> {
 
     public void getAllAnimes(String userName, String pass){
         getView().showLoading();
-        Disposable disposable = wallpaperInteractor.getAnimes(userName,pass)
+        Disposable disposable = wallpaperInteractor.getAnimesForWallpaper(userName,pass)
                 .doOnError(error -> getView().showServerError(error.getMessage()))
                 .subscribe(animes -> {
             if (!animes.isEmpty()){

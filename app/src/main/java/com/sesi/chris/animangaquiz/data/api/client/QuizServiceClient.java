@@ -14,6 +14,7 @@ import io.reactivex.Observable;
 public interface QuizServiceClient {
     Observable<LoginResponse> login(String userName, String pass);
     Observable<List<Anime>> getAllAnimes(String userName, String pass);
+    Observable<List<Anime>> getAllAnimesForWallpaper(String userName, String pass);
     Observable<List<Preguntas>> getQuestionsByAnimeAndLevel(String userName, String pass, int idAnime, int level);
     Observable<ScoreResponse> checkScoreAndLevel(String userName, String pass, int idAnime, int idUser);
     Observable<UpdateResponse> updateLevelScoreGems(String userName, String pass,

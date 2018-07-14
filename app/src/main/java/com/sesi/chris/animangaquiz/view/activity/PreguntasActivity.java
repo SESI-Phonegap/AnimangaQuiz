@@ -314,45 +314,45 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
         int gemas = 0;
         switch (level) {
             case FACIL:
-                if (puntos >= 81 && puntos <= 160) {
+                if (puntos >= 100 && puntos <= 999) {
                     gemas = getResources().getInteger(R.integer.facilMin);
-                } else if (puntos >= 161 && puntos <= 240) {
+                } else if (puntos >= 1000 && puntos <= 2000) {
                     gemas = getResources().getInteger(R.integer.facilMed);
-                } else if (puntos >= 241 && puntos <= 320) {
+                } else if (puntos >= 2001 && puntos <= 3000) {
                     gemas = getResources().getInteger(R.integer.facilMax);
                 }
                 break;
             case MEDIO:
-                if (puntos >= 161 && puntos <= 320) {
+                if (puntos >= 100 && puntos <= 2000) {
                     gemas = getResources().getInteger(R.integer.medMin);
-                } else if (puntos >= 321 && puntos <= 480) {
+                } else if (puntos >= 2001 && puntos <= 4000) {
                     gemas = getResources().getInteger(R.integer.medMed);
-                } else if (puntos >= 481 && puntos <= 640) {
+                } else if (puntos >= 4001 && puntos <= 6000) {
                     gemas = getResources().getInteger(R.integer.medMax);
                 }
                 break;
 
             case DIFICIL:
-                if (puntos >= 241 && puntos <= 480) {
+                if (puntos >= 100 && puntos <= 3000) {
                     gemas = getResources().getInteger(R.integer.dificilMin);
-                } else if (puntos >= 481 && puntos <= 720) {
+                } else if (puntos >= 3001 && puntos <= 6000) {
                     gemas = getResources().getInteger(R.integer.dificilMed);
-                } else if (puntos >= 721 && puntos <= 960) {
+                } else if (puntos >= 6001 && puntos <= 9000) {
                     gemas = getResources().getInteger(R.integer.dificilMax);
                 }
                 break;
 
             case OTAKU:
-                if (puntos >= 321 && puntos <= 640) {
+                if (puntos >= 100 && puntos <= 4500) {
                     gemas = getResources().getInteger(R.integer.otakuMin);
-                } else if (puntos >= 641 && puntos <= 960) {
+                } else if (puntos >= 4501 && puntos <= 9000) {
                     gemas = getResources().getInteger(R.integer.otakuMed);
-                } else if (puntos >= 961 && puntos <= 1280) {
+                } else if (puntos >= 9001 && puntos <= 13500) {
                     gemas = getResources().getInteger(R.integer.otakuMax);
                 }
                 break;
         }
-        return gemas + user.getCoins();
+        return gemas;
     }
 
     @Override

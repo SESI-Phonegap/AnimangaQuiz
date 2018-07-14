@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sesi.chris.animangaquiz.R;
+import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
@@ -46,7 +47,7 @@ public class WallpaperAdapter extends RecyclerView.Adapter<WallpaperAdapter.Wall
                 .into(holder.imgAnime);*/
 
         Picasso.get()
-                .load(holder.wallpaper.getUrl())
+                .load(Constants.URL_BASE + holder.wallpaper.getUrl())
                 .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                 .into(holder.imgAnime);
 

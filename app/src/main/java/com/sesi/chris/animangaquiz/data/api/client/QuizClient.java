@@ -30,6 +30,13 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient{
     }
 
     @Override
+    public Observable<List<Anime>> getAllAnimesForWallpaper(String userName, String pass) {
+        return getQuizService().getAllanimesForWallpaper(userName,pass)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
     public Observable<List<Preguntas>> getQuestionsByAnimeAndLevel(String userName, String pass, int idAnime, int level) {
         return getQuizService().getQuestionsByAnimeAndLevel(userName,pass,idAnime,level)
                 .subscribeOn(Schedulers.io())

@@ -9,6 +9,8 @@ import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 
 import java.util.List;
+
+import io.reactivex.CompletableOnSubscribe;
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -26,6 +28,11 @@ public interface QuizRetrofitService {
     @FormUrlEncoded
     Observable<List<Anime>> getAllAnimes(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
                                          @Field(Constants.ParametersBackEnd.PASSWORD) String pass);
+
+    @POST(Constants.EndPoint.GET_ALL_ANIMES_FOR_WALLPAPER)
+    @FormUrlEncoded
+    Observable<List<Anime>> getAllanimesForWallpaper(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
+                                                     @Field(Constants.ParametersBackEnd.PASSWORD) String pass);
 
     @POST(Constants.EndPoint.GET_QUESTIONS_BY_ANIME_AND_LEVEL)
     @FormUrlEncoded

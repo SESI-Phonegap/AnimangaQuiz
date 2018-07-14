@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sesi.chris.animangaquiz.R;
+import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
@@ -191,7 +192,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
 
             if (((MenuActivity) Objects.requireNonNull(getActivity())).userActual.getCoins() >= wallpaper.getCosto()){
                 costoWalpaper = wallpaper.getCosto();
-                String url = wallpaper.getUrl();
+                String url = Constants.URL_BASE + wallpaper.getUrl();
                 String formato = url.substring(url.length()-4,url.length());
                 showConfirmDialog(costoWalpaper, url,formato);
 

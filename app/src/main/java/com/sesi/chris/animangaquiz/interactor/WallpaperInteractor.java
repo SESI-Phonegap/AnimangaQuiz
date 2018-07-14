@@ -16,8 +16,8 @@ public class WallpaperInteractor {
         this.quizServiceClient = quizServiceClient;
     }
 
-    public Observable<List<Anime>> getAnimes(String userName, String pass){
-        return quizServiceClient.getAllAnimes(userName,pass);
+    public Observable<List<Anime>> getAnimesForWallpaper(String userName, String pass){
+        return quizServiceClient.getAllAnimesForWallpaper(userName,pass);
     }
 
     public Observable<List<Wallpaper>> getWallpaperByAnime(String userName, String pass, int idAnime){

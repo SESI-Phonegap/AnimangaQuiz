@@ -28,8 +28,8 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
-    implementation 'com.google.android.gms:play-services-ads:15.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation 'com.google.android.gms:play-services-ads:15.0.1'
     //Dependencias para Retrofit
     implementation squareDependencies.retrofit
     implementation squareDependencies.adapter_rx_java
