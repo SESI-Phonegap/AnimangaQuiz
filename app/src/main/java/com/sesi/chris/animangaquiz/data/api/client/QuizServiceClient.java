@@ -5,6 +5,7 @@ import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 
 import java.util.List;
@@ -24,4 +25,5 @@ public interface QuizServiceClient {
     Observable<List<Wallpaper>> getWallpaperByAnime(String userName, String pass, int idAnime);
     Observable<UpdateResponse> updateGemas(String userName, String pass, int idUser, int gemas);
     Observable<UpdateResponse> registroNuevoUsuario(String username,String nombre,String email,int edad,String genero,String password);
+    Observable<List<User>> searchFriendByUserName(String userName, String pass, String userNameQuery);
 }

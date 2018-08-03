@@ -154,7 +154,7 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
 
     @Override
     public void showServerError(String error) {
-        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
         Toast.makeText(context(),error,Toast.LENGTH_LONG).show();
     }
 

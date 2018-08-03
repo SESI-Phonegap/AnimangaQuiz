@@ -16,6 +16,10 @@
             android:id="@+id/nav_tienda"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/tienda" />
+        <item
+            android:id="@+id/nav_friend"
+            android:icon="@drawable/iconuser"
+            android:title="@string/amigos"/>
     </group>
 
     <item android:title="@string/redesSociales">

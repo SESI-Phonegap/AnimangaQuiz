@@ -7,6 +7,7 @@ import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 
 import java.util.List;
@@ -74,6 +75,13 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient{
     @Override
     public Observable<UpdateResponse> registroNuevoUsuario(String username, String nombre, String email, int edad, String genero, String password) {
         return getQuizService().registroNuevoUsuario(username,nombre,email,edad,genero,password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<List<User>> searchFriendByUserName(String userName, String pass, String userNameQuery) {
+        return getQuizService().searchFriendByUserName(userName,pass,userNameQuery)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

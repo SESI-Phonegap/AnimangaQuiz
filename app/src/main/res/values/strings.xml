@@ -12,7 +12,7 @@
     <string name="admodId">ca-app-pub-2449148181464779~1186776862</string>
     <string name="bannerId">ca-app-pub-2449148181464779/4983262083</string>
     <string name="interstitialId">ca-app-pub-2449148181464779/3826927234</string>
-   <!-- <string name="bannerBonificacion">ca-app-pub-2449148181464779/7334216966</string> -->
+    <!-- <string name="bannerBonificacion">ca-app-pub-2449148181464779/7334216966</string> -->
     <string name="bannerBonificacion">ca-app-pub-3940256099942544/5224354917</string>
     <string name="btnBannerBonificacion">Obten Gemas extras viendo un anuncio</string>
 
@@ -53,6 +53,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="buscar">Buscar…</string>
+    <string name="buscarAmigo">Buscar usuario…</string>
     <string name="buscarWallpapers">Buscar Wallpapers…</string>
     <string name="noAlcanza">No tienes sufucientes gemas.</string>
     <string name="msgWallpaperSaved">Se guardo exitosamente en: %1$s</string>
@@ -74,5 +75,8 @@
     <string name="email">Email</string>
     <string name="msg_registro_exitoso">Registro Exitoso !</string>
     <string name="datosincompletos">Datos incompletos</string>
+
+    <!-- Activity Friends-->
+    <string name="amigos">Amigos</string>
 
 </resources>

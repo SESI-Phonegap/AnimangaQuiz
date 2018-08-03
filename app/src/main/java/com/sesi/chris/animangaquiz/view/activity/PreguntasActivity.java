@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
@@ -65,6 +66,7 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
     private int iIdAnime;
     private InterstitialAd mInterstitialAd;
     private RewardedVideoAd mRewardedVideoAd;
+    private AdView mAdview;
     private TextView tv_dialog_gemas;
 
     @Override
@@ -115,6 +117,16 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
     }
 
     private void cargarInterstitial(){
+        mAdview = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdview.loadAd(adRequest);
+        mAdview.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                // Load the next interstitial.
+                mAdview.loadAd(new AdRequest.Builder().build());
+            }
+        });
         mInterstitialAd = new InterstitialAd(context());
         mInterstitialAd.setAdUnitId(getString(R.string.interstitialId));
         mInterstitialAd.loadAd(new AdRequest.Builder().build());

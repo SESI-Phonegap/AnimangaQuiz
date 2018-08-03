@@ -36,6 +36,9 @@ public class User implements Serializable{
     @SerializedName("totalScore")
     @Expose
     private int totalScore;
+    @SerializedName("imgUser")
+    @Expose
+    private String urlImageUser;
 
     public Integer getIdUser() {
         return idUser;
@@ -115,5 +118,13 @@ public class User implements Serializable{
 
     public void setTotalScore(int totalScore) {
         this.totalScore = totalScore;
+    }
+
+    public String getUrlImageUser() {
+        return urlImageUser;
+    }
+
+    public void setUrlImageUser(String urlImageUser) {
+        this.urlImageUser = urlImageUser;
     }
 }

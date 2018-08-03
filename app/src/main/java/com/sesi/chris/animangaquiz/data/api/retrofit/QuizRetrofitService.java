@@ -6,11 +6,10 @@ import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 
 import java.util.List;
-
-import io.reactivex.CompletableOnSubscribe;
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -80,4 +79,9 @@ public interface QuizRetrofitService {
                                                     @Field(Constants.ParametersBackEnd.GENERO) String genero,
                                                     @Field(Constants.ParametersBackEnd.PASSWORD) String password);
 
+    @POST(Constants.EndPoint.SEARCH_FRIEND_BY_USER_NAME)
+    @FormUrlEncoded
+    Observable<List<User>> searchFriendByUserName(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
+                                                  @Field(Constants.ParametersBackEnd.PASSWORD) String pass,
+                                                  @Field(Constants.ParametersBackEnd.USER_NAME_QUERY) String userNameQuery);
 }

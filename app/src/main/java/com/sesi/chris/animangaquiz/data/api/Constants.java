@@ -9,7 +9,7 @@ public class Constants {
     //public static final String URL_BASE = "http://9.86.173.110:80/";
 
     // URL MAMP Server localhost Desarrollo
-   // public static final String URL_BASE = "http://192.168.0.3:8888/";
+  //  public static final String URL_BASE = "http://192.168.0.7:8888/";
 
 
     public static final class EndPoint{
@@ -22,6 +22,7 @@ public class Constants {
         public static final String GET_WALLPAPER_BY_ANIME = "/AnimangaBackEnd/service/getWallpaperByAnime.php";
         public static final String UPDATE_GEMAS = "/AnimangaBackEnd/service/updateGems.php";
         public static final String REGISTRO_NUEVO_USUARIO = "/AnimangaBackEnd/service/registroNuevoUsuario.php";
+        public static final String SEARCH_FRIEND_BY_USER_NAME = "/AnimangaBackEnd/service/searchFriendByUserName.php";
     }
 
     public static final class ParametersBackEnd{
@@ -36,6 +37,7 @@ public class Constants {
         public static final String EDAD = "edad";
         public static final String EMAIL = "email";
         public static final String NOMBRE = "nombre";
+        public static final String USER_NAME_QUERY = "userNameQuery";
 
     }
 
@@ -43,6 +45,7 @@ public class Constants {
         public static final String ANIMES = "animes";
         public static final String PREGUNTAS = "preguntas";
         public static final String WALPAPERS = "wallpapers";
+        public static final String FRIENDS = "friends";
 
     }
 }

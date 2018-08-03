@@ -1,6 +1,7 @@
 package com.sesi.chris.animangaquiz.view.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -159,6 +160,10 @@ public class MenuActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_compartit) {
             Utils.sharedSocial(context());
+        } else if (id == R.id.nav_friend){
+            Intent intent = new Intent(getApplicationContext(),SearchFriendActivity.class);
+            intent.putExtra("user",userActual);
+            startActivity(intent);
         }
 
         DrawerLayout drawer =  findViewById(R.id.drawer_layout);
