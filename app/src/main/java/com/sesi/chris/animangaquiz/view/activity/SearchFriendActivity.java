@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.FriendsInteractor;
 import com.sesi.chris.animangaquiz.presenter.SearchFriendPresenter;
@@ -53,7 +54,7 @@ public class SearchFriendActivity extends AppCompatActivity implements SearchFri
 
     private void setupRecyclerViewFriends(){
         FriendsAdapter adapter = new FriendsAdapter();
-        adapter.setItemClickListener((User user) -> presenter.addFriend(user.getUserName()));
+        adapter.setItemClickListener((User userFriend) -> presenter.addFriend(user.getUserName(),user.getPassword(),user.getIdUser(),userFriend.getIdUser()));
         rv_firends.setLayoutManager(new LinearLayoutManager(this));
         rv_firends.setHasFixedSize(true);
         rv_firends.setAdapter(adapter);
@@ -86,8 +87,10 @@ public class SearchFriendActivity extends AppCompatActivity implements SearchFri
     }
 
     @Override
-    public void addFriend(String userName) {
-
+    public void renderAddFriend(UpdateResponse updateResponse) {
+        progressBar.setVisibility(View.GONE);
+        Toast.makeText(this,updateResponse.error,Toast.LENGTH_LONG).show();
+        finish();
     }
 
     @Override

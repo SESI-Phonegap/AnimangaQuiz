@@ -1,5 +1,7 @@
 package com.sesi.chris.animangaquiz.data.api.retrofit;
 
+import android.support.constraint.ConstraintLayout;
+
 import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
@@ -84,4 +86,11 @@ public interface QuizRetrofitService {
     Observable<List<User>> searchFriendByUserName(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
                                                   @Field(Constants.ParametersBackEnd.PASSWORD) String pass,
                                                   @Field(Constants.ParametersBackEnd.USER_NAME_QUERY) String userNameQuery);
+
+    @POST(Constants.EndPoint.ADD_FRIEND_BY_ID)
+    @FormUrlEncoded
+    Observable<UpdateResponse> addFriendById(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
+                                             @Field(Constants.ParametersBackEnd.PASSWORD) String pass,
+                                             @Field(Constants.ParametersBackEnd.ID_USER) int idUser,
+                                             @Field(Constants.ParametersBackEnd.ID_FRIEND) int idFriend);
 }

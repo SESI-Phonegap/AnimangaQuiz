@@ -1,5 +1,6 @@
 package com.sesi.chris.animangaquiz.presenter;
 
+import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.FriendsInteractor;
 
@@ -30,8 +31,19 @@ public class SearchFriendPresenter extends Presenter<SearchFriendPresenter.View>
         addDisposableObserver(disposable);
     }
 
-    public void addFriend(String userName){
-        getView().addFriend(userName);
+    public void addFriend(String userName, String pass, int iIdUser, int iIdFriend){
+        getView().showLoading();
+        Disposable disposable = interactor.addFriendById(userName,pass,iIdUser,iIdFriend)
+                .doOnError(error -> {
+                    getView().showServerError(error.getMessage());
+                    getView().hideLoading();
+                }).subscribe(updateResponse -> {
+                    if (null != updateResponse){
+                        getView().hideLoading();
+                        getView().renderAddFriend(updateResponse);
+                    }
+                },Throwable::printStackTrace);
+        addDisposableObserver(disposable);
     }
 
     public interface View extends Presenter.View {
@@ -44,7 +56,7 @@ public class SearchFriendPresenter extends Presenter<SearchFriendPresenter.View>
 
         void renderFriends(List<User> lstUser);
 
-        void addFriend(String userName);
+        void renderAddFriend(UpdateResponse updateResponse);
 
     }
 }

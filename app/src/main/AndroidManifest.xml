@@ -38,13 +38,7 @@
             android:name=".view.activity.PreguntasActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".view.activity.RegistroActivity" />
-        <activity android:name=".view.activity.SearchFriendActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".view.activity.SearchFriendActivity"/>
     </application>
 
 </manifest>

@@ -26,4 +26,5 @@ public interface QuizServiceClient {
     Observable<UpdateResponse> updateGemas(String userName, String pass, int idUser, int gemas);
     Observable<UpdateResponse> registroNuevoUsuario(String username,String nombre,String email,int edad,String genero,String password);
     Observable<List<User>> searchFriendByUserName(String userName, String pass, String userNameQuery);
+    Observable<UpdateResponse> addFrienById(String userName, String pass,int idUser, int idFriend);
 }

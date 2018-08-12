@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class User implements Serializable{
     @SerializedName("idUser")
     @Expose
-    private Integer idUser;
+    private int idUser;
     @SerializedName("userName")
     @Expose
     private String userName;
@@ -40,11 +40,11 @@ public class User implements Serializable{
     @Expose
     private String urlImageUser;
 
-    public Integer getIdUser() {
+    public int getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(Integer idUser) {
+    public void setIdUser(int idUser) {
         this.idUser = idUser;
     }
 
