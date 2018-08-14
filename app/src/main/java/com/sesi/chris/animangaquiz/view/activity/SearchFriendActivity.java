@@ -1,6 +1,7 @@
 package com.sesi.chris.animangaquiz.view.activity;
 
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,8 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sesi.chris.animangaquiz.R;
@@ -42,7 +45,7 @@ public class SearchFriendActivity extends AppCompatActivity implements SearchFri
     public void init(){
         presenter = new SearchFriendPresenter(new FriendsInteractor(new QuizClient()));
         presenter.setView(this);
-        context = getApplicationContext();
+        context = this;
         et_searchFriend = findViewById(R.id.et_search);
         rv_firends = findViewById(R.id.rv_amigos);
         progressBar = findViewById(R.id.pb_friends);
@@ -54,7 +57,7 @@ public class SearchFriendActivity extends AppCompatActivity implements SearchFri
 
     private void setupRecyclerViewFriends(){
         FriendsAdapter adapter = new FriendsAdapter();
-        adapter.setItemClickListener((User userFriend) -> presenter.addFriend(user.getUserName(),user.getPassword(),user.getIdUser(),userFriend.getIdUser()));
+        adapter.setItemClickListener((User userFriend) -> showConfirmDialog(userFriend.getIdUser()));
         rv_firends.setLayoutManager(new LinearLayoutManager(this));
         rv_firends.setHasFixedSize(true);
         rv_firends.setAdapter(adapter);
@@ -116,5 +119,32 @@ public class SearchFriendActivity extends AppCompatActivity implements SearchFri
             }
         }
     };
+
+    public void showConfirmDialog(int iIdFriend){
+        AlertDialog dialog;
+        AlertDialog.Builder builder =  new AlertDialog.Builder(context());
+        final View view = getLayoutInflater().inflate(R.layout.dialog_confirmar, null);
+
+        TextView tvMensaje = view.findViewById(R.id.tv_mensaje);
+        Button btnAceptar = view.findViewById(R.id.btn_aceptar);
+        Button btnCancel = view.findViewById(R.id.btn_cancel);
+
+        builder.setView(view);
+        dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.show();
+
+        tvMensaje.setText(context().getString(R.string.msg_confirmar_amigo));
+
+        btnAceptar.setOnClickListener(v -> {
+            //guardarWallpaper(url,formato);
+            presenter.addFriend(user.getUserName(),user.getPassword(),user.getIdUser(),iIdFriend);
+            dialog.dismiss();
+        });
+
+        btnCancel.setOnClickListener((View v) -> dialog.dismiss());
+
+    }
 }
 

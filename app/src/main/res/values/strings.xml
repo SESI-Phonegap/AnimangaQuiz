@@ -62,6 +62,7 @@
 
     <!-- Dialog Confirmar -->
     <string name="msg_confirmacion">¿Estas seguro de descargar este Wallpaper? \n Gastaras %1$s Gemas</string>
+    <string name="msg_confirmar_amigo">¿ Deseas agregar a este usuario como amigo ?</string>
     <string name="btn_aceptar">Aceptar</string>
     <string name="btn_calcel">Cancelar</string>
 
