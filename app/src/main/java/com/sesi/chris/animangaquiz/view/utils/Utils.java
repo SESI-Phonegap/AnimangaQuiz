@@ -87,12 +87,12 @@ public class Utils {
                 }
             }
             if (!targetShareIntents.isEmpty()) {
-                Collections.sort(targetShareIntents, new Comparator<Intent>() {
+              /*  Collections.sort(targetShareIntents, new Comparator<Intent>() {
                     @Override
                     public int compare(Intent o1, Intent o2) {
                         return o1.getStringExtra("AppName").compareTo(o2.getStringExtra("AppName"));
                     }
-                });
+                });*/
                 Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), "Select app to share");
                 chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
                 context.startActivity(chooserIntent);
