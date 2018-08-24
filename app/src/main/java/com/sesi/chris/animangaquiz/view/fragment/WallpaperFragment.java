@@ -1,13 +1,17 @@
 package com.sesi.chris.animangaquiz.view.fragment;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -328,13 +332,35 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
             if (Utils.isExternalStorageWritable()) {
-                if (Utils.SaveImage(bitmap, sFormato, context())) {
-                    //Descontar Gemas
-                    restaGemas();
+                if (Build.VERSION.SDK_INT >= 23) {
+                    if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
+                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE}, 999);
+                    } else {
+                        if (Utils.SaveImage(bitmap, sFormato, context())) {
+                            //Descontar Gemas
+                            restaGemas();
+                        }
+                    }
+
+                } else {
+                    if (Utils.SaveImage(bitmap, sFormato, context())) {
+                        //Descontar Gemas
+                        restaGemas();
+                    }
                 }
             } else {
                 Toast.makeText(context(),getString(R.string.msgNoSd),Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
+            //  Log.v(TAG,"Permission: "+permissions[0]+ "was "+grantResults[0]);
+            //resume tasks needing this permission
+           Toast.makeText(context(),"Permiso concedido, vuelve a descargar la imagen",Toast.LENGTH_LONG).show();
         }
     }
 }

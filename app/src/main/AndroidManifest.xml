@@ -39,6 +39,7 @@
             android:screenOrientation="portrait" />
         <activity android:name=".view.activity.RegistroActivity" />
         <activity android:name=".view.activity.SearchFriendActivity"/>
+
     </application>
 
 </manifest>

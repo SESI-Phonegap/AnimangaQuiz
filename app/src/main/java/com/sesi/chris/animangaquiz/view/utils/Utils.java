@@ -15,8 +15,6 @@ import com.sesi.chris.animangaquiz.R;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class Utils {
@@ -26,28 +24,33 @@ public class Utils {
         return Environment.MEDIA_MOUNTED.equals(state);
     }
 
-    public static boolean SaveImage(Bitmap finalBitmap,String formato, Context context) {
+    public static boolean SaveImage(Bitmap finalBitmap, String formato, Context context) {
 
-        String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
-        File myDir = new File(root + "/Animangaquiz");
-        if (!myDir.exists()) {
-            if (!myDir.mkdirs()) {
-                Log.d("NOOO--","No se creo el directorio");
-            }
-        }
         String date = (DateFormat.format("yyyyMMdd_hhmmss", new java.util.Date()).toString());
-        String fname = "Image-"+ date +formato;
-        File file = new File (myDir, fname);
+        String fname = "Image-" + date + formato;
+
         try {
+            // guarda archvos dentro de una caperta privada de la App [Los archivos son borrados cuando desinstalas la app]
+            //   File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+            //Creas el path personalizado dentro de la memoria interna
+            String sPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/AnimangaQuiz";
+            File storageDir = new File(sPath);
+
+            if (!storageDir.exists()) {
+                if (!storageDir.mkdirs()) {
+                    Log.d("NOOO--", "No se creo el directorio");
+                }
+            }
+            File file = new File(storageDir.getAbsolutePath(), fname);
             FileOutputStream out = new FileOutputStream(file);
             finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
             out.flush();
             out.close();
-            Toast.makeText(context,context.getString(R.string.msgWallpaperSaved,root + "/AnimangaQuiz/wallpapers"),Toast.LENGTH_LONG).show();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(context,context.getString(R.string.msgWallpaperNoSaved),Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.msgWallpaperNoSaved), Toast.LENGTH_LONG).show();
             return false;
         }
     }
