@@ -47,6 +47,22 @@ public class WallpaperPresenter extends Presenter<WallpaperPresenter.View> {
         addDisposableObserver(disposable);
     }
 
+    public void getAvatarsByAnime(String userName, String pass, int idAnime){
+        getView().showLoading();
+        Disposable disposable = wallpaperInteractor.getAvatarsByAnime(userName,pass,idAnime)
+                .doOnError(error -> getView().showServerError(error.getMessage()))
+                .subscribe(lstAvatar -> {
+                    if (!lstAvatar.isEmpty()){
+                        getView().hideLoading();
+                        getView().renderAvatarsByAnime(lstAvatar);
+                    } else {
+                        getView().hideLoading();
+                        getView().showAnimesNotFoundMessage();
+                    }
+                },Throwable::printStackTrace);
+        addDisposableObserver(disposable);
+    }
+
     public void updateGemas(String userName, String pass, int idUser, int gemas){
         getView().showLoading();
         Disposable disposable = wallpaperInteractor.updateGemas(userName,pass,idUser,gemas)
@@ -64,6 +80,10 @@ public class WallpaperPresenter extends Presenter<WallpaperPresenter.View> {
         getView().launchWallpaperByanime(anime);
     }
 
+    public void launchAvatarByAnime(Anime anime){
+        getView().launchAvatarByAnime(anime);
+    }
+
     public interface View extends Presenter.View {
 
         void showLoading();
@@ -78,7 +98,11 @@ public class WallpaperPresenter extends Presenter<WallpaperPresenter.View> {
 
         void renderWallpaperByAnimes(List<Wallpaper> lstWallpaper);
 
+        void renderAvatarsByAnime(List<Wallpaper> lstAvatar);
+
         void launchWallpaperByanime(Anime anime);
+
+        void launchAvatarByAnime(Anime anime);
 
         void renderUpdateGemas(UpdateResponse updateResponse);
 

@@ -66,6 +66,10 @@
     <string name="btn_aceptar">Aceptar</string>
     <string name="btn_calcel">Cancelar</string>
 
+    <!-- Dialog Wallpaper-Avatars -->
+    <string name="msg_wallpapers">Elige una opción</string>
+    <string name="avatars">Avatars</string>
+
     <!-- Activity Registro -->
     <string name="titleRegitro">Registro</string>
     <string name="nombre">Nombre</string>
@@ -79,5 +83,7 @@
 
     <!-- Activity Friends-->
     <string name="amigos">Amigos</string>
+
+    <string name="sinDatos">No hay datos</string>
 
 </resources>

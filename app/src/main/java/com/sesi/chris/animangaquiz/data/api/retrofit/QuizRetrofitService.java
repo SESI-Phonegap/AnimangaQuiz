@@ -93,4 +93,9 @@ public interface QuizRetrofitService {
                                              @Field(Constants.ParametersBackEnd.PASSWORD) String pass,
                                              @Field(Constants.ParametersBackEnd.ID_USER) int idUser,
                                              @Field(Constants.ParametersBackEnd.ID_FRIEND) int idFriend);
+    @POST(Constants.EndPoint.GET_AVATARS_BY_ANIME)
+    @FormUrlEncoded
+    Observable<List<Wallpaper>> getAvatarsByAnime(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
+                                                  @Field(Constants.ParametersBackEnd.PASSWORD) String pass,
+                                                  @Field(Constants.ParametersBackEnd.ID_ANIME) int idAnime);
 }

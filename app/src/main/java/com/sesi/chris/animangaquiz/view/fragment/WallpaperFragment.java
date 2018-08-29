@@ -141,7 +141,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
 
     private void setupRecyclerViewAnimes(){
         AnimeAdapter adapter = new AnimeAdapter();
-        adapter.setItemClickListener((Anime anime) -> presenter.launchWallpaperAnime(anime));
+        adapter.setItemClickListener(anime -> showWallpaperAvatarDialog(anime));
         recyclerViewAnimes.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -158,6 +158,37 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         recyclerViewAnimes.setAdapter(adapter);
     }
 
+    public void showWallpaperAvatarDialog(Anime anime){
+        AlertDialog dialog;
+        AlertDialog.Builder builder =  new AlertDialog.Builder(context());
+        final View view = getLayoutInflater().inflate(R.layout.dialog_confirmar, null);
+
+        TextView tvMensaje = view.findViewById(R.id.tv_mensaje);
+        Button btnWallpapers = view.findViewById(R.id.btn_aceptar);
+        Button btnAvatars = view.findViewById(R.id.btn_cancel);
+        btnWallpapers.setText(getString(R.string.wallpapers));
+        btnAvatars.setText(getString(R.string.avatars));
+
+
+        builder.setView(view);
+        dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.show();
+
+        tvMensaje.setText(context().getString(R.string.msg_wallpapers));
+
+        btnWallpapers.setOnClickListener((View v) -> {
+            presenter.launchWallpaperAnime(anime);
+            dialog.dismiss();
+        });
+
+        btnAvatars.setOnClickListener((View v) -> {
+            presenter.launchAvatarByAnime(anime);
+            dialog.dismiss();
+        });
+    }
+
     @Override
     public void showLoading() {
         progressBar.setVisibility(View.VISIBLE);
@@ -171,6 +202,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
     @Override
     public void showAnimesNotFoundMessage() {
         progressBar.setVisibility(View.GONE);
+        Toast.makeText(context(),getString(R.string.sinDatos),Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -209,9 +241,37 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
     }
 
     @Override
+    public void renderAvatarsByAnime(List<Wallpaper> lstAvatar) {
+        changeUiWallpaper();
+        WallpaperAdapter adapter = new WallpaperAdapter();
+        adapter.setLstWallpaper(lstAvatar);
+        adapter.setItemClickListener((Wallpaper avatar) -> {
+            if (((MenuActivity) Objects.requireNonNull(getActivity())).userActual.getCoins() >= avatar.getCosto()){
+                costoWalpaper = avatar.getCosto();
+                String sUrl = Constants.URL_BASE + avatar.getUrl();
+                String formato = sUrl.substring(sUrl.length()-4,sUrl.length());
+                showConfirmDialog(costoWalpaper,sUrl,formato);
+            } else {
+                Toast.makeText(context(),getString(R.string.noAlcanza),Toast.LENGTH_LONG).show();
+            }
+        });
+        adapter.notifyDataSetChanged();
+        recyclerViewWallpapers.setAdapter(adapter);
+    }
+
+    @Override
     public void launchWallpaperByanime(Anime anime) {
         if (UtilInternetConnection.isOnline(context())){
             presenter.getWallpaperByAnime(user.getUserName(),user.getPassword(),anime.getIdAnime());
+        } else {
+            Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void launchAvatarByAnime(Anime anime) {
+        if (UtilInternetConnection.isOnline(context())){
+            presenter.getAvatarsByAnime(user.getUserName(),user.getPassword(),anime.getIdAnime());
         } else {
             Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
         }
@@ -288,7 +348,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
                 }
             }
             AnimeAdapter adapterFilter = new AnimeAdapter();
-            adapterFilter.setItemClickListener((Anime anime) -> presenter.launchWallpaperAnime(anime));
+            adapterFilter.setItemClickListener((Anime anime) -> showWallpaperAvatarDialog(anime));
             adapterFilter.setLstAnimes(lstAnimeFilter);
             recyclerViewAnimes.setAdapter(adapterFilter);
             adapterFilter.notifyDataSetChanged();

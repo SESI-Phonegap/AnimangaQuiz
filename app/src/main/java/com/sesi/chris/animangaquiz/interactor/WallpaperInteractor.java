@@ -27,4 +27,8 @@ public class WallpaperInteractor {
     public Observable<UpdateResponse> updateGemas(String userName, String pass, int idUser, int gemas){
         return quizServiceClient.updateGemas(userName,pass,idUser,gemas);
     }
+
+    public Observable<List<Wallpaper>> getAvatarsByAnime(String userName, String pass, int idAnime){
+        return quizServiceClient.getAvatarsByAnime(userName,pass,idAnime);
+    }
 }
