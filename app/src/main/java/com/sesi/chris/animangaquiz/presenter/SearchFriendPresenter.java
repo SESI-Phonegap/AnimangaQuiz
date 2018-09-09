@@ -3,9 +3,7 @@ package com.sesi.chris.animangaquiz.presenter;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.FriendsInteractor;
-
 import java.util.List;
-
 import io.reactivex.disposables.Disposable;
 
 public class SearchFriendPresenter extends Presenter<SearchFriendPresenter.View> {

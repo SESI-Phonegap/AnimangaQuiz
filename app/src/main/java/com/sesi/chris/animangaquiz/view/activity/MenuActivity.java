@@ -2,7 +2,6 @@ package com.sesi.chris.animangaquiz.view.activity;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,6 +33,7 @@ import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.presenter.LoginPresenter;
 import com.sesi.chris.animangaquiz.view.fragment.AnimeCatalogoFragment;
+import com.sesi.chris.animangaquiz.view.fragment.FriendsFragment;
 import com.sesi.chris.animangaquiz.view.fragment.WallpaperFragment;
 import com.sesi.chris.animangaquiz.view.utils.Utils;
 
@@ -177,9 +177,7 @@ public class MenuActivity extends AppCompatActivity
         } else if (id == R.id.nav_compartit) {
             Utils.sharedSocial(context());
         } else if (id == R.id.nav_friend){
-            Intent intent = new Intent(getApplicationContext(),SearchFriendActivity.class);
-            intent.putExtra("user",userActual);
-            startActivity(intent);
+            changeFragment(FriendsFragment.newInstance(),R.id.mainFrame, false, false);
         }
 
         DrawerLayout drawer =  findViewById(R.id.drawer_layout);

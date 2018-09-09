@@ -99,4 +99,12 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient{
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    @Override
+    public Observable<List<User>> getAllFriendsByUser(String userName, String pass) {
+        return getQuizService().getAllFriendsByUser(userName,pass)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 }

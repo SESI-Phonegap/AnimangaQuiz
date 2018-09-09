@@ -1,7 +1,5 @@
 package com.sesi.chris.animangaquiz.data.api.retrofit;
 
-import android.support.constraint.ConstraintLayout;
-
 import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
@@ -10,7 +8,6 @@ import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
-
 import java.util.List;
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -93,9 +90,15 @@ public interface QuizRetrofitService {
                                              @Field(Constants.ParametersBackEnd.PASSWORD) String pass,
                                              @Field(Constants.ParametersBackEnd.ID_USER) int idUser,
                                              @Field(Constants.ParametersBackEnd.ID_FRIEND) int idFriend);
+
     @POST(Constants.EndPoint.GET_AVATARS_BY_ANIME)
     @FormUrlEncoded
     Observable<List<Wallpaper>> getAvatarsByAnime(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
                                                   @Field(Constants.ParametersBackEnd.PASSWORD) String pass,
                                                   @Field(Constants.ParametersBackEnd.ID_ANIME) int idAnime);
+
+    @POST(Constants.EndPoint.GET_ALL_FRIENDS_BY_USER)
+    @FormUrlEncoded
+    Observable<List<User>> getAllFriendsByUser(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
+                                               @Field(Constants.ParametersBackEnd.PASSWORD) String pass);
 }
