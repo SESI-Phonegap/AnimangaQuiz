@@ -36,6 +36,9 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="updateGemsError">Ocurrio un error al actualizar las gemas</string>
+    <string name="errorCompra">Ocurrio un error !!, No se realizo la compra</string>
+    <string name="msgGemas">Tus gemas se actualizaron correctamente.</string>
 
     <!-- MenuActivity -->
     <string name="titleMenu">Animes disponibles</string>
@@ -80,10 +83,23 @@
     <string name="email">Email</string>
     <string name="msg_registro_exitoso">Registro Exitoso !</string>
     <string name="datosincompletos">Datos incompletos</string>
+    <string name="avisoPrivacidad"><u>Aviso de privacidad </u></string>
 
     <!-- Activity Friends-->
     <string name="amigos">Amigos</string>
 
     <string name="sinDatos">No hay datos</string>
+
+    <string name="compras">Compras</string>
+    <string name="btn_comprar">Comprar</string>
+
+    <string name="error_no_skus">No encontramos ningún SKU para mostrar&#8230; Compruebe su internet
+         conexión</string>
+    <string name="error_billing_unavailable">La facturación no está disponible. Asegúrate de que tu aplicación Google Play
+         está configurado correctamente</string>
+    <string name="error_billing_default">La facturación no está disponible. Por favor revisa tu dispositivo.</string>
+    <string name="alert_already_purchased">El artículo ya está comprado</string>
+    <string name="header_inapp">Compras</string>
+    <string name="header_subscriptions">Suscripciones</string>
 
 </resources>

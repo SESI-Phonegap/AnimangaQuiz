@@ -52,4 +52,10 @@ public class Constants {
         public static final String FRIENDS = "friends";
 
     }
+
+    public static final class Compras{
+        public static final int SMALL_GEMS = 5000;
+        public static final int MED_GEMS = 10000;
+        public static final int LARGE_GEMS = 20000;
+    }
 }

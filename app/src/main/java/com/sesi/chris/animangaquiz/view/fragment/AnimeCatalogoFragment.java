@@ -223,7 +223,7 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
                     btnDificil.setAlpha(1f);
                     btnDificil.setEnabled(true);
                     btnOtaku.setAlpha(1f);
-                    btnDificil.setEnabled(true);
+                    btnOtaku.setEnabled(true);
                     break;
         }
 

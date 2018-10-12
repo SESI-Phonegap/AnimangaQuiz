@@ -1,5 +1,6 @@
 package com.sesi.chris.animangaquiz.presenter;
 
+import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 
@@ -32,6 +33,22 @@ public class LoginPresenter extends Presenter<LoginPresenter.View> {
 
     }
 
+    public void onUpdateGems(String userName, String password, int idUser, int gemas){
+        Disposable disposable = interactor.updateGems(userName,password,idUser,gemas)
+                .doOnError(error ->
+                        getView().showServerError(error.getMessage()))
+                .subscribe(updateResponse -> {
+                    if (null != updateResponse){
+                        getView().hideLoading();
+                        getView().updateGemsResponse(updateResponse);
+                    } else {
+                        getView().showUpdateGemsError();
+                    }
+                },Throwable::printStackTrace);
+        addDisposableObserver(disposable);
+
+    }
+
     @Override
     public void terminate() {
         super.terminate();
@@ -48,5 +65,9 @@ public class LoginPresenter extends Presenter<LoginPresenter.View> {
         void showServerError(String error);
 
         void renderLogin(LoginResponse loginResponse);
+
+        void updateGemsResponse(UpdateResponse updateResponse);
+
+        void showUpdateGemsError();
     }
 }

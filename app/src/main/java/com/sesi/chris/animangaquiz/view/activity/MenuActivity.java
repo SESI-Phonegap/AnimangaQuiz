@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.UiThread;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,25 +24,38 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.Purchase;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.sesi.chris.animangaquiz.R;
+import com.sesi.chris.animangaquiz.data.api.Constants;
+import com.sesi.chris.animangaquiz.data.api.billing.BillingManager;
+import com.sesi.chris.animangaquiz.data.api.billing.BillingProvider;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.presenter.LoginPresenter;
+import com.sesi.chris.animangaquiz.view.adapter.LargeGemsDelegate;
+import com.sesi.chris.animangaquiz.view.adapter.MedGemsDelegate;
+import com.sesi.chris.animangaquiz.view.adapter.SmallGemsDelegate;
 import com.sesi.chris.animangaquiz.view.fragment.AnimeCatalogoFragment;
 import com.sesi.chris.animangaquiz.view.fragment.FriendsFragment;
+import com.sesi.chris.animangaquiz.view.fragment.PurchaseFragment;
 import com.sesi.chris.animangaquiz.view.fragment.WallpaperFragment;
 import com.sesi.chris.animangaquiz.view.utils.Utils;
 
+import java.util.List;
+
+import static com.sesi.chris.animangaquiz.data.api.billing.BillingManager.BILLING_MANAGER_NOT_INITIALIZED;
 import static com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection.isOnline;
 
 public class MenuActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, LoginPresenter.View{
+        implements BillingProvider,NavigationView.OnNavigationItemSelectedListener, LoginPresenter.View{
 
     private TextView tv_userName;
     private TextView tv_email;
@@ -51,6 +66,9 @@ public class MenuActivity extends AppCompatActivity
     public User userActual;
     private Context context;
     private AdView mAdview;
+    private PurchaseFragment fPurchaseFragment;
+    private static final String DIALOG_TAG = "dialog";
+    private BillingManager mBillingManager;
 
 
     @Override
@@ -58,9 +76,17 @@ public class MenuActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         init();
+        // Try to restore dialog fragment if we were showing it prior to screen rotation
+        if (savedInstanceState != null) {
+            fPurchaseFragment = (PurchaseFragment) getSupportFragmentManager()
+                    .findFragmentByTag(DIALOG_TAG);
+        }
     }
 
     public void init(){
+        UpdateListener mUpdateListener = new UpdateListener();
+        // Create and initialize BillingManager which talks to BillingLibrary
+        mBillingManager = new BillingManager(this, mUpdateListener);
         context = this;
         MobileAds.initialize(this, getString(R.string.admodId));
         loginPresenter = new LoginPresenter(new LoginInteractor(new QuizClient()));
@@ -153,6 +179,31 @@ public class MenuActivity extends AppCompatActivity
         transaction.commit();
     }
 
+    /**
+     * Remove loading spinner and refresh the UI
+     */
+    public void showRefreshedUi() {
+        // setWaitScreen(false);
+       // updateUi();
+        if (fPurchaseFragment != null) {
+            fPurchaseFragment.refreshUI();
+        }
+    }
+
+    /**
+     * Update UI to reflect model
+     */
+ /*   @UiThread
+    private void updateUi() {
+        Log.d(TAG, "Updating the UI. Thread: " + Thread.currentThread().getName());
+
+        if (isSixMonthlySubscribed()) {
+            imageViewIcon.setImageDrawable(this.getResources().getDrawable(R.drawable.coin_month));
+        } else if (isYearlySubscribed()){
+            imageViewIcon.setImageDrawable(this.getResources().getDrawable(R.drawable.coin_year));
+        }
+    }*/
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer =  findViewById(R.id.drawer_layout);
@@ -173,7 +224,17 @@ public class MenuActivity extends AppCompatActivity
         } else if (id == R.id.nav_wallpaper) {
             changeFragment(WallpaperFragment.newInstance(),R.id.mainFrame, false, false);
         } else if (id == R.id.nav_tienda) {
-
+            if (fPurchaseFragment == null) {
+                fPurchaseFragment = new PurchaseFragment();
+            }
+            if (mBillingManager != null
+                    && mBillingManager.getBillingClientResponseCode()
+                    > BILLING_MANAGER_NOT_INITIALIZED) {
+                //mAcquireFragment.onManagerReady(this);
+                fPurchaseFragment.onManagerReady(this);
+                // createDialogCompras();
+                changeFragment(fPurchaseFragment,R.id.mainFrame, false, false);
+            }
         } else if (id == R.id.nav_compartit) {
             Utils.sharedSocial(context());
         } else if (id == R.id.nav_friend){
@@ -219,7 +280,113 @@ public class MenuActivity extends AppCompatActivity
     }
 
     @Override
+    public void updateGemsResponse(UpdateResponse updateResponse) {
+        Toast.makeText(context(),updateResponse.estatus + "-" + updateResponse.error,Toast.LENGTH_LONG).show();
+        refreshUserData();
+    }
+
+    @Override
+    public void showUpdateGemsError() {
+        Toast.makeText(context(),R.string.updateGemsError,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     public Context context() {
         return context;
+    }
+
+    @Override
+    public BillingManager getBillingManager() {
+        return mBillingManager;
+    }
+
+    @Override
+    public boolean isSixMonthlySubscribed() {
+        return false;
+    }
+
+    @Override
+    public boolean isYearlySubscribed() {
+        return false;
+    }
+
+
+    /**
+     * Handler to billing updates
+     */
+    private class UpdateListener implements BillingManager.BillingUpdatesListener {
+        @Override
+        public void onBillingClientSetupFinished() {
+            if (null != fPurchaseFragment)
+                fPurchaseFragment.onManagerReady(MenuActivity.this);
+        }
+
+        @Override
+        public void onConsumeFinished(String token, @BillingClient.BillingResponse int result) {
+            Log.d("TAG", "Consumption finished. Purchase token: " + token + ", result: " + result);
+
+            // Note: We know this is the SKU_GAS, because it's the only one we consume, so we don't
+            // check if token corresponding to the expected sku was consumed.
+            // If you have more than one sku, you probably need to validate that the token matches
+            // the SKU you expect.
+            // It could be done by maintaining a map (updating it every time you call consumeAsync)
+            // of all tokens into SKUs which were scheduled to be consumed and then looking through
+            // it here to check which SKU corresponds to a consumed token.
+//---------------------------------------------------------
+            if (result == BillingClient.BillingResponse.OK) {
+                Log.d("TAG", "Consumption successful. Provisioning.");
+                int iGemas = 0;
+                switch (token){
+                    case SmallGemsDelegate.SKU_ID:
+                        iGemas = userActual.getCoins() + Constants.Compras.SMALL_GEMS;
+                        loginPresenter.onUpdateGems(userActual.getUserName(),userActual.getPassword(),userActual.getIdUser(),iGemas);
+                        break;
+
+                    case MedGemsDelegate.SKU_ID:
+                        iGemas = userActual.getCoins() + Constants.Compras.MED_GEMS;
+                        loginPresenter.onUpdateGems(userActual.getUserName(),userActual.getPassword(),userActual.getIdUser(),iGemas);
+                        break;
+
+                    case LargeGemsDelegate.SKU_ID:
+                        iGemas = userActual.getCoins() + Constants.Compras.LARGE_GEMS;
+                        loginPresenter.onUpdateGems(userActual.getUserName(),userActual.getPassword(),userActual.getIdUser(),iGemas);
+                        break;
+                }
+            } else {
+                Toast.makeText(context(),R.string.errorCompra,Toast.LENGTH_LONG).show();
+                Log.d("TAG", "Error consumption");
+            }
+
+            showRefreshedUi();
+            Log.d("TAG", "End consumption flow.");
+        }
+
+        @Override
+        public void onPurchasesUpdated(List<Purchase> purchaseList) {
+      /*      mGoldMonthly = false;
+            mGoldYearly = false;
+
+            for (Purchase purchase : purchaseList) {
+                Log.d("SUSCRIPCION",purchase.getSku());
+                switch (purchase.getSku()) {
+
+                    case MONTH_SKU:
+                        mGoldMonthly = true;
+                        mIsSuscrip = true;
+                        break;
+                    case ANO_SKU:
+                        mGoldYearly = true;
+                        mIsSuscrip = true;
+                        break;
+                }
+            }
+
+            if (!mIsSuscrip) {
+                Log.d("FALLO","es true");
+                cargaPublicidad();
+            }
+*/
+            // mActivity.showRefreshedUi();
+        }
     }
 }

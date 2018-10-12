@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.presenter.LoginPresenter;
@@ -118,5 +119,15 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
            // Log.d("", loginResponse.getError());
             Toast.makeText(context(),loginResponse.getError(),Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void updateGemsResponse(UpdateResponse updateResponse) {
+        Toast.makeText(context(),R.string.msgGemas + updateResponse.estatus,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showUpdateGemsError() {
+        Toast.makeText(context(),R.string.updateGemsError,Toast.LENGTH_LONG).show();
     }
 }

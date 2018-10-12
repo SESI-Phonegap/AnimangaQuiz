@@ -142,7 +142,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
     private void setupRecyclerViewAnimes(){
         AnimeAdapter adapter = new AnimeAdapter();
         adapter.setItemClickListener(anime -> showWallpaperAvatarDialog(anime));
-        recyclerViewAnimes.addOnScrollListener(new RecyclerView.OnScrollListener() {
+      /*  recyclerViewAnimes.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -154,7 +154,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
                     constraintLayoutSearch.setVisibility(View.VISIBLE);
                 }
             }
-        });
+        });*/
         recyclerViewAnimes.setAdapter(adapter);
     }
 
