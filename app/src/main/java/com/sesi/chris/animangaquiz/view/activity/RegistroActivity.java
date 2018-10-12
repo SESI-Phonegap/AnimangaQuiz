@@ -2,6 +2,9 @@ package com.sesi.chris.animangaquiz.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
+import android.net.Uri;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sesi.chris.animangaquiz.R;
@@ -46,6 +50,8 @@ public class RegistroActivity extends AppCompatActivity implements RegistroNuevo
         context = this;
         presenter = new RegistroNuevoUsuarioPresenter(new RegistroNuevoUsuarioInteractor(new QuizClient()));
         presenter.setView(this);
+        ConstraintLayout background = findViewById(R.id.Constraint_background);
+        ((AnimationDrawable) background.getBackground()).start();
         etUsername = findViewById(R.id.et_userName);
         etNombre = findViewById(R.id.et_nombre);
         etEmail = findViewById(R.id.et_email);
@@ -54,6 +60,13 @@ public class RegistroActivity extends AppCompatActivity implements RegistroNuevo
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
         Button btnRegistrar = findViewById(R.id.btn_registrar);
         pbRegistro = findViewById(R.id.pb_registro);
+        TextView tvAviso = findViewById(R.id.tv_aviso);
+
+        tvAviso.setOnClickListener(v->{
+            Uri uri = Uri.parse("http://www.animangaquiz.mx/privacidad.html");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
 
         radioGroup.setOnCheckedChangeListener((radioGroup1, id) -> {
             switch (id){
