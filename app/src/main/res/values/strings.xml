@@ -39,6 +39,7 @@
     <string name="updateGemsError">Ocurrio un error al actualizar las gemas</string>
     <string name="errorCompra">Ocurrio un error !!, No se realizo la compra</string>
     <string name="msgGemas">Tus gemas se actualizaron correctamente.</string>
+    <string name="recordarUser">Recordar usuario</string>
 
     <!-- MenuActivity -->
     <string name="titleMenu">Animes disponibles</string>

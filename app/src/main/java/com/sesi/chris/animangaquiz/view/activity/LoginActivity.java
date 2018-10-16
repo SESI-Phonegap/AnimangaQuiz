@@ -10,6 +10,7 @@ import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,6 +23,9 @@ import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.presenter.LoginPresenter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
+import com.sesi.chris.animangaquiz.view.utils.UtilsPreference;
+
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity implements LoginPresenter.View {
 
@@ -30,6 +34,7 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
     private EditText et_username;
     private EditText et_password;
     private Context context;
+    private CheckBox cbGuardarUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +59,16 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
         TextView tv_registro = findViewById(R.id.tv_registro);
         Button btn_login = findViewById(R.id.btn_login);
         context = this;
+        cbGuardarUser = findViewById(R.id.checkBox);
+
+        List<String> lstDataUser = UtilsPreference.getUserDataLogin(context());
+        if (!lstDataUser.get(0).isEmpty() && !lstDataUser.get(1).isEmpty()){
+            if (UtilInternetConnection.isOnline(context())){
+                loginPresenter.onLogin(lstDataUser.get(0),lstDataUser.get(1));
+            } else {
+                Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
+            }
+        }
 
         et_username.setText("chris_slash10");
         et_password.setText("Mexico-17");
@@ -111,6 +126,9 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
         User user = loginResponse.getUser();
        // Log.d("Respuesta--",loginResponse.getEstatus());
         if (null != user) {
+            if (cbGuardarUser.isChecked()) {
+                UtilsPreference.savePreferenceUserLogin(context(), user.getUserName(), user.getPassword());
+            }
             Intent intent = new Intent(context(),MenuActivity.class);
             intent.putExtra("user",user);
             startActivity(intent);
