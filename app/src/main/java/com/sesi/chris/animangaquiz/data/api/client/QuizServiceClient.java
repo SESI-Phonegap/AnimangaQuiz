@@ -29,5 +29,4 @@ public interface QuizServiceClient {
     Observable<UpdateResponse> addFrienById(String userName, String pass,int idUser, int idFriend);
     Observable<List<Wallpaper>> getAvatarsByAnime(String userName, String pass, int idAnime);
     Observable<List<User>> getAllFriendsByUser(String userName, String pass);
-    Observable<List<Wallpaper>> getAvatarsByUser(String userName, String pass, int idUser);
 }

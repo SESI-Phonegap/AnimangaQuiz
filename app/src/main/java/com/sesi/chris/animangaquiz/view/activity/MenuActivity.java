@@ -1,10 +1,17 @@
 package com.sesi.chris.animangaquiz.view.activity;
 
 import android.Manifest;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.UiThread;
 import android.support.design.widget.NavigationView;
@@ -51,12 +58,19 @@ import com.sesi.chris.animangaquiz.view.fragment.AnimeCatalogoFragment;
 import com.sesi.chris.animangaquiz.view.fragment.FriendsFragment;
 import com.sesi.chris.animangaquiz.view.fragment.PurchaseFragment;
 import com.sesi.chris.animangaquiz.view.fragment.WallpaperFragment;
+import com.sesi.chris.animangaquiz.view.utils.ImageFilePath;
 import com.sesi.chris.animangaquiz.view.utils.Utils;
 import com.sesi.chris.animangaquiz.view.widget.AutoRecyclerView;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.sesi.chris.animangaquiz.data.api.billing.BillingManager.BILLING_MANAGER_NOT_INITIALIZED;
 import static com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection.isOnline;
@@ -68,7 +82,7 @@ public class MenuActivity extends AppCompatActivity
     private TextView tv_email;
     private TextView tv_gems;
     private TextView tv_totalScore;
-    private ImageView imgAvatar;
+    private CircleImageView imgAvatar;
     private ProgressBar progressBar;
     private LoginPresenter loginPresenter;
     public User userActual;
@@ -78,6 +92,7 @@ public class MenuActivity extends AppCompatActivity
     private static final String DIALOG_TAG = "dialog";
     private BillingManager mBillingManager;
     private AlertDialog dialog;
+    private static final int PICK_IMAGE = 100;
 
 
     @Override
@@ -121,11 +136,7 @@ public class MenuActivity extends AppCompatActivity
         cargarPublicidad();
 
         imgAvatar.setOnClickListener(v -> {
-            if (isOnline(context())) {
-                loginPresenter.getAvatarsByUser(userActual.getUserName(), userActual.getPassword(), userActual.getIdUser());
-            } else {
-                Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
-            }
+            openGallery();
         });
 
         if (Build.VERSION.SDK_INT >= 23) {
@@ -160,37 +171,6 @@ public class MenuActivity extends AppCompatActivity
         } else {
             Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
         }
-    }
-
-    private void setupRecyclerViewAvatars(AutoRecyclerView autoRecyclerView){
-        AvatarsAdapter adapter = new AvatarsAdapter();
-      //  adapter.setItemClickListener(anime -> showWallpaperAvatarDialog(anime));
-        autoRecyclerView.setAdapter(adapter);
-    }
-
-    public void createDialogAvatar(List<Wallpaper> lstAvatars){
-        AlertDialog.Builder builder =  new AlertDialog.Builder(context());
-        final View view = getLayoutInflater().inflate(R.layout.dialog_change_avatar, null);
-        AutoRecyclerView rvAvatars = view.findViewById(R.id.rv_avatars);
-        builder.setView(view);
-        dialog = builder.create();
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.show();
-
-        setupRecyclerViewAvatars(rvAvatars);
-        AvatarsAdapter adapter = (AvatarsAdapter) rvAvatars.getAdapter();
-        List<Wallpaper> lstAvatar = lstAvatars;
-        adapter.setLstAvatar(lstAvatar);
-        adapter.setItemClickListener((Wallpaper avatar) -> {
-            Picasso.get()
-                    .load(Constants.URL_BASE+avatar.getUrl())
-                    .into(imgAvatar);
-        });
-        adapter.notifyDataSetChanged();
-        rvAvatars.setAdapter(adapter);
-
-
-
     }
 
     @Override
@@ -252,6 +232,92 @@ public class MenuActivity extends AppCompatActivity
             imageViewIcon.setImageDrawable(this.getResources().getDrawable(R.drawable.coin_year));
         }
     }*/
+
+    private void openGallery() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (ActivityCompat.checkSelfPermission(context(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(MenuActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 999);
+
+            } else {
+                /*Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                startActivityForResult(gallery, PICK_IMAGE);*/
+                galleryFilter();
+            }
+        }else {
+            /*Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+            startActivityForResult(gallery, PICK_IMAGE);*/
+            galleryFilter();
+        }
+
+    }
+
+    public void galleryFilter(){
+        List<Intent> targetGalleryIntents = new ArrayList<>();
+        Intent galleryIntent = new Intent();
+        galleryIntent.setAction(Intent.ACTION_PICK);
+        galleryIntent.setType("image/*");
+        PackageManager pm = getApplicationContext().getPackageManager();
+        List<ResolveInfo> resInfos = pm.queryIntentActivities(galleryIntent,0);
+        if (!resInfos.isEmpty()){
+            for (ResolveInfo resInfo : resInfos){
+                String packageName = resInfo.activityInfo.packageName;
+
+                if (!packageName.contains("com.google.android.apps.photos") && !packageName.equals("com.google.android.apps.plus")){
+                    Intent intent = new Intent();
+                    intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
+                    intent.putExtra("AppName", resInfo.loadLabel(pm).toString());
+                    intent.setAction(Intent.ACTION_PICK);
+                    intent.setType("image/*");
+                    intent.setPackage(packageName);
+                    targetGalleryIntents.add(intent);
+                }
+            }
+
+            if (!targetGalleryIntents.isEmpty()){
+                Collections.sort(targetGalleryIntents, new Comparator<Intent>() {
+                    @Override
+                    public int compare(Intent o1, Intent o2) {
+                        return o1.getStringExtra("AppName").compareTo(o2.getStringExtra("AppName"));
+                    }
+                });
+                Intent chooserIntent = Intent.createChooser(targetGalleryIntents.remove(0), "Abrir Galeria");
+                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetGalleryIntents.toArray(new Parcelable[]{}));
+                startActivityForResult(chooserIntent,PICK_IMAGE);
+            } else {
+                Toast.makeText(getApplicationContext(),"No se encontro la galeria",Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
+            Uri imageUri = data.getData();
+
+            String selectedImagePath;
+            if (Build.VERSION.SDK_INT >= 23){
+                selectedImagePath = ImageFilePath.getPath(getApplication(),imageUri);
+            }else {
+                selectedImagePath = imageUri.toString();
+            }
+
+            if (isOnline(context())) {
+                try {
+                    //guardar en la BD
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                    imgAvatar.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
+            }
+
+        }
+    }
 
     @Override
     public void onBackPressed() {
@@ -337,16 +403,6 @@ public class MenuActivity extends AppCompatActivity
     @Override
     public void showUpdateGemsError() {
         Toast.makeText(context(),R.string.updateGemsError,Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void renderAvatars(List<Wallpaper> lstAvatars) {
-        createDialogAvatar(lstAvatars);
-    }
-
-    @Override
-    public void showAvatarError() {
-        Toast.makeText(context(),R.string.noAvatars,Toast.LENGTH_LONG).show();
     }
 
     @Override

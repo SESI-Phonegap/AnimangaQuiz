@@ -12,6 +12,7 @@
 
     <dimen name="textviewTitleDialog">22sp</dimen>
     <dimen name="textviewResultDialog">20sp</dimen>
+    <dimen name="textviewCorreo">15sp</dimen>
     <!-- LoginActivity -->
 
     <dimen name="titleHeigh">150dp</dimen>

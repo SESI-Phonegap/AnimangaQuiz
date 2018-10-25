@@ -150,13 +150,4 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
         Toast.makeText(context(),R.string.updateGemsError,Toast.LENGTH_LONG).show();
     }
 
-    @Override
-    public void renderAvatars(List<Wallpaper> lstAvatars) {
-
-    }
-
-    @Override
-    public void showAvatarError() {
-
-    }
 }

@@ -25,8 +25,4 @@ public class LoginInteractor {
         return quizServiceClient.updateGemas(userName,pass,idUser,gemas);
     }
 
-    public Observable<List<Wallpaper>> getAvatarByUser(String userName, String pass, int idUser){
-        return quizServiceClient.getAvatarsByUser(userName,pass,idUser);
-    }
-
 }

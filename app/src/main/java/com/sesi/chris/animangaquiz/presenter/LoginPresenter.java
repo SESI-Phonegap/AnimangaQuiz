@@ -52,23 +52,6 @@ public class LoginPresenter extends Presenter<LoginPresenter.View> {
 
     }
 
-    public void getAvatarsByUser(String userName, String pass, int idUser){
-        getView().showLoading();
-        Disposable disposable = interactor.getAvatarByUser(userName,pass,idUser)
-                .doOnError(error -> {
-                    getView().showServerError(error.getMessage());
-                    getView().hideLoading();
-                }).subscribe(lstAvatars -> {
-                    if (!lstAvatars.isEmpty()){
-                        getView().hideLoading();
-                        getView().renderAvatars(lstAvatars);
-                    } else {
-                        getView().showAvatarError();
-                        getView().hideLoading();
-                    }
-                },Throwable::printStackTrace);
-        addDisposableObserver(disposable);
-    }
 
     @Override
     public void terminate() {
@@ -91,8 +74,5 @@ public class LoginPresenter extends Presenter<LoginPresenter.View> {
 
         void showUpdateGemsError();
 
-        void renderAvatars(List<Wallpaper> lstAvatars);
-
-        void showAvatarError();
     }
 }

@@ -11,6 +11,7 @@
     <dimen name="editTextHeigh">50dp</dimen>
     <dimen name="textviewTitleDialog">19sp</dimen>
     <dimen name="textviewResultDialog">17sp</dimen>
+    <dimen name="textviewCorreo">13sp</dimen>
     <!-- LoginActivity -->
 
     <dimen name="titleHeigh">150dp</dimen>
