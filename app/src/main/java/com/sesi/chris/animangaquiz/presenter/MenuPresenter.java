@@ -2,6 +2,7 @@ package com.sesi.chris.animangaquiz.presenter;
 
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
+import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 import com.sesi.chris.animangaquiz.interactor.MenuInteractor;
 
 import java.util.List;
@@ -46,6 +47,7 @@ public class MenuPresenter extends Presenter<MenuPresenter.View>{
         addDisposableObserver(disposable);
     }
 
+
     public void launchAnimeTest(Anime anime){
         getView().launchAnimeTest(anime);
     }
@@ -67,5 +69,6 @@ public class MenuPresenter extends Presenter<MenuPresenter.View>{
         void showScoreError();
 
         void launchAnimeTest(Anime anime);
+
     }
 }

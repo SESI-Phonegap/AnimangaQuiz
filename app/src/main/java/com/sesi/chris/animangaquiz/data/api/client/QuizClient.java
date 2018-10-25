@@ -107,4 +107,11 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient{
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
+    public Observable<List<Wallpaper>> getAvatarsByUser(String userName, String pass, int idAnime) {
+        return getQuizService().getAvatarsByUser(userName,pass,idAnime)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 }

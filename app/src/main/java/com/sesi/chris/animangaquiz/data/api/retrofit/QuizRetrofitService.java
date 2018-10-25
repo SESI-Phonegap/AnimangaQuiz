@@ -101,4 +101,9 @@ public interface QuizRetrofitService {
     @FormUrlEncoded
     Observable<List<User>> getAllFriendsByUser(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
                                                @Field(Constants.ParametersBackEnd.PASSWORD) String pass);
+    @POST(Constants.EndPoint.GET_AVATARS_BY_USER)
+    @FormUrlEncoded
+    Observable<List<Wallpaper>> getAvatarsByUser(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
+                                                 @Field(Constants.ParametersBackEnd.PASSWORD) String pass,
+                                                 @Field(Constants.ParametersBackEnd.ID_USER) int idUser);
 }

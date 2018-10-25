@@ -1,8 +1,11 @@
 package com.sesi.chris.animangaquiz.presenter;
 
 import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
+
+import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 
@@ -49,6 +52,24 @@ public class LoginPresenter extends Presenter<LoginPresenter.View> {
 
     }
 
+    public void getAvatarsByUser(String userName, String pass, int idUser){
+        getView().showLoading();
+        Disposable disposable = interactor.getAvatarByUser(userName,pass,idUser)
+                .doOnError(error -> {
+                    getView().showServerError(error.getMessage());
+                    getView().hideLoading();
+                }).subscribe(lstAvatars -> {
+                    if (!lstAvatars.isEmpty()){
+                        getView().hideLoading();
+                        getView().renderAvatars(lstAvatars);
+                    } else {
+                        getView().showAvatarError();
+                        getView().hideLoading();
+                    }
+                },Throwable::printStackTrace);
+        addDisposableObserver(disposable);
+    }
+
     @Override
     public void terminate() {
         super.terminate();
@@ -69,5 +90,9 @@ public class LoginPresenter extends Presenter<LoginPresenter.View> {
         void updateGemsResponse(UpdateResponse updateResponse);
 
         void showUpdateGemsError();
+
+        void renderAvatars(List<Wallpaper> lstAvatars);
+
+        void showAvatarError();
     }
 }

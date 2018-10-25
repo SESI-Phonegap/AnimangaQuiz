@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -38,8 +39,11 @@ import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
 import com.sesi.chris.animangaquiz.data.model.User;
+import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.presenter.LoginPresenter;
+import com.sesi.chris.animangaquiz.view.adapter.AnimeAdapter;
+import com.sesi.chris.animangaquiz.view.adapter.AvatarsAdapter;
 import com.sesi.chris.animangaquiz.view.adapter.LargeGemsDelegate;
 import com.sesi.chris.animangaquiz.view.adapter.MedGemsDelegate;
 import com.sesi.chris.animangaquiz.view.adapter.SmallGemsDelegate;
@@ -48,8 +52,11 @@ import com.sesi.chris.animangaquiz.view.fragment.FriendsFragment;
 import com.sesi.chris.animangaquiz.view.fragment.PurchaseFragment;
 import com.sesi.chris.animangaquiz.view.fragment.WallpaperFragment;
 import com.sesi.chris.animangaquiz.view.utils.Utils;
+import com.sesi.chris.animangaquiz.view.widget.AutoRecyclerView;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.sesi.chris.animangaquiz.data.api.billing.BillingManager.BILLING_MANAGER_NOT_INITIALIZED;
 import static com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection.isOnline;
@@ -61,6 +68,7 @@ public class MenuActivity extends AppCompatActivity
     private TextView tv_email;
     private TextView tv_gems;
     private TextView tv_totalScore;
+    private ImageView imgAvatar;
     private ProgressBar progressBar;
     private LoginPresenter loginPresenter;
     public User userActual;
@@ -69,6 +77,7 @@ public class MenuActivity extends AppCompatActivity
     private PurchaseFragment fPurchaseFragment;
     private static final String DIALOG_TAG = "dialog";
     private BillingManager mBillingManager;
+    private AlertDialog dialog;
 
 
     @Override
@@ -98,6 +107,7 @@ public class MenuActivity extends AppCompatActivity
         tv_userName = headerView.findViewById(R.id.tv_username);
         tv_gems = headerView.findViewById(R.id.tv_gemas);
         tv_totalScore = headerView.findViewById(R.id.tv_score);
+        imgAvatar = headerView.findViewById(R.id.imgAvatar);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -109,6 +119,14 @@ public class MenuActivity extends AppCompatActivity
         refreshUserData();
         changeFragment(AnimeCatalogoFragment.newInstance(),R.id.mainFrame,false,false);
         cargarPublicidad();
+
+        imgAvatar.setOnClickListener(v -> {
+            if (isOnline(context())) {
+                loginPresenter.getAvatarsByUser(userActual.getUserName(), userActual.getPassword(), userActual.getIdUser());
+            } else {
+                Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
+            }
+        });
 
         if (Build.VERSION.SDK_INT >= 23) {
             if (ActivityCompat.checkSelfPermission(context(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context(),Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
@@ -142,6 +160,37 @@ public class MenuActivity extends AppCompatActivity
         } else {
             Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void setupRecyclerViewAvatars(AutoRecyclerView autoRecyclerView){
+        AvatarsAdapter adapter = new AvatarsAdapter();
+      //  adapter.setItemClickListener(anime -> showWallpaperAvatarDialog(anime));
+        autoRecyclerView.setAdapter(adapter);
+    }
+
+    public void createDialogAvatar(List<Wallpaper> lstAvatars){
+        AlertDialog.Builder builder =  new AlertDialog.Builder(context());
+        final View view = getLayoutInflater().inflate(R.layout.dialog_change_avatar, null);
+        AutoRecyclerView rvAvatars = view.findViewById(R.id.rv_avatars);
+        builder.setView(view);
+        dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+
+        setupRecyclerViewAvatars(rvAvatars);
+        AvatarsAdapter adapter = (AvatarsAdapter) rvAvatars.getAdapter();
+        List<Wallpaper> lstAvatar = lstAvatars;
+        adapter.setLstAvatar(lstAvatar);
+        adapter.setItemClickListener((Wallpaper avatar) -> {
+            Picasso.get()
+                    .load(Constants.URL_BASE+avatar.getUrl())
+                    .into(imgAvatar);
+        });
+        adapter.notifyDataSetChanged();
+        rvAvatars.setAdapter(adapter);
+
+
+
     }
 
     @Override
@@ -288,6 +337,16 @@ public class MenuActivity extends AppCompatActivity
     @Override
     public void showUpdateGemsError() {
         Toast.makeText(context(),R.string.updateGemsError,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void renderAvatars(List<Wallpaper> lstAvatars) {
+        createDialogAvatar(lstAvatars);
+    }
+
+    @Override
+    public void showAvatarError() {
+        Toast.makeText(context(),R.string.noAvatars,Toast.LENGTH_LONG).show();
     }
 
     @Override

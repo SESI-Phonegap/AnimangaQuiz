@@ -40,6 +40,8 @@
     <string name="errorCompra">Ocurrio un error !!, No se realizo la compra</string>
     <string name="msgGemas">Tus gemas se actualizaron correctamente.</string>
     <string name="recordarUser">Recordar usuario</string>
+    <string name="misAvatar">Mis Avatars</string>
+    <string name="noAvatars">No tienes avatars</string>
 
     <!-- MenuActivity -->
     <string name="titleMenu">Animes disponibles</string>

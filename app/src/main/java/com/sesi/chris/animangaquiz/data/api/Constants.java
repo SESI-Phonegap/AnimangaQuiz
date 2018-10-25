@@ -26,6 +26,7 @@ public class Constants {
         public static final String ADD_FRIEND_BY_ID = "/AnimangaBackEnd/service/addFriendById.php";
         public static final String GET_AVATARS_BY_ANIME = "/AnimangaBackEnd/service/getAvatarsByAnime.php";
         public static final String GET_ALL_FRIENDS_BY_USER = "/AnimangaBackEnd/service/getAllFriendsByUser.php";
+        public static final String GET_AVATARS_BY_USER = "/AnimangaBackEnd/service/getAvatarsByUser.php";
     }
 
     public static final class ParametersBackEnd{

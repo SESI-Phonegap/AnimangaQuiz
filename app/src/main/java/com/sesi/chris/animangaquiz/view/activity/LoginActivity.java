@@ -20,6 +20,7 @@ import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
 import com.sesi.chris.animangaquiz.data.model.User;
+import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.presenter.LoginPresenter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
@@ -147,5 +148,15 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
     @Override
     public void showUpdateGemsError() {
         Toast.makeText(context(),R.string.updateGemsError,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void renderAvatars(List<Wallpaper> lstAvatars) {
+
+    }
+
+    @Override
+    public void showAvatarError() {
+
     }
 }

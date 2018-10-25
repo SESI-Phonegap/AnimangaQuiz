@@ -3,6 +3,7 @@ package com.sesi.chris.animangaquiz.interactor;
 import com.sesi.chris.animangaquiz.data.api.client.QuizServiceClient;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
+import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 
 import java.util.List;
 
@@ -23,4 +24,5 @@ public class MenuInteractor {
     public Observable<ScoreResponse> checkScoreAndLevel(String userName, String pass, int idAnime, int idUser){
         return quizServiceClient.checkScoreAndLevel(userName,pass,idAnime,idUser);
     }
+
 }
