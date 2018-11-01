@@ -8,20 +8,22 @@
     <string name="mododios">Otaku</string>
     <string name="timer">Tiempo \n %1$s</string>
     <string name="serverError">No fue posible conectar con el servidor: %1$s</string>
-    <string name="playstore">www.playstore.com</string>
+    <string name="playstore">Compite contra tus amigos y demustra que eres el mas Otaku de todos, recibe 5000 gemas al crear tu cuenta, solo ingresanodo el  userName de tu amigo:  %1$s  \n https://play.google.com/store/apps/details?id=com.sesi.parkingmeter</string>
     <string name="admodId">ca-app-pub-2449148181464779~1186776862</string>
     <string name="bannerId">ca-app-pub-2449148181464779/4983262083</string>
     <string name="interstitialId">ca-app-pub-2449148181464779/3826927234</string>
-    <!-- <string name="bannerBonificacion">ca-app-pub-2449148181464779/7334216966</string> -->
-    <string name="bannerBonificacion">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="bannerBonificacion">ca-app-pub-2449148181464779/7334216966</string>
+   <!-- Bonificacion Test -->
+    <!-- <string name="bannerBonificacion">ca-app-pub-3940256099942544/5224354917</string> -->
     <string name="btnBannerBonificacion">Obten Gemas extras viendo un anuncio</string>
 
     <!-- Menu -->
     <string name="quiz">Quiz</string>
     <string name="wallpapers">Wallpapers</string>
     <string name="tienda">Tienda</string>
-    <string name="compartir">Compartir</string>
-    <string name="redesSociales">Redes Sociales</string>
+    <string name="compartir">Compartir con un amigo \n Puedes ganar 2500 gemas por cada amigo que descargue la app</string>
+    <string name="redesSociales">Compartir</string>
+    <string name="msgCompartir">Puedes ganar 2500 gemas, por cada amigo que descargue la app</string>
 
     <string name="noInternet">No tienes conexión a Internet</string>
     <!-- LoginActivity -->
@@ -46,6 +48,8 @@
     <!-- MenuActivity -->
     <string name="titleMenu">Animes disponibles</string>
     <string name="score">Puntos: %1$s</string>
+    <string name="msgImagenError">La imagen sobre pasa los 2 MB, no es posible guardarla</string>
+    <string name="msgAvatrError">Error no fue posible actualizar el avatar</string>
 
     <!-- Dialog Resultado -->
     <string name="titlePreguntasCorrectas">Correctas</string>
@@ -63,6 +67,7 @@
     <string name="buscarWallpapers">Buscar Wallpapers…</string>
     <string name="noAlcanza">No tienes sufucientes gemas.</string>
     <string name="msgWallpaperSaved">Se guardo exitosamente en: %1$s</string>
+    <string name="msgWallpaperSaved2">Wallpaper descargado en: AnimangaQuiz</string>
     <string name="msgWallpaperNoSaved">Ocurrio un error al intentar guardar el Wallpaper en la SD</string>
     <string name="msgNoSd">Necesitas tener montada la SD para descargar el Wallpaper</string>
 
@@ -87,6 +92,7 @@
     <string name="msg_registro_exitoso">Registro Exitoso !</string>
     <string name="datosincompletos">Datos incompletos</string>
     <string name="avisoPrivacidad"><u>Aviso de privacidad </u></string>
+    <string name="userNameFriend">userName de tu amigo</string>
 
     <!-- Activity Friends-->
     <string name="amigos">Amigos</string>

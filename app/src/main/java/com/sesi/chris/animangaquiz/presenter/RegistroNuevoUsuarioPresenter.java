@@ -15,9 +15,9 @@ public class RegistroNuevoUsuarioPresenter extends Presenter<RegistroNuevoUsuari
         this.interactor = interactor;
     }
 
-    public void registroNuevoUsuario(String username,String nombre,String email,int edad,String genero,String password){
+    public void registroNuevoUsuario(String userNameFriend, String username,String nombre,String email,int edad,String genero,String password){
         getView().showLoading();
-        Disposable disposable = interactor.registroNuevoUsuario(username,nombre,email,edad,genero,password)
+        Disposable disposable = interactor.registroNuevoUsuario(userNameFriend,username,nombre,email,edad,genero,password)
                 .doOnError(error -> {
                     error.printStackTrace();
                     getView().hideLoading();

@@ -31,6 +31,7 @@ public class RegistroActivity extends AppCompatActivity implements RegistroNuevo
     private EditText etEmail;
     private EditText etEdad;
     private EditText etPassword;
+    private EditText etUserNameFriend;
     private ProgressBar pbRegistro;
     private Context context;
     private RegistroNuevoUsuarioPresenter presenter;
@@ -57,6 +58,7 @@ public class RegistroActivity extends AppCompatActivity implements RegistroNuevo
         etEmail = findViewById(R.id.et_email);
         etEdad = findViewById(R.id.et_edad);
         etPassword = findViewById(R.id.et_password);
+        etUserNameFriend = findViewById(R.id.et_friendUserName);
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
         Button btnRegistrar = findViewById(R.id.btn_registrar);
         pbRegistro = findViewById(R.id.pb_registro);
@@ -89,7 +91,7 @@ public class RegistroActivity extends AppCompatActivity implements RegistroNuevo
                 sPassword = etPassword.getText().toString();
 
                 if (!sUserName.equals("") && !sNombre.equals("") && !sEmail.equals("") && !sEdad.equals("") && !sPassword.equals("") && sGenero != null){
-                    presenter.registroNuevoUsuario(sUserName,sNombre,sEmail,Integer.parseInt(sEdad),sGenero,sPassword);
+                    presenter.registroNuevoUsuario(etUserNameFriend.getText().toString(),sUserName,sNombre,sEmail,Integer.parseInt(sEdad),sGenero,sPassword);
                 } else {
                     Toast.makeText(context(),getString(R.string.datosincompletos),Toast.LENGTH_LONG).show();
                 }

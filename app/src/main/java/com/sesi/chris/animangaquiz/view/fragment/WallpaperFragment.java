@@ -168,6 +168,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         Button btnAvatars = view.findViewById(R.id.btn_cancel);
         btnWallpapers.setText(getString(R.string.wallpapers));
         btnAvatars.setText(getString(R.string.avatars));
+        btnAvatars.setVisibility(View.GONE);
 
 
         builder.setView(view);
@@ -399,6 +400,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
                         if (Utils.SaveImage(bitmap, sFormato, context())) {
                             //Descontar Gemas
                             restaGemas();
+                            Toast.makeText(context(),R.string.msgWallpaperSaved2,Toast.LENGTH_LONG).show();
                         }
                     }
 
@@ -406,6 +408,8 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
                     if (Utils.SaveImage(bitmap, sFormato, context())) {
                         //Descontar Gemas
                         restaGemas();
+                        Toast.makeText(context(),R.string.msgWallpaperSaved2,Toast.LENGTH_LONG).show();
+
                     }
                 }
             } else {

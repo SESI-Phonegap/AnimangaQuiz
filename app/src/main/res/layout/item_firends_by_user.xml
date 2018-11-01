@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:background="@color/cardview_dark_background">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgUser"
         android:layout_width="100dp"
         android:layout_height="100dp"

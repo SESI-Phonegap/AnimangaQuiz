@@ -3,9 +3,6 @@ package com.sesi.chris.animangaquiz.interactor;
 import com.sesi.chris.animangaquiz.data.api.client.QuizServiceClient;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
-import com.sesi.chris.animangaquiz.data.model.Wallpaper;
-
-import java.util.List;
 
 import io.reactivex.Observable;
 
@@ -23,6 +20,10 @@ public class LoginInteractor {
 
     public Observable<UpdateResponse> updateGems(String userName, String pass, int idUser, int gemas ){
         return quizServiceClient.updateGemas(userName,pass,idUser,gemas);
+    }
+
+    public Observable<UpdateResponse> updateAvatar(String userName,String pass, int idUser, String b64){
+        return quizServiceClient.updateAvatar(userName,pass,idUser,b64);
     }
 
 }

@@ -15,6 +15,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
@@ -34,6 +37,7 @@ public class SearchFriendActivity extends AppCompatActivity implements SearchFri
     private ProgressBar progressBar;
     private List<User> lstUser;
     private User user;
+    private AdView mAdview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +56,22 @@ public class SearchFriendActivity extends AppCompatActivity implements SearchFri
         user = (User) getIntent().getSerializableExtra("user");
         setupRecyclerViewFriends();
         et_searchFriend.addTextChangedListener(textWatcherBuscar);
-
+        cargarPublicidad();
     }
+
+    private void cargarPublicidad(){
+        mAdview = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdview.loadAd(adRequest);
+        mAdview.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                // Load the next interstitial.
+                mAdview.loadAd(new AdRequest.Builder().build());
+            }
+        });
+    }
+
 
     private void setupRecyclerViewFriends(){
         FriendsAdapter adapter = new FriendsAdapter();

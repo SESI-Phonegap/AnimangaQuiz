@@ -64,35 +64,40 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
 
         List<String> lstDataUser = UtilsPreference.getUserDataLogin(context());
         if (!lstDataUser.get(0).isEmpty() && !lstDataUser.get(1).isEmpty()){
+            et_password.setFocusable(false);
+            et_username.setFocusable(false);
+            cbGuardarUser.setEnabled(false);
+            tv_registro.setVisibility(View.GONE);
+            btn_login.setEnabled(false);
+
             if (UtilInternetConnection.isOnline(context())){
                 loginPresenter.onLogin(lstDataUser.get(0),lstDataUser.get(1));
             } else {
                 Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
             }
+        } else {
+
+            //Stilo de texto tipo Link para Registro
+            SpannableString content = new SpannableString(getString(R.string.registrarse));
+            content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+            tv_registro.setText(content);
+
+            btn_login.setOnClickListener(v -> {
+                if (!et_username.getText().toString().isEmpty() && !et_password.getText().toString().isEmpty()){
+                    if (UtilInternetConnection.isOnline(context())) {
+                        loginPresenter.onLogin(et_username.getText().toString(), et_password.getText().toString());
+                    } else {
+                        Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+            tv_registro.setOnClickListener(v -> {
+                Intent intent = new Intent(this,RegistroActivity.class);
+                startActivity(intent);
+                finish();
+            });
         }
-
-        et_username.setText("chris_slash10");
-        et_password.setText("Mexico-17");
-        //Stilo de texto tipo Link para Registro
-        SpannableString content = new SpannableString(getString(R.string.registrarse));
-        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-        tv_registro.setText(content);
-
-        btn_login.setOnClickListener(v -> {
-          if (!et_username.getText().toString().isEmpty() && !et_password.getText().toString().isEmpty()){
-              if (UtilInternetConnection.isOnline(context())) {
-                  loginPresenter.onLogin(et_username.getText().toString(), et_password.getText().toString());
-              } else {
-                  Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
-              }
-          }
-        });
-
-        tv_registro.setOnClickListener(v -> {
-            Intent intent = new Intent(this,RegistroActivity.class);
-            startActivity(intent);
-            finish();
-        });
     }
 
     @Override
@@ -148,6 +153,16 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
     @Override
     public void showUpdateGemsError() {
         Toast.makeText(context(),R.string.updateGemsError,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void updateAvatarResponse(UpdateResponse updateResponse) {
+
+    }
+
+    @Override
+    public void showUpdateAvatarError() {
+
     }
 
 }

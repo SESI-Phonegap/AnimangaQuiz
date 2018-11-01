@@ -23,5 +23,5 @@
     <integer name="otakuMax">960</integer>
 
     <!-- Bono Publicidad -->
-    <integer name="bono">30</integer>
+    <integer name="bono">100</integer>
 </resources>

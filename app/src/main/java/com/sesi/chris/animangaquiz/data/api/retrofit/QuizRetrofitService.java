@@ -71,7 +71,8 @@ public interface QuizRetrofitService {
 
     @POST(Constants.EndPoint.REGISTRO_NUEVO_USUARIO)
     @FormUrlEncoded
-    Observable<UpdateResponse> registroNuevoUsuario(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
+    Observable<UpdateResponse> registroNuevoUsuario(@Field(Constants.ParametersBackEnd.USER_NAME_FRIEND) String userNameFriend,
+                                                    @Field(Constants.ParametersBackEnd.USER_NAME) String username,
                                                     @Field(Constants.ParametersBackEnd.NOMBRE) String nombre,
                                                     @Field(Constants.ParametersBackEnd.EMAIL) String email,
                                                     @Field(Constants.ParametersBackEnd.EDAD) int edad,
@@ -101,4 +102,11 @@ public interface QuizRetrofitService {
     @FormUrlEncoded
     Observable<List<User>> getAllFriendsByUser(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
                                                @Field(Constants.ParametersBackEnd.PASSWORD) String pass);
+
+    @POST(Constants.EndPoint.UPDATE_AVATAR)
+    @FormUrlEncoded
+    Observable<UpdateResponse> updateAvatar(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
+                                            @Field(Constants.ParametersBackEnd.PASSWORD) String pass,
+                                            @Field(Constants.ParametersBackEnd.ID_USER)int idUser,
+                                            @Field(Constants.ParametersBackEnd.AVATAR_BASE64)String b64);
     }

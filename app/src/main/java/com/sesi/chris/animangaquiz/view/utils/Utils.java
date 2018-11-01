@@ -55,7 +55,7 @@ public class Utils {
         }
     }
 
-    public static void sharedSocial(Context context) {
+    public static void sharedSocial(Context context, String userName) {
         List<Intent> targetShareIntents = new ArrayList<>();
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
@@ -75,15 +75,15 @@ public class Utils {
                  || packageName.contains("com.android.mms")|| packageName.contains("com.linkedin.android")
                  || packageName.contains("com.google.android.apps.messaging")) {*/
                 if (packageName.contains("com.twitter.android") || packageName.contains("com.facebook.katana")
-                        || packageName.contains("com.whatsapp")
-                        || packageName.contains("com.google.android.apps.plus")) {
+                        || packageName.contains("com.whatsapp") || packageName.contains("com.facebook.orca")
+                        || packageName.contains("com.google.android.apps.plus") || packageName.contains("com.skype.raider")) {
                     Intent intent = new Intent();
 
                     intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
                     intent.putExtra(context.getString(R.string.app_name), resInfo.loadLabel(pm).toString());
                     intent.setAction(Intent.ACTION_SEND);
                     intent.setType("text/plain");
-                    intent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.playstore));
+                    intent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.playstore,userName));
                     intent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.compartir));
                     intent.setPackage(packageName);
                     targetShareIntents.add(intent);
@@ -96,7 +96,7 @@ public class Utils {
                         return o1.getStringExtra("AppName").compareTo(o2.getStringExtra("AppName"));
                     }
                 });*/
-                Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), "Select app to share");
+                Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), context.getString(R.string.msgCompartir));
                 chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
                 context.startActivity(chooserIntent);
             } else {

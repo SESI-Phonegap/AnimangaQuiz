@@ -1,18 +1,20 @@
 package com.sesi.chris.animangaquiz.view.adapter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import com.sesi.chris.animangaquiz.R;
-import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.model.User;
-import com.squareup.picasso.Picasso;
 import java.util.Collections;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FriendsByUserAdapter extends RecyclerView.Adapter<FriendsByUserAdapter.FriendViewHolder> {
 
@@ -38,9 +40,14 @@ public class FriendsByUserAdapter extends RecyclerView.Adapter<FriendsByUserAdap
         holder.tvUserName.setText(user.getUserName());
         holder.tvNombreUSer.setText(user.getName());
         holder.tvPuntos.setText(String.valueOf(user.getTotalScore()));
-        Picasso.get()
-                .load(Constants.URL_BASE+user.getUrlImageUser())
-                .into(holder.imgUser);
+        if (!user.getUrlImageUser().equals("")) {
+            byte[] decodedAvatar = Base64.decode(user.getUrlImageUser(), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedAvatar, 0, decodedAvatar.length);
+            holder.imgUser.setImageBitmap(decodedByte);
+        } else {
+            holder.imgUser.setImageResource(R.drawable.ic_account_circle_white_48dp);
+        }
+
 
         holder.itemView.setOnClickListener(v -> {
             if (null != itemClickListener){
@@ -74,7 +81,7 @@ public class FriendsByUserAdapter extends RecyclerView.Adapter<FriendsByUserAdap
         TextView tvNombreUSer;
         TextView tvUserName;
         TextView tvPuntos;
-        ImageView imgUser;
+        CircleImageView imgUser;
         User user;
         View itemView;
 

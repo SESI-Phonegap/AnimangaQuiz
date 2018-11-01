@@ -26,11 +26,12 @@ public class Constants {
         public static final String ADD_FRIEND_BY_ID = "/AnimangaBackEnd/service/addFriendById.php";
         public static final String GET_AVATARS_BY_ANIME = "/AnimangaBackEnd/service/getAvatarsByAnime.php";
         public static final String GET_ALL_FRIENDS_BY_USER = "/AnimangaBackEnd/service/getAllFriendsByUser.php";
-        public static final String GET_AVATARS_BY_USER = "/AnimangaBackEnd/service/getAvatarsByUser.php";
+        public static final String UPDATE_AVATAR = "/AnimangaBackEnd/service/updateAvatar.php";
     }
 
     public static final class ParametersBackEnd{
         public static final String USER_NAME = "userName";
+        public static final String USER_NAME_FRIEND = "userNameFriend";
         public static final String PASSWORD = "pass";
         public static final String ID_ANIME = "anime";
         public static final String LEVEL = "level";
@@ -43,6 +44,7 @@ public class Constants {
         public static final String NOMBRE = "nombre";
         public static final String USER_NAME_QUERY = "userNameQuery";
         public static final String ID_FRIEND = "idFriend";
+        public static final String AVATAR_BASE64 = "b64Avatar";
 
     }
 

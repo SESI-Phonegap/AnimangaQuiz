@@ -73,8 +73,8 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient{
     }
 
     @Override
-    public Observable<UpdateResponse> registroNuevoUsuario(String username, String nombre, String email, int edad, String genero, String password) {
-        return getQuizService().registroNuevoUsuario(username,nombre,email,edad,genero,password)
+    public Observable<UpdateResponse> registroNuevoUsuario(String userNameFriend,String username, String nombre, String email, int edad, String genero, String password) {
+        return getQuizService().registroNuevoUsuario(userNameFriend,username,nombre,email,edad,genero,password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -103,6 +103,13 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient{
     @Override
     public Observable<List<User>> getAllFriendsByUser(String userName, String pass) {
         return getQuizService().getAllFriendsByUser(userName,pass)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<UpdateResponse> updateAvatar(String userName, String pass, int idUser, String b64) {
+        return getQuizService().updateAvatar(userName,pass,idUser,b64)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

@@ -52,6 +52,23 @@ public class LoginPresenter extends Presenter<LoginPresenter.View> {
 
     }
 
+    public void onUpdateAvatar(String userName, String pass, int idUser, String b64){
+        getView().showLoading();
+        Disposable disposable = interactor.updateAvatar(userName,pass,idUser,b64)
+                .doOnError(error -> {
+                    getView().showServerError(error.getMessage());
+                    getView().hideLoading();
+                }).subscribe(updateResponse -> {
+                    getView().hideLoading();
+                    if (null != updateResponse){
+                        getView().updateAvatarResponse(updateResponse);
+                    } else {
+                        getView().showUpdateAvatarError();
+                    }
+                },Throwable::printStackTrace);
+        addDisposableObserver(disposable);
+    }
+
 
     @Override
     public void terminate() {
@@ -73,6 +90,10 @@ public class LoginPresenter extends Presenter<LoginPresenter.View> {
         void updateGemsResponse(UpdateResponse updateResponse);
 
         void showUpdateGemsError();
+
+        void updateAvatarResponse(UpdateResponse updateResponse);
+
+        void showUpdateAvatarError();
 
     }
 }
