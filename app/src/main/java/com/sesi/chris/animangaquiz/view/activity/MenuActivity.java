@@ -176,7 +176,7 @@ public class MenuActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-      //  refreshUserData();
+        refreshUserData();
     }
 
     @Override
@@ -409,8 +409,10 @@ public class MenuActivity extends AppCompatActivity
     public void renderLogin(LoginResponse loginResponse) {
         User user = loginResponse.getUser();
         if (null != user) {
-            tv_userName.setText(user.getUserName());
-            tv_email.setText(user.getEmail());
+            String sName = getIntent().getStringExtra("name");
+            String sEmail = getIntent().getStringExtra("email");
+            tv_userName.setText((sName != null)? sName : user.getName());
+            tv_email.setText((sEmail != null) ? sEmail : user.getEmail());
             tv_totalScore.setText(getString(R.string.score, String.valueOf(user.getTotalScore())));
             tv_gems.setText(String.valueOf(user.getCoins()));
             userActual = user;
@@ -445,6 +447,21 @@ public class MenuActivity extends AppCompatActivity
     @Override
     public void showUpdateAvatarError() {
         Toast.makeText(context(),R.string.msgAvatrError,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void renderResponse(UpdateResponse updateResponse) {
+
+    }
+
+    @Override
+    public void renderResponseFacebook(UpdateResponse updateResponse) {
+
+    }
+
+    @Override
+    public void renderLoginFacbook(LoginResponse loginResponse) {
+
     }
 
     @Override
@@ -492,23 +509,26 @@ public class MenuActivity extends AppCompatActivity
 //---------------------------------------------------------
             if (result == BillingClient.BillingResponse.OK) {
                 Log.d("TAG", "Consumption successful. Provisioning.");
-                int iGemas = 0;
-                switch (token) {
+          /*      int iGemas = 0;
+               switch (token) {
                     case SmallGemsDelegate.SKU_ID:
                         iGemas = userActual.getCoins() + Constants.Compras.SMALL_GEMS;
                         loginPresenter.onUpdateGems(userActual.getUserName(), userActual.getPassword(), userActual.getIdUser(), iGemas);
+                       // getBillingManager().consumeAsync(token);
                         break;
 
                     case MedGemsDelegate.SKU_ID:
                         iGemas = userActual.getCoins() + Constants.Compras.MED_GEMS;
                         loginPresenter.onUpdateGems(userActual.getUserName(), userActual.getPassword(), userActual.getIdUser(), iGemas);
+                      //  getBillingManager().consumeAsync(token);
                         break;
 
                     case LargeGemsDelegate.SKU_ID:
                         iGemas = userActual.getCoins() + Constants.Compras.LARGE_GEMS;
                         loginPresenter.onUpdateGems(userActual.getUserName(), userActual.getPassword(), userActual.getIdUser(), iGemas);
+                      //  getBillingManager().consumeAsync(token);
                         break;
-                }
+                }*/
             } else {
                 Toast.makeText(context(), R.string.errorCompra, Toast.LENGTH_LONG).show();
                 Log.d("TAG", "Error consumption");
@@ -520,29 +540,32 @@ public class MenuActivity extends AppCompatActivity
 
         @Override
         public void onPurchasesUpdated(List<Purchase> purchaseList) {
-      /*      mGoldMonthly = false;
-            mGoldYearly = false;
 
+            int iGemas = 0;
             for (Purchase purchase : purchaseList) {
                 Log.d("SUSCRIPCION",purchase.getSku());
                 switch (purchase.getSku()) {
 
-                    case MONTH_SKU:
-                        mGoldMonthly = true;
-                        mIsSuscrip = true;
+                    case SmallGemsDelegate.SKU_ID:
+                        iGemas = userActual.getCoins() + Constants.Compras.SMALL_GEMS;
+                        loginPresenter.onUpdateGems(userActual.getUserName(), userActual.getPassword(), userActual.getIdUser(), iGemas);
+                        getBillingManager().consumeAsync(purchase.getPurchaseToken());
                         break;
-                    case ANO_SKU:
-                        mGoldYearly = true;
-                        mIsSuscrip = true;
+                    case MedGemsDelegate.SKU_ID:
+                        iGemas = userActual.getCoins() + Constants.Compras.MED_GEMS;
+                        loginPresenter.onUpdateGems(userActual.getUserName(), userActual.getPassword(), userActual.getIdUser(), iGemas);
+                        getBillingManager().consumeAsync(purchase.getPurchaseToken());
                         break;
+
+                    case LargeGemsDelegate.SKU_ID:
+                        iGemas = userActual.getCoins() + Constants.Compras.LARGE_GEMS;
+                        loginPresenter.onUpdateGems(userActual.getUserName(), userActual.getPassword(), userActual.getIdUser(), iGemas);
+                        getBillingManager().consumeAsync(purchase.getPurchaseToken());
+                        break;
+
+
                 }
             }
-
-            if (!mIsSuscrip) {
-                Log.d("FALLO","es true");
-                cargaPublicidad();
-            }
-*/
             // mActivity.showRefreshedUi();
         }
     }

@@ -27,19 +27,69 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/et_userName"
-                style="@style/styleEditText"
-                android:layout_marginTop="@dimen/marginTopEditText"
-                android:hint="@string/userName"
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/btn_login_facebook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title" />
 
+            <View
+                android:layout_width="90dp"
+                android:layout_height="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:background="@color/text_primary_light"
+                app:layout_constraintEnd_toStartOf="@+id/textView2"
+                app:layout_constraintHorizontal_bias="0.518"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_login_facebook" />
+
+            <View
+                android:layout_width="90dp"
+                android:layout_height="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:background="@color/text_primary_light"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.607"
+                app:layout_constraintStart_toEndOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/btn_login_facebook" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/o"
+                android:textColor="@color/text_primary_light"
+                android:textSize="@dimen/textSizeRegistro"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_login_facebook" />
+
+            <EditText
+                android:id="@+id/et_userName"
+                style="@style/styleEditText"
+                android:layout_marginTop="16dp"
+                android:hint="@string/userName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
             <EditText
                 android:id="@+id/et_password"
                 style="@style/styleEditText"
-                android:layout_marginTop="@dimen/marginTopEditText"
+                android:layout_marginTop="8dp"
                 android:hint="@string/password"
                 android:inputType="textPassword"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -49,40 +99,38 @@
             <Button
                 android:id="@+id/btn_login"
                 style="@style/styleBtn"
-                android:layout_marginBottom="@dimen/marginBottomTop8dp"
-                android:layout_marginTop="@dimen/marginBottomTop8dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/btnLogin"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/et_password" />
+                app:layout_constraintTop_toBottomOf="@+id/checkBox" />
 
             <TextView
                 android:id="@+id/tv_registro"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:text="@string/registrarse"
                 android:textColor="@color/text_primary_light"
                 android:textSize="@dimen/textSizeRegistro"
                 android:textStyle="bold|italic"
+                android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_login"
+                style="@style/styleBtn"/>
 
             <ProgressBar
                 android:id="@+id/pb_login"
                 style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -93,15 +141,13 @@
                 android:id="@+id/checkBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:text="@string/recordarUser"
                 android:textColor="@color/text_primary_light"
                 android:textSize="@dimen/textSizeRegistro"
                 android:textStyle="bold|italic"
-                app:layout_constraintBottom_toTopOf="@+id/btn_login"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_password" />

@@ -109,4 +109,9 @@ public interface QuizRetrofitService {
                                             @Field(Constants.ParametersBackEnd.PASSWORD) String pass,
                                             @Field(Constants.ParametersBackEnd.ID_USER)int idUser,
                                             @Field(Constants.ParametersBackEnd.AVATAR_BASE64)String b64);
+
+    @POST(Constants.EndPoint.CHECK_USER_FACEBOOK)
+    @FormUrlEncoded
+    Observable<LoginResponse> validaUsuarioFacebook(@Field(Constants.ParametersBackEnd.USER_NAME) String username);
+
     }

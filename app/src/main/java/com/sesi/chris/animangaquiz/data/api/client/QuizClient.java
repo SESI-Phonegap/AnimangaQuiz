@@ -114,4 +114,11 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient{
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
+    public Observable<LoginResponse> validaUsuarioFacebook(String userName) {
+        return getQuizService().validaUsuarioFacebook(userName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 }

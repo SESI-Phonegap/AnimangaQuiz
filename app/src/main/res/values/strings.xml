@@ -8,7 +8,7 @@
     <string name="mododios">Otaku</string>
     <string name="timer">Tiempo \n %1$s</string>
     <string name="serverError">No fue posible conectar con el servidor: %1$s</string>
-    <string name="playstore">Compite contra tus amigos y demustra que eres el mas Otaku de todos, recibe 5000 gemas al crear tu cuenta, solo ingresanodo el  userName de tu amigo:  %1$s  \n https://play.google.com/store/apps/details?id=com.sesi.parkingmeter</string>
+    <string name="playstore">Compite contra tus amigos y demustra que eres el mas Otaku de todos, recibe 5000 gemas al crear tu cuenta, solo ingresanodo el  userName de tu amigo:  %1$s  \n https://play.google.com/store/apps/details?id=com.sesi.chris.animangaquiz</string>
     <string name="admodId">ca-app-pub-2449148181464779~1186776862</string>
     <string name="bannerId">ca-app-pub-2449148181464779/4983262083</string>
     <string name="interstitialId">ca-app-pub-2449148181464779/3826927234</string>
@@ -44,6 +44,10 @@
     <string name="recordarUser">Recordar usuario</string>
     <string name="misAvatar">Mis Avatars</string>
     <string name="noAvatars">No tienes avatars</string>
+    <string name="o">Ó</string>
+    
+    <string name="facebook_app_id">1940196376274860</string>
+    <string name="facebook_login_protocol_scheme">fb1940196376274860</string>
 
     <!-- MenuActivity -->
     <string name="titleMenu">Animes disponibles</string>

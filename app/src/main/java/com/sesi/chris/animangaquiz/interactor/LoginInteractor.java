@@ -26,4 +26,12 @@ public class LoginInteractor {
         return quizServiceClient.updateAvatar(userName,pass,idUser,b64);
     }
 
+    public Observable<UpdateResponse> registroNuevoUsuario(String userNameFriend,String username,String nombre,String email,int edad,String genero,String password){
+        return quizServiceClient.registroNuevoUsuario(userNameFriend,username,nombre,email,edad,genero,password);
+    }
+
+    public Observable<LoginResponse> validaUsuarioFacebook(String userName){
+        return quizServiceClient.validaUsuarioFacebook(userName);
+    }
+
 }
