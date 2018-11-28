@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -33,10 +32,9 @@ import com.sesi.chris.animangaquiz.interactor.PreguntasInteractor;
 import com.sesi.chris.animangaquiz.presenter.PreguntasPresenter;
 import com.sesi.chris.animangaquiz.view.adapter.RespuestasAdapter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
-
 import java.util.List;
 
-public class PreguntasActivity extends AppCompatActivity implements RewardedVideoAdListener,PreguntasPresenter.View {
+public class PreguntasActivity extends AppCompatActivity implements RewardedVideoAdListener,PreguntasPresenter.ViewPreguntas {
 
     private static final String TRUE = "1";
     private static final int TIME_QUESTIONS = 16000;
@@ -46,10 +44,10 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
     private static final int OTAKU = 4;
     private Context context;
     private PreguntasPresenter presenter;
-    private TextView tv_pregunta;
-    private RecyclerView rv_respuestas;
-    private TextView tv_timer;
-    private TextView tv_numPreguntas;
+    private TextView tvPregunta;
+    private RecyclerView rvRespuestas;
+    private TextView tvTimer;
+    private TextView tvNumPreguntas;
     private ProgressBar progressBar;
     private AlertDialog dialog;
     private List<Preguntas> lstPreguntas;
@@ -67,7 +65,7 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
     private InterstitialAd mInterstitialAd;
     private RewardedVideoAd mRewardedVideoAd;
     private AdView mAdview;
-    private TextView tv_dialog_gemas;
+    private TextView tvDialogGemas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,11 +83,11 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
                 new AdRequest.Builder().build());
         presenter = new PreguntasPresenter(new PreguntasInteractor(new QuizClient()));
         presenter.setView(this);
-        tv_pregunta = findViewById(R.id.tv_pregunta);
-        rv_respuestas = findViewById(R.id.rv_respuestas);
+        tvPregunta = findViewById(R.id.tv_pregunta);
+        rvRespuestas = findViewById(R.id.rv_respuestas);
         progressBar = findViewById(R.id.pb_login);
-        tv_timer = findViewById(R.id.tv_timer);
-        tv_numPreguntas = findViewById(R.id.numPreguntas);
+        tvTimer = findViewById(R.id.tv_timer);
+        tvNumPreguntas = findViewById(R.id.numPreguntas);
         Bundle bundle = getIntent().getExtras();
         user = (User) bundle.getSerializable("user");
         iIdAnime = bundle.getInt("idAnime");
@@ -111,9 +109,9 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
     private void setupRecyclerView() {
         RespuestasAdapter adapter = new RespuestasAdapter();
         adapter.setItemClickListener((Respuesta respuesta) -> presenter.calculaPuntos(respuesta));
-        rv_respuestas.setLayoutManager(new LinearLayoutManager(this));
-        rv_respuestas.setHasFixedSize(true);
-        rv_respuestas.setAdapter(adapter);
+        rvRespuestas.setLayoutManager(new LinearLayoutManager(this));
+        rvRespuestas.setHasFixedSize(true);
+        rvRespuestas.setAdapter(adapter);
     }
 
     private void cargarInterstitial(){
@@ -210,6 +208,12 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
     }
 
     @Override
+    public void renderUpdateEsferas(UpdateResponse updateResponse) {
+        Log.d("UPDATE-ESFERAS--",updateResponse.error);
+        Toast.makeText(context(),updateResponse.error,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     public Context context() {
         return context;
     }
@@ -224,11 +228,11 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
             RespuestasAdapter adapter = new RespuestasAdapter();
             adapter.setItemClickListener((Respuesta respuesta) -> presenter.calculaPuntos(respuesta));
             adapter.setLstRespuesta(pregunta.getArrayRespuestas());
-            rv_respuestas.setAdapter(adapter);
+            rvRespuestas.setAdapter(adapter);
             adapter.notifyDataSetChanged();
-            tv_pregunta.setText(pregunta.getQuestion());
+            tvPregunta.setText(pregunta.getQuestion());
             String sNumPreguntas = (index + 1) + "/" + lstPreguntas.size();
-            tv_numPreguntas.setText(sNumPreguntas);
+            tvNumPreguntas.setText(sNumPreguntas);
             index++;
         } else {
             //Mostrar Resultados
@@ -241,7 +245,7 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
         timer = new CountDownTimer(TIME_QUESTIONS, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                tv_timer.setText(getString(R.string.timer, String.valueOf(millisUntilFinished / 1000)));
+                tvTimer.setText(getString(R.string.timer, String.valueOf(millisUntilFinished / 1000)));
                 segundos = (int) (millisUntilFinished / 1000);
             }
 
@@ -258,7 +262,7 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
             timer.cancel();
             timer = null;
             segundos = 0;
-            tv_timer.setText(getString(R.string.timer, "10"));
+            tvTimer.setText(getString(R.string.timer, "10"));
         }
     }
 
@@ -266,42 +270,41 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
         showInterstitialAd();
         AlertDialog.Builder builder = new AlertDialog.Builder(context());
         final View view = getLayoutInflater().inflate(R.layout.dialog_resultados, null);
-        TextView tv_dialog_pCorrectas = view.findViewById(R.id.tv_pCorrectas);
-        TextView tv_dialog_puntos = view.findViewById(R.id.tv_puntos);
-        tv_dialog_gemas = view.findViewById(R.id.tv_dialog_gemas);
-        TextView tv_dialgo_newRecord = view.findViewById(R.id.tv_newRecord);
-        TextView tv_btn_anuncio = view.findViewById(R.id.tv_btn_anuncio);
-        Button btn_dialog_aceptar = view.findViewById(R.id.btn_aceptar);
+        TextView tvDialogpCorrectas = view.findViewById(R.id.tv_pCorrectas);
+        TextView tvDialogPuntos = view.findViewById(R.id.tv_puntos);
+        tvDialogGemas = view.findViewById(R.id.tv_dialog_gemas);
+        TextView tvDialgoNewRecord = view.findViewById(R.id.tv_newRecord);
+        TextView tvBtnAnuncio = view.findViewById(R.id.tv_btn_anuncio);
+        Button btnDialogAceptar = view.findViewById(R.id.btn_aceptar);
 
         String sPreguntasCorrectas = iCorrectas + "/" + lstPreguntas.size();
-        tv_dialog_pCorrectas.setText(sPreguntasCorrectas);
-        tv_dialog_puntos.setText(String.valueOf(iLocalScore));
+        tvDialogpCorrectas.setText(sPreguntasCorrectas);
+        tvDialogPuntos.setText(String.valueOf(iLocalScore));
 
         //--- Calcular cuantas gemas obtienes
         gemas = calculaGemas(iLocalScore, level);
-        tv_dialog_gemas.setText(String.valueOf(gemas));
+        tvDialogGemas.setText(String.valueOf(gemas));
 
         int iscoreAux;
         // --- Nuevo Record ----
         if (iLocalScore > iActualScore) {
-            tv_dialgo_newRecord.setVisibility(View.VISIBLE);
+            tvDialgoNewRecord.setVisibility(View.VISIBLE);
             AlphaAnimation animation1 = new AlphaAnimation(0.2f, 1.0f);
             animation1.setDuration(10000);
             animation1.setRepeatCount(20);
-            tv_dialgo_newRecord.startAnimation(animation1);
+            tvDialgoNewRecord.startAnimation(animation1);
             iscoreAux = iLocalScore;
         } else {
             iscoreAux = iActualScore;
         }
 
         int finalIscoreAux = iscoreAux;
-        btn_dialog_aceptar.setOnClickListener(v -> {
+        btnDialogAceptar.setOnClickListener(v -> {
             dialog.dismiss();
             updataLevelScoreGems(user.getUserName(),user.getPassword(),gemas, finalIscoreAux,level,user.getIdUser(),iIdAnime);
-            //finish();
         });
 
-        tv_btn_anuncio.setOnClickListener(v -> {
+        tvBtnAnuncio.setOnClickListener(v -> {
             if (mRewardedVideoAd.isLoaded()) {
                 mRewardedVideoAd.show();
             }
@@ -322,89 +325,129 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
         }
     }
 
+    private int getGemasFacil(int puntos){
+        int iGemas = 0;
+        if (puntos >= 100 && puntos <= 999) {
+            iGemas = getResources().getInteger(R.integer.facilMin);
+        } else if (puntos >= 1000 && puntos <= 2000) {
+            iGemas = getResources().getInteger(R.integer.facilMed);
+        } else if (puntos >= 2001 && puntos <= 3000) {
+            iGemas = getResources().getInteger(R.integer.facilMax);
+            if (user.getEsferas() < 2){
+                presenter.updateEsferas(user.getUserName(),user.getPassword(),user.getIdUser(),user.getEsferas() + 1);
+            }
+        }
+        return iGemas;
+    }
+
+    private int getGemasMedio(int puntos){
+        int iGemas = 0;
+        if (puntos >= 100 && puntos <= 2000) {
+            iGemas = getResources().getInteger(R.integer.medMin);
+        } else if (puntos >= 2001 && puntos <= 4000) {
+            iGemas = getResources().getInteger(R.integer.medMed);
+        } else if (puntos >= 4001 && puntos <= 6000) {
+            iGemas = getResources().getInteger(R.integer.medMax);
+            if (user.getEsferas() < 4 && user.getEsferas() >=2){
+                presenter.updateEsferas(user.getUserName(),user.getPassword(),user.getIdUser(),user.getEsferas() + 1);
+            }
+        }
+        return iGemas;
+    }
+
+    private int getGemasDificil(int puntos){
+        int iGemas = 0;
+        if (puntos >= 100 && puntos <= 3000) {
+            iGemas = getResources().getInteger(R.integer.dificilMin);
+        } else if (puntos >= 3001 && puntos <= 6000) {
+            iGemas = getResources().getInteger(R.integer.dificilMed);
+        } else if (puntos >= 6001 && puntos <= 9000) {
+            iGemas = getResources().getInteger(R.integer.dificilMax);
+            if (user.getEsferas() < 6 && user.getEsferas() >=4){
+                presenter.updateEsferas(user.getUserName(),user.getPassword(),user.getIdUser(),user.getEsferas() + 1);
+            }
+        }
+        return iGemas;
+    }
+
+    private int getGemasOtaku(int puntos){
+        int iGemas = 0;
+        if (puntos >= 100 && puntos <= 4500) {
+            iGemas = getResources().getInteger(R.integer.otakuMin);
+        } else if (puntos >= 4501 && puntos <= 9000) {
+            iGemas = getResources().getInteger(R.integer.otakuMed);
+        } else if (puntos >= 9001 && puntos <= 13500) {
+            iGemas = getResources().getInteger(R.integer.otakuMax);
+            if (user.getEsferas() < 7 && user.getEsferas() >=6){
+                presenter.updateEsferas(user.getUserName(),user.getPassword(),user.getIdUser(),user.getEsferas() + 1);
+            }
+        }
+        return iGemas;
+    }
+
     private int calculaGemas(int puntos, int level) {
-        int gemas = 0;
+        int iGemas = 0;
         switch (level) {
             case FACIL:
-                if (puntos >= 100 && puntos <= 999) {
-                    gemas = getResources().getInteger(R.integer.facilMin);
-                } else if (puntos >= 1000 && puntos <= 2000) {
-                    gemas = getResources().getInteger(R.integer.facilMed);
-                } else if (puntos >= 2001 && puntos <= 3000) {
-                    gemas = getResources().getInteger(R.integer.facilMax);
-                }
+                iGemas = getGemasFacil(puntos);
                 break;
             case MEDIO:
-                if (puntos >= 100 && puntos <= 2000) {
-                    gemas = getResources().getInteger(R.integer.medMin);
-                } else if (puntos >= 2001 && puntos <= 4000) {
-                    gemas = getResources().getInteger(R.integer.medMed);
-                } else if (puntos >= 4001 && puntos <= 6000) {
-                    gemas = getResources().getInteger(R.integer.medMax);
-                }
+                iGemas = getGemasMedio(puntos);
                 break;
 
             case DIFICIL:
-                if (puntos >= 100 && puntos <= 3000) {
-                    gemas = getResources().getInteger(R.integer.dificilMin);
-                } else if (puntos >= 3001 && puntos <= 6000) {
-                    gemas = getResources().getInteger(R.integer.dificilMed);
-                } else if (puntos >= 6001 && puntos <= 9000) {
-                    gemas = getResources().getInteger(R.integer.dificilMax);
-                }
+                iGemas = getGemasDificil(puntos);
                 break;
 
             case OTAKU:
-                if (puntos >= 100 && puntos <= 4500) {
-                    gemas = getResources().getInteger(R.integer.otakuMin);
-                } else if (puntos >= 4501 && puntos <= 9000) {
-                    gemas = getResources().getInteger(R.integer.otakuMed);
-                } else if (puntos >= 9001 && puntos <= 13500) {
-                    gemas = getResources().getInteger(R.integer.otakuMax);
-                }
+                iGemas = getGemasOtaku(puntos);
                 break;
+            default:
+                Toast.makeText(context(),R.string.noValid,Toast.LENGTH_LONG).show();
+                break;
+
         }
-        return gemas;
+        return iGemas;
     }
 
     @Override
     public void onRewardedVideoAdLoaded() {
-
+        //Empty Method
     }
 
     @Override
     public void onRewardedVideoAdOpened() {
-
+        //Empty Method
     }
 
     @Override
     public void onRewardedVideoStarted() {
-
+        //Empty Method
     }
 
     @Override
     public void onRewardedVideoAdClosed() {
-
+        //Empty Method
     }
 
     @Override
     public void onRewarded(RewardItem rewardItem) {
-
+        //Empty Method
     }
 
     @Override
     public void onRewardedVideoAdLeftApplication() {
-
+        //Empty Method
     }
 
     @Override
     public void onRewardedVideoAdFailedToLoad(int i) {
-
+        //Empty Method
     }
 
     @Override
     public void onRewardedVideoCompleted() {
         gemas += getResources().getInteger(R.integer.bono);
-        tv_dialog_gemas.setText(String.valueOf(gemas));
+        tvDialogGemas.setText(String.valueOf(gemas));
     }
 }

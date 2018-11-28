@@ -21,8 +21,8 @@ public class SmallGemsDelegate extends UiManagingDelegate{
     @Override
     public void onBindViewHolder(SkuRowData data, RowViewHolder holder) {
         super.onBindViewHolder(data, holder);
-        holder.button.setText(R.string.btn_comprar);
-        holder.skuIcon.setImageResource(R.drawable.gems_costal_small);
+        holder.getButton().setText(R.string.btn_comprar);
+        holder.getSkuIcon().setImageResource(R.drawable.gems_costal_small);
     }
 
     @Override

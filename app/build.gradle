@@ -6,8 +6,8 @@ android {
         applicationId "com.sesi.chris.animangaquiz"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 5
-        versionName "1.0"
+        versionCode 6
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -19,6 +19,14 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+sonarqube{
+    properties {
+        property "sonar.projectKey", "animangakey"
+        property "sonar.projectName", "AnimangaQuiz"
+        property "sonar.sources", "src/main/java/com/sesi/chris/animangaquiz"
     }
 }
 
@@ -43,12 +51,13 @@ dependencies {
     //Dependencias para RxJava
     implementation reactiveDependencies.rxjava
     implementation reactiveDependencies.rxandroid
-    // Dependencias de Glide
-    // implementation bumptechGlideDependencies.glide
     //Dependencias de Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.android.support:support-v4:27.1.1'
-    //  annotationProcessor bumptechGlideDependencies.compiler
+    // Dependencias de Glide
+    //implementation 'com.github.bumptech.glide:glide:4.8.0'
+    //annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+   // annotationProcessor project(':annotation:compiler')
     testImplementation testingDependencies.junit
     androidTestImplementation testingDependencies.runner
     androidTestImplementation testingDependencies.espresso

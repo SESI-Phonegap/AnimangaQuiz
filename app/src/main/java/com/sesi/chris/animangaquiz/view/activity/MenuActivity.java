@@ -1,5 +1,4 @@
 package com.sesi.chris.animangaquiz.view.activity;
-
 import android.Manifest;
 import android.content.ComponentName;
 import android.content.Context;
@@ -8,10 +7,12 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -29,11 +30,11 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.Purchase;
 import com.google.android.gms.ads.AdListener;
@@ -59,7 +60,6 @@ import com.sesi.chris.animangaquiz.view.fragment.PurchaseFragment;
 import com.sesi.chris.animangaquiz.view.fragment.WallpaperFragment;
 import com.sesi.chris.animangaquiz.view.utils.ImageFilePath;
 import com.sesi.chris.animangaquiz.view.utils.Utils;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -67,33 +67,35 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-
 import de.hdodenhof.circleimageview.CircleImageView;
-
 import static com.sesi.chris.animangaquiz.data.api.billing.BillingManager.BILLING_MANAGER_NOT_INITIALIZED;
 import static com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection.isOnline;
 
 public class MenuActivity extends AppCompatActivity
-        implements BillingProvider, NavigationView.OnNavigationItemSelectedListener, LoginPresenter.View {
+        implements BillingProvider, NavigationView.OnNavigationItemSelectedListener, LoginPresenter.ViewLogin {
 
-    private TextView tv_userName;
-    private TextView tv_email;
-    private TextView tv_gems;
-    private TextView tv_totalScore;
+    private TextView tvUserName;
+    private TextView tvEmail;
+    private TextView tvGems;
+    private TextView tvTotalScore;
     private CircleImageView imgAvatar;
     private ProgressBar progressBar;
     private LoginPresenter loginPresenter;
-    public User userActual;
+    private User userActual;
     private Context context;
     private AdView mAdview;
     private PurchaseFragment fPurchaseFragment;
     private static final String DIALOG_TAG = "dialog";
     private BillingManager mBillingManager;
-    private AlertDialog dialog;
     private static final int PICK_IMAGE = 100;
-    private ExifInterface exifInterface;
+    private ImageView imgShenglong;
+    private FrameLayout frameLayout;
+    private ImageView imgDragonBalls;
+    private static final String APP_NAME = "AppName";
 
+    public User getUserActual() {
+        return userActual;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,14 +117,16 @@ public class MenuActivity extends AppCompatActivity
         MobileAds.initialize(this, getString(R.string.admodId));
         loginPresenter = new LoginPresenter(new LoginInteractor(new QuizClient()));
         loginPresenter.setView(this);
+        cargarPublicidad();
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
-        tv_email = headerView.findViewById(R.id.tv_email);
-        tv_userName = headerView.findViewById(R.id.tv_username);
-        tv_gems = headerView.findViewById(R.id.tv_gemas);
-        tv_totalScore = headerView.findViewById(R.id.tv_score);
+        tvEmail = headerView.findViewById(R.id.tv_email);
+        tvUserName = headerView.findViewById(R.id.tv_username);
+        tvGems = headerView.findViewById(R.id.tv_gemas);
+        tvTotalScore = headerView.findViewById(R.id.tv_score);
         imgAvatar = headerView.findViewById(R.id.imgAvatar);
+        imgDragonBalls = headerView.findViewById(R.id.imgEsferas);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -133,17 +137,56 @@ public class MenuActivity extends AppCompatActivity
         userActual = (User) getIntent().getSerializableExtra("user");
         refreshUserData();
         changeFragment(AnimeCatalogoFragment.newInstance(), R.id.mainFrame, false, false);
-        cargarPublicidad();
-
-        imgAvatar.setOnClickListener(v -> {
-            openGallery();
+        imgShenglong = findViewById(R.id.shenglong);
+        frameLayout = findViewById(R.id.mainFrame);
+        imgDragonBalls.setOnClickListener(v -> {
+            if (userActual.getEsferas() == 7) {
+                invokeShenlong();
+            } else {
+                Toast.makeText(context(),R.string.msgErrorShenlong,Toast.LENGTH_LONG).show();
+            }
         });
+
+        imgAvatar.setOnClickListener(v ->
+            openGallery()
+        );
 
         if (Build.VERSION.SDK_INT >= 23) {
             if (ActivityCompat.checkSelfPermission(context(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 999);
             }
         }
+    }
+
+    private void invokeShenlong() {
+        frameLayout.setVisibility(View.GONE);
+        imgShenglong.setVisibility(View.VISIBLE);
+        imgShenglong.setBackgroundResource(R.drawable.animation_shenlong);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
+        AnimationDrawable animationDrawable = (AnimationDrawable) imgShenglong.getBackground();
+        animationDrawable.setOneShot(true);
+        if (!animationDrawable.isRunning()) {
+
+            int totalFrameDuration = 0;
+            for (int i = 0; i < animationDrawable.getNumberOfFrames(); i++) {
+                totalFrameDuration += animationDrawable.getDuration(i);
+            }
+            animationDrawable.start();
+
+            new Handler().postDelayed(() -> animationDrawable.stop(), totalFrameDuration);
+
+        }
+
+
+        imgShenglong.setOnClickListener(v -> {
+            if (!animationDrawable.isRunning()) {
+                imgShenglong.setVisibility(View.GONE);
+                frameLayout.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     private void cargarPublicidad() {
@@ -185,12 +228,6 @@ public class MenuActivity extends AppCompatActivity
         super.onDestroy();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-    }
-
     public void changeFragment(Fragment fragment, int resource, boolean isRoot, boolean backStack) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
@@ -212,43 +249,21 @@ public class MenuActivity extends AppCompatActivity
      * Remove loading spinner and refresh the UI
      */
     public void showRefreshedUi() {
-        // setWaitScreen(false);
-        // updateUi();
         if (fPurchaseFragment != null) {
             fPurchaseFragment.refreshUI();
         }
     }
 
-    /**
-     * Update UI to reflect model
-     */
- /*   @UiThread
-    private void updateUi() {
-        Log.d(TAG, "Updating the UI. Thread: " + Thread.currentThread().getName());
-
-        if (isSixMonthlySubscribed()) {
-            imageViewIcon.setImageDrawable(this.getResources().getDrawable(R.drawable.coin_month));
-        } else if (isYearlySubscribed()){
-            imageViewIcon.setImageDrawable(this.getResources().getDrawable(R.drawable.coin_year));
-        }
-    }*/
     private void openGallery() {
         if (Build.VERSION.SDK_INT >= 23) {
             if (ActivityCompat.checkSelfPermission(context(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
                 ActivityCompat.requestPermissions(MenuActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 999);
-
             } else {
-                /*Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-                startActivityForResult(gallery, PICK_IMAGE);*/
                 galleryFilter();
             }
         } else {
-            /*Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-            startActivityForResult(gallery, PICK_IMAGE);*/
             galleryFilter();
         }
-
     }
 
     public void galleryFilter() {
@@ -265,7 +280,7 @@ public class MenuActivity extends AppCompatActivity
                 if (!packageName.contains("com.google.android.apps.photos") && !packageName.equals("com.google.android.apps.plus")) {
                     Intent intent = new Intent();
                     intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
-                    intent.putExtra("AppName", resInfo.loadLabel(pm).toString());
+                    intent.putExtra(APP_NAME, resInfo.loadLabel(pm).toString());
                     intent.setAction(Intent.ACTION_PICK);
                     intent.setType("image/*");
                     intent.setPackage(packageName);
@@ -274,12 +289,7 @@ public class MenuActivity extends AppCompatActivity
             }
 
             if (!targetGalleryIntents.isEmpty()) {
-                Collections.sort(targetGalleryIntents, new Comparator<Intent>() {
-                    @Override
-                    public int compare(Intent o1, Intent o2) {
-                        return o1.getStringExtra("AppName").compareTo(o2.getStringExtra("AppName"));
-                    }
-                });
+                Collections.sort(targetGalleryIntents, (o1, o2) -> o1.getStringExtra(APP_NAME).compareTo(o2.getStringExtra(APP_NAME)));
                 Intent chooserIntent = Intent.createChooser(targetGalleryIntents.remove(0), "Abrir Galeria");
                 chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetGalleryIntents.toArray(new Parcelable[]{}));
                 startActivityForResult(chooserIntent, PICK_IMAGE);
@@ -302,8 +312,6 @@ public class MenuActivity extends AppCompatActivity
                 } else {
                     selectedImagePath = imageUri.toString();
                 }
-
-                exifInterface = new ExifInterface(selectedImagePath);
                 File fileImage = new File(selectedImagePath);
                 Long lSizeImage = getImageSizeInKb(fileImage.length());
 
@@ -312,10 +320,10 @@ public class MenuActivity extends AppCompatActivity
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
                         imgAvatar.setImageBitmap(bitmap);
-                        bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                         byte[] imageBytes = baos.toByteArray();
-                        String sImgBase64 = Base64.encodeToString(imageBytes,Base64.DEFAULT);
-                        Log.i("BASE64",sImgBase64);
+                        String sImgBase64 = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+                        Log.i("BASE64", sImgBase64);
                         //guardar en la BD
                         loginPresenter.onUpdateAvatar(userActual.getUserName(),
                                 userActual.getPassword(),
@@ -326,10 +334,10 @@ public class MenuActivity extends AppCompatActivity
                         Toast.makeText(context(), getString(R.string.noInternet), Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(context(),R.string.msgImagenError,Toast.LENGTH_LONG).show();
+                    Toast.makeText(context(), R.string.msgImagenError, Toast.LENGTH_LONG).show();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e("Error-",e.getMessage());
             }
         }
     }
@@ -368,13 +376,11 @@ public class MenuActivity extends AppCompatActivity
             if (mBillingManager != null
                     && mBillingManager.getBillingClientResponseCode()
                     > BILLING_MANAGER_NOT_INITIALIZED) {
-                //mAcquireFragment.onManagerReady(this);
                 fPurchaseFragment.onManagerReady(this);
-                // createDialogCompras();
                 changeFragment(fPurchaseFragment, R.id.mainFrame, false, false);
             }
         } else if (id == R.id.nav_compartit) {
-            Utils.sharedSocial(context(),userActual.getUserName());
+            Utils.sharedSocial(context(), userActual.getUserName());
         } else if (id == R.id.nav_friend) {
             changeFragment(FriendsFragment.newInstance(), R.id.mainFrame, false, false);
         }
@@ -411,12 +417,45 @@ public class MenuActivity extends AppCompatActivity
         if (null != user) {
             String sName = getIntent().getStringExtra("name");
             String sEmail = getIntent().getStringExtra("email");
-            tv_userName.setText((sName != null)? sName : user.getName());
-            tv_email.setText((sEmail != null) ? sEmail : user.getEmail());
-            tv_totalScore.setText(getString(R.string.score, String.valueOf(user.getTotalScore())));
-            tv_gems.setText(String.valueOf(user.getCoins()));
+            tvUserName.setText((sName != null) ? sName : user.getName());
+            tvEmail.setText((sEmail != null) ? sEmail : user.getEmail());
+            tvTotalScore.setText(getString(R.string.score, String.valueOf(user.getTotalScore())));
+            tvGems.setText(String.valueOf(user.getCoins()));
+            switch (user.getEsferas()){
+                case 1:
+                    imgDragonBalls.setVisibility(View.VISIBLE);
+                    imgDragonBalls.setImageDrawable(getDrawable(R.drawable.esferas1));
+                    break;
+                case 2:
+                    imgDragonBalls.setVisibility(View.VISIBLE);
+                    imgDragonBalls.setImageDrawable(getDrawable(R.drawable.esferas2));
+                    break;
+                case 3:
+                    imgDragonBalls.setVisibility(View.VISIBLE);
+                    imgDragonBalls.setImageDrawable(getDrawable(R.drawable.esferas3));
+                    break;
+                case 4:
+                    imgDragonBalls.setVisibility(View.VISIBLE);
+                    imgDragonBalls.setImageDrawable(getDrawable(R.drawable.esferas4));
+                    break;
+                case 5:
+                    imgDragonBalls.setVisibility(View.VISIBLE);
+                    imgDragonBalls.setImageDrawable(getDrawable(R.drawable.esferas5));
+                    break;
+                case 6:
+                    imgDragonBalls.setVisibility(View.VISIBLE);
+                    imgDragonBalls.setImageDrawable(getDrawable(R.drawable.esferas6));
+                    break;
+                case 7:
+                    imgDragonBalls.setVisibility(View.VISIBLE);
+                    imgDragonBalls.setImageDrawable(getDrawable(R.drawable.esferas7));
+                    break;
+                default:
+                    imgDragonBalls.setVisibility(View.INVISIBLE);
+                    break;
+            }
             userActual = user;
-            if (user.getUrlImageUser() != "") {
+            if (!user.getUrlImageUser().equals("")) {
                 byte[] decodedAvatar = Base64.decode(user.getUrlImageUser(), Base64.DEFAULT);
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedAvatar, 0, decodedAvatar.length);
                 imgAvatar.setImageBitmap(decodedByte);
@@ -440,28 +479,28 @@ public class MenuActivity extends AppCompatActivity
 
     @Override
     public void updateAvatarResponse(UpdateResponse updateResponse) {
-        Toast.makeText(context(),updateResponse.estatus+"-"+updateResponse.error,Toast.LENGTH_LONG).show();
+        Toast.makeText(context(), updateResponse.estatus + "-" + updateResponse.error, Toast.LENGTH_LONG).show();
         refreshUserData();
     }
 
     @Override
     public void showUpdateAvatarError() {
-        Toast.makeText(context(),R.string.msgAvatrError,Toast.LENGTH_LONG).show();
+        Toast.makeText(context(), R.string.msgAvatrError, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void renderResponse(UpdateResponse updateResponse) {
-
+        //Empty Method
     }
 
     @Override
     public void renderResponseFacebook(UpdateResponse updateResponse) {
-
+        //Empty Method
     }
 
     @Override
     public void renderLoginFacbook(LoginResponse loginResponse) {
-
+        //Empty Method
     }
 
     @Override
@@ -509,26 +548,6 @@ public class MenuActivity extends AppCompatActivity
 //---------------------------------------------------------
             if (result == BillingClient.BillingResponse.OK) {
                 Log.d("TAG", "Consumption successful. Provisioning.");
-          /*      int iGemas = 0;
-               switch (token) {
-                    case SmallGemsDelegate.SKU_ID:
-                        iGemas = userActual.getCoins() + Constants.Compras.SMALL_GEMS;
-                        loginPresenter.onUpdateGems(userActual.getUserName(), userActual.getPassword(), userActual.getIdUser(), iGemas);
-                       // getBillingManager().consumeAsync(token);
-                        break;
-
-                    case MedGemsDelegate.SKU_ID:
-                        iGemas = userActual.getCoins() + Constants.Compras.MED_GEMS;
-                        loginPresenter.onUpdateGems(userActual.getUserName(), userActual.getPassword(), userActual.getIdUser(), iGemas);
-                      //  getBillingManager().consumeAsync(token);
-                        break;
-
-                    case LargeGemsDelegate.SKU_ID:
-                        iGemas = userActual.getCoins() + Constants.Compras.LARGE_GEMS;
-                        loginPresenter.onUpdateGems(userActual.getUserName(), userActual.getPassword(), userActual.getIdUser(), iGemas);
-                      //  getBillingManager().consumeAsync(token);
-                        break;
-                }*/
             } else {
                 Toast.makeText(context(), R.string.errorCompra, Toast.LENGTH_LONG).show();
                 Log.d("TAG", "Error consumption");
@@ -543,7 +562,7 @@ public class MenuActivity extends AppCompatActivity
 
             int iGemas = 0;
             for (Purchase purchase : purchaseList) {
-                Log.d("SUSCRIPCION",purchase.getSku());
+                Log.d("SUSCRIPCION", purchase.getSku());
                 switch (purchase.getSku()) {
 
                     case SmallGemsDelegate.SKU_ID:
@@ -562,11 +581,12 @@ public class MenuActivity extends AppCompatActivity
                         loginPresenter.onUpdateGems(userActual.getUserName(), userActual.getPassword(), userActual.getIdUser(), iGemas);
                         getBillingManager().consumeAsync(purchase.getPurchaseToken());
                         break;
-
+                    default:
+                         Toast.makeText(context(),R.string.noValid,Toast.LENGTH_LONG).show();
+                         break;
 
                 }
             }
-            // mActivity.showRefreshedUi();
         }
     }
 }

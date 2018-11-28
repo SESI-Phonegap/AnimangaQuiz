@@ -10,7 +10,7 @@ public class Score {
     private String idScore;
     @SerializedName("score")
     @Expose
-    private String score;
+    private String puntos;
     @SerializedName("level")
     @Expose
     private String level;
@@ -29,12 +29,12 @@ public class Score {
         this.idScore = idScore;
     }
 
-    public String getScore() {
-        return score;
+    public String getPuntos() {
+        return puntos;
     }
 
-    public void setScore(String score) {
-        this.score = score;
+    public void setPuntos(String puntos) {
+        this.puntos = puntos;
     }
 
     public String getLevel() {

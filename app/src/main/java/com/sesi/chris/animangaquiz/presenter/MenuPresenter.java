@@ -2,14 +2,11 @@ package com.sesi.chris.animangaquiz.presenter;
 
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
-import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 import com.sesi.chris.animangaquiz.interactor.MenuInteractor;
-
 import java.util.List;
-
 import io.reactivex.disposables.Disposable;
 
-public class MenuPresenter extends Presenter<MenuPresenter.View>{
+public class MenuPresenter extends Presenter<MenuPresenter.ViewMenu>{
 
     private MenuInteractor interactor;
 
@@ -52,7 +49,7 @@ public class MenuPresenter extends Presenter<MenuPresenter.View>{
         getView().launchAnimeTest(anime);
     }
 
-    public interface View extends Presenter.View {
+    public interface ViewMenu extends Presenter.View {
 
         void showLoading();
 
@@ -60,7 +57,7 @@ public class MenuPresenter extends Presenter<MenuPresenter.View>{
 
         void showAnimesNotFoundMessage();
 
-        void showServerError(String Error);
+        void showServerError(String error);
 
         void renderAnimes(List<Anime> lstAnimes);
 

@@ -1,11 +1,14 @@
 package com.sesi.chris.animangaquiz.view.utils;
 
-
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 public class UtilInternetConnection {
+
+    private UtilInternetConnection(){
+        //Empty Constructor
+    }
 
     public static boolean isOnline(Context context) {
         NetworkInfo networkInfo = null;

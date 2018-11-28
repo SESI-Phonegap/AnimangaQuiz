@@ -67,12 +67,12 @@ public class AvatarsAdapter extends RecyclerView.Adapter<AvatarsAdapter.AvatarVi
 
         ImageView imgAvatar;
         Wallpaper avatar;
-        View itemView;
+        View itemViewed;
 
         public AvatarViewHolder(View itemView) {
             super(itemView);
             this.imgAvatar = itemView.findViewById(R.id.img_avatar);
-            this.itemView = itemView;
+            this.itemViewed = itemView;
         }
     }
 

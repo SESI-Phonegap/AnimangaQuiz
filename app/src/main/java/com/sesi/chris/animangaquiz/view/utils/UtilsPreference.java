@@ -3,11 +3,14 @@ package com.sesi.chris.animangaquiz.view.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class UtilsPreference {
+
+    private UtilsPreference(){
+        //Empty Constructor
+    }
 
     private static final String SAVE_USER_NAME = "save_user_name";
     private static final String SAVE_PASS = "save_pass";

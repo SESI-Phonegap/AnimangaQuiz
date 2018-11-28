@@ -3,10 +3,7 @@ package com.sesi.chris.animangaquiz.interactor;
 import com.sesi.chris.animangaquiz.data.api.client.QuizServiceClient;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
-import com.sesi.chris.animangaquiz.data.model.Wallpaper;
-
 import java.util.List;
-
 import io.reactivex.Observable;
 
 public class MenuInteractor {

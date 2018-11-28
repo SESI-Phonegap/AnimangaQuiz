@@ -39,18 +39,18 @@ public abstract class UiManagingDelegate {
     }
 
     public void onBindViewHolder(SkuRowData data, RowViewHolder holder) {
-        holder.description.setText(data.getDescription());
-        holder.price.setText(data.getPrice());
-        holder.button.setEnabled(true);
+        holder.getDescription().setText(data.getDescription());
+        holder.getPrice().setText(data.getPrice());
+        holder.getButton().setEnabled(true);
         switch (data.getSku()) {
             case SKU_SMALL_GEMS:
-                holder.skuIcon.setImageResource(R.drawable.gems_costal_small);
+                holder.getSkuIcon().setImageResource(R.drawable.gems_costal_small);
                 break;
             case SKU_MEDIUM_GEMS:
-                holder.skuIcon.setImageResource(R.drawable.gems_costal_med);
+                holder.getSkuIcon().setImageResource(R.drawable.gems_costal_med);
                 break;
             case SKU_LARGE_GEMS:
-                holder.skuIcon.setImageResource(R.drawable.gems_costal);
+                holder.getSkuIcon().setImageResource(R.drawable.gems_costal);
                 break;
         }
     }

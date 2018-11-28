@@ -44,8 +44,7 @@ public class AutoRecyclerView extends RecyclerView {
     public int calculateNoColumns(Context context){
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        int noOfColumns = (int) (dpWidth / 180);
-        return noOfColumns;
+        return (int) (dpWidth / 180);
     }
 
     @Override protected void onMeasure(int widthSpec, int heightSpec) {

@@ -16,13 +16,11 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.sesi.chris.animangaquiz.R;
@@ -30,36 +28,29 @@ import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
 import com.sesi.chris.animangaquiz.data.model.User;
-import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.presenter.LoginPresenter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
 import com.sesi.chris.animangaquiz.view.utils.UtilsPreference;
-
-import org.json.JSONObject;
-
-import java.lang.reflect.Array;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
-public class LoginActivity extends AppCompatActivity implements LoginPresenter.View {
+public class LoginActivity extends AppCompatActivity implements LoginPresenter.ViewLogin {
 
     private LoginPresenter loginPresenter;
     private ProgressBar progressBar;
-    private EditText et_username;
-    private EditText et_password;
+    private EditText etUserName;
+    private EditText etPassword;
     private Context context;
     private CheckBox cbGuardarUser;
     private CallbackManager callbackManager;
-    private String sFaceIdEmail;
-    private boolean bFacebookLogin = false;
     private String sFacebookId;
     private String sFacebookName;
     private String sFacebookEmail;
-    private TextView tv_registro;
-    private Button btn_login;
+    private TextView tvRegistro;
+    private Button btnLogin;
+    private static final String FACEBOOK_EMAIL = "email";
+    private static final String FACEBOOK_NAME = "name";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,44 +71,41 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
         ConstraintLayout background = findViewById(R.id.Constraint_background);
         ((AnimationDrawable) background.getBackground()).start();
         progressBar = findViewById(R.id.pb_login);
-        et_username = findViewById(R.id.et_userName);
-        et_password = findViewById(R.id.et_password);
-        tv_registro = findViewById(R.id.tv_registro);
-        btn_login = findViewById(R.id.btn_login);
+        etUserName = findViewById(R.id.et_userName);
+        etPassword = findViewById(R.id.et_password);
+        tvRegistro = findViewById(R.id.tv_registro);
+        btnLogin = findViewById(R.id.btn_login);
         context = this;
         cbGuardarUser = findViewById(R.id.checkBox);
+        facebookLogin();
+        sharedPreferenceLogin();
+    }
 
+    private void facebookLogin(){
         //Facebook
         callbackManager = CallbackManager.Factory.create();
         LoginButton btnLoginFacebook = findViewById(R.id.btn_login_facebook);
-        btnLoginFacebook.setReadPermissions(Arrays.asList("public_profile","email"));
+        btnLoginFacebook.setReadPermissions(Arrays.asList("public_profile",FACEBOOK_EMAIL));
         btnLoginFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 showLoading();
                 blockUi();
-                String sAccessToken = loginResult.getAccessToken().getToken();
-                GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
-                    @Override
-                    public void onCompleted(JSONObject object, GraphResponse response) {
-                        hideLoading();
-                        Log.i("JSON-DATA--",object.toString());
-                        Log.i("RESPONSE---",response.toString());
-                        bFacebookLogin = true;
-                        try {
-                            URL photoFace = new URL("https://graph.facebook.com/" + object.getString("id") + "/picture?width=250&height=250");
-                            sFacebookId = object.getString("id");
-                            sFacebookName = object.getString("name");
-                            sFacebookEmail = object.getString("email");
+                GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), (object, response) -> {
+                    hideLoading();
+                    try {
+                      //  URL photoFace = new URL("https://graph.facebook.com/" + object.getString("id") + "/picture?width=250&height=250");
+                        sFacebookId = object.getString("id");
+                        sFacebookName = object.getString(FACEBOOK_NAME);
+                        sFacebookEmail = object.getString(FACEBOOK_EMAIL);
 
-                            if (UtilInternetConnection.isOnline(context())) {
-                                loginPresenter.validaUsuarioFacebook(sFacebookId);
-                            } else {
-                                Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
-                            }
-                        }catch (Exception e){
-                            e.printStackTrace();
+                        if (UtilInternetConnection.isOnline(context())) {
+                            loginPresenter.validaUsuarioFacebook(sFacebookId);
+                        } else {
+                            Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
                         }
+                    }catch (Exception e){
+                        Log.e("Error-",e.getMessage());
                     }
                 });
                 Bundle parameters = new Bundle();
@@ -138,50 +126,43 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
 
             }
         });
-
         if (AccessToken.getCurrentAccessToken() != null){
             blockUi();
-            sFaceIdEmail = AccessToken.getCurrentAccessToken().getUserId();
+            String sFaceIdEmail = AccessToken.getCurrentAccessToken().getUserId();
             if (UtilInternetConnection.isOnline(context())) {
                 loginPresenter.validaUsuarioFacebook(sFaceIdEmail);
             } else {
                 Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
             }
         }
+    }
 
-
+    private void sharedPreferenceLogin(){
         List<String> lstDataUser = UtilsPreference.getUserDataLogin(context());
         if (!lstDataUser.get(0).isEmpty() && !lstDataUser.get(1).isEmpty()){
-            et_password.setFocusable(false);
-            et_username.setFocusable(false);
-            cbGuardarUser.setEnabled(false);
-            tv_registro.setVisibility(View.GONE);
-            btn_login.setEnabled(false);
-
+            blockUi();
+            tvRegistro.setVisibility(View.GONE);
             if (UtilInternetConnection.isOnline(context())){
                 loginPresenter.onLogin(lstDataUser.get(0),lstDataUser.get(1));
             } else {
                 Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
             }
         } else {
-
             //Stilo de texto tipo Link para Registro
             SpannableString content = new SpannableString(getString(R.string.registrarse));
             content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-            tv_registro.setText(content);
-
-            btn_login.setOnClickListener(v -> {
-                if (!et_username.getText().toString().isEmpty() && !et_password.getText().toString().isEmpty()){
+            tvRegistro.setText(content);
+            btnLogin.setOnClickListener(v -> {
+                if (!etUserName.getText().toString().isEmpty() && !etPassword.getText().toString().isEmpty()){
                     if (UtilInternetConnection.isOnline(context())) {
                         blockUi();
-                        loginPresenter.onLogin(et_username.getText().toString(), et_password.getText().toString());
+                        loginPresenter.onLogin(etUserName.getText().toString(), etPassword.getText().toString());
                     } else {
                         Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
                     }
                 }
             });
-
-            tv_registro.setOnClickListener(v -> {
+            tvRegistro.setOnClickListener(v -> {
                 Intent intent = new Intent(this,RegistroActivity.class);
                 startActivity(intent);
                 finish();
@@ -190,19 +171,19 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
     }
 
     public void blockUi(){
-        et_username.setEnabled(false);
-        et_password.setEnabled(false);
-        btn_login.setEnabled(false);
-        btn_login.setClickable(false);
-        tv_registro.setEnabled(false);
+        etUserName.setEnabled(false);
+        etPassword.setEnabled(false);
+        btnLogin.setEnabled(false);
+        btnLogin.setClickable(false);
+        tvRegistro.setEnabled(false);
     }
 
     public void desBlockUi(){
-        et_username.setEnabled(true);
-        et_password.setEnabled(true);
-        btn_login.setEnabled(true);
-        btn_login.setClickable(true);
-        tv_registro.setEnabled(true);
+        etUserName.setEnabled(true);
+        etPassword.setEnabled(true);
+        btnLogin.setEnabled(true);
+        btnLogin.setClickable(true);
+        tvRegistro.setEnabled(true);
     }
 
     @Override
@@ -239,9 +220,7 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
 
     @Override
     public void renderLogin(LoginResponse loginResponse) {
-
         User user = loginResponse.getUser();
-       // Log.d("Respuesta--",loginResponse.getEstatus());
         if (null != user) {
             if (cbGuardarUser.isChecked()) {
                 UtilsPreference.savePreferenceUserLogin(context(), user.getUserName(), user.getPassword());
@@ -268,12 +247,12 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
 
     @Override
     public void updateAvatarResponse(UpdateResponse updateResponse) {
-
+        //Empty Method
     }
 
     @Override
     public void showUpdateAvatarError() {
-
+        //Empty Method
     }
 
     @Override
@@ -300,13 +279,12 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
         if (user != null){
             Intent intent = new Intent(context(),MenuActivity.class);
             intent.putExtra("user",user);
-            intent.putExtra("name",sFacebookName);
-            intent.putExtra("email",sFacebookEmail);
+            intent.putExtra(FACEBOOK_NAME,sFacebookName);
+            intent.putExtra(FACEBOOK_EMAIL,sFacebookEmail);
             startActivity(intent);
             finish();
         } else {
             loginPresenter.onRegisterNewUserFacebook("",sFacebookId,sFacebookName,sFacebookEmail,0,"","");
-            //Toast.makeText(context(), loginResponse.getError(), Toast.LENGTH_LONG).show();
         }
     }
 

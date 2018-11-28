@@ -1,16 +1,11 @@
 package com.sesi.chris.animangaquiz.presenter;
 
 import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
-import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
-
-import java.util.List;
-
 import io.reactivex.disposables.Disposable;
 
-
-public class LoginPresenter extends Presenter<LoginPresenter.View> {
+public class LoginPresenter extends Presenter<LoginPresenter.ViewLogin> {
 
     private LoginInteractor interactor;
 
@@ -113,7 +108,7 @@ public class LoginPresenter extends Presenter<LoginPresenter.View> {
         setView(null);
     }
 
-    public interface View extends Presenter.View {
+    public interface ViewLogin extends Presenter.View {
         void showLoading();
 
         void hideLoading();

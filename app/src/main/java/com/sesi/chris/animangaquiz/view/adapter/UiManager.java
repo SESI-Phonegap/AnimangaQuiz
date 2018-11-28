@@ -54,7 +54,7 @@ public class UiManager implements RowViewHolder.OnButtonClickListener {
 
     public void onBindViewHolder(SkuRowData data, RowViewHolder holder) {
         if (data != null) {
-            holder.title.setText(data.getTitle());
+            holder.getTitle().setText(data.getTitle());
             // For non-header rows we need to feel other data and init button's state
             if (data.getRowType() != SkusAdapter.TYPE_HEADER) {
                 mDelegatesFactory.onBindViewHolder(data, holder);

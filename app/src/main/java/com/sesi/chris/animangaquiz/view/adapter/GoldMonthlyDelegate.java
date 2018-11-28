@@ -16,7 +16,6 @@
 package com.sesi.chris.animangaquiz.view.adapter;
 
 import com.android.billingclient.api.BillingClient.SkuType;
-import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.billing.BillingProvider;
 
 import java.util.ArrayList;

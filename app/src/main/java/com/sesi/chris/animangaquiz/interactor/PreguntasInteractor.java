@@ -23,4 +23,8 @@ public class PreguntasInteractor {
                                                            int idAnime){
         return quizServiceClient.updateLevelScoreGems(userName,pass,gemas,score,level,idUser,idAnime);
     }
+
+    public Observable<UpdateResponse> updateEsferas(String userName, String pass, int idUser, int esferas){
+        return quizServiceClient.updateEsferas(userName,pass,idUser,esferas);
+    }
 }

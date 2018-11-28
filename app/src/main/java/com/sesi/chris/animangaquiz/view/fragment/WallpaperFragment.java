@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -26,7 +25,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
@@ -41,26 +39,23 @@ import com.sesi.chris.animangaquiz.view.adapter.AnimeAdapter;
 import com.sesi.chris.animangaquiz.view.adapter.WallpaperAdapter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
 import com.sesi.chris.animangaquiz.view.utils.Utils;
-
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class WallpaperFragment extends Fragment implements WallpaperPresenter.View {
+public class WallpaperFragment extends Fragment implements WallpaperPresenter.ViewWallpaper {
 
     private Context context;
     private WallpaperPresenter presenter;
-    private TextView et_Search;
+    private TextView etSearch;
     private ImageView imgBtnBack;
     private RecyclerView recyclerViewAnimes;
     private RecyclerView recyclerViewWallpapers;
     private ProgressBar progressBar;
     private List<Anime> lstAnime;
-
     private User user;
-    private ConstraintLayout constraintLayoutSearch;
     private int costoWalpaper;
 
     public WallpaperFragment() {
@@ -94,12 +89,11 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         presenter = new WallpaperPresenter(new WallpaperInteractor(new QuizClient()));
         presenter.setView(this);
         imgBtnBack = Objects.requireNonNull(getActivity()).findViewById(R.id.imgBtnBack);
-        et_Search = Objects.requireNonNull(getActivity()).findViewById(R.id.et_search);
-        et_Search.addTextChangedListener(textWatcherFilter);
+        etSearch = Objects.requireNonNull(getActivity()).findViewById(R.id.et_search);
+        etSearch.addTextChangedListener(textWatcherFilter);
         recyclerViewAnimes = getActivity().findViewById(R.id.recyclerViewAnime);
         recyclerViewWallpapers = getActivity().findViewById(R.id.recyclerViewWallpaper);
         progressBar = getActivity().findViewById(R.id.pb_wallpaper);
-        constraintLayoutSearch = getActivity().findViewById(R.id.constraintSearch);
         user = (User) getActivity().getIntent().getSerializableExtra("user");
         setupRecyclerViewAnimes();
         if (UtilInternetConnection.isOnline(context())){
@@ -118,43 +112,20 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
     private void changeUiWallpaper(){
         recyclerViewAnimes.setVisibility(View.GONE);
         recyclerViewWallpapers.setVisibility(View.VISIBLE);
-        et_Search.setVisibility(View.GONE);
+        etSearch.setVisibility(View.GONE);
         imgBtnBack.setVisibility(View.VISIBLE);
     }
 
     private void changeUiAnimeList(){
         recyclerViewAnimes.setVisibility(View.VISIBLE);
         recyclerViewWallpapers.setVisibility(View.GONE);
-        et_Search.setVisibility(View.VISIBLE);
+        etSearch.setVisibility(View.VISIBLE);
         imgBtnBack.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 
     private void setupRecyclerViewAnimes(){
         AnimeAdapter adapter = new AnimeAdapter();
-        adapter.setItemClickListener(anime -> showWallpaperAvatarDialog(anime));
-      /*  recyclerViewAnimes.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0) {
-                    // Scrolling up
-                    constraintLayoutSearch.setVisibility(View.GONE);
-                } else {
-                    // Scrolling down
-                    constraintLayoutSearch.setVisibility(View.VISIBLE);
-                }
-            }
-        });*/
+        adapter.setItemClickListener(this::showWallpaperAvatarDialog);
         recyclerViewAnimes.setAdapter(adapter);
     }
 
@@ -162,21 +133,17 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         AlertDialog dialog;
         AlertDialog.Builder builder =  new AlertDialog.Builder(context());
         final View view = getLayoutInflater().inflate(R.layout.dialog_confirmar, null);
-
         TextView tvMensaje = view.findViewById(R.id.tv_mensaje);
         Button btnWallpapers = view.findViewById(R.id.btn_aceptar);
         Button btnAvatars = view.findViewById(R.id.btn_cancel);
         btnWallpapers.setText(getString(R.string.wallpapers));
         btnAvatars.setText(getString(R.string.avatars));
         btnAvatars.setVisibility(View.GONE);
-
-
         builder.setView(view);
         dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
         dialog.show();
-
         tvMensaje.setText(context().getString(R.string.msg_wallpapers));
 
         btnWallpapers.setOnClickListener((View v) -> {
@@ -227,7 +194,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         adapter.setLstWallpaper(lstWallpaper);
         adapter.setItemClickListener((Wallpaper wallpaper) -> {
 
-            if (((MenuActivity) Objects.requireNonNull(getActivity())).userActual.getCoins() >= wallpaper.getCosto()){
+            if (((MenuActivity) Objects.requireNonNull(getActivity())).getUserActual().getCoins() >= wallpaper.getCosto()){
                 costoWalpaper = wallpaper.getCosto();
                 String url = Constants.URL_BASE + wallpaper.getUrl();
                 String formato = url.substring(url.length()-4,url.length());
@@ -247,7 +214,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         WallpaperAdapter adapter = new WallpaperAdapter();
         adapter.setLstWallpaper(lstAvatar);
         adapter.setItemClickListener((Wallpaper avatar) -> {
-            if (((MenuActivity) Objects.requireNonNull(getActivity())).userActual.getCoins() >= avatar.getCosto()){
+            if (((MenuActivity) Objects.requireNonNull(getActivity())).getUserActual().getCoins() >= avatar.getCosto()){
                 costoWalpaper = avatar.getCosto();
                 String sUrl = Constants.URL_BASE + avatar.getUrl();
                 String formato = sUrl.substring(sUrl.length()-4,sUrl.length());
@@ -294,7 +261,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
     }
 
     private void restaGemas(){
-        int gemasDisponibles = ((MenuActivity) Objects.requireNonNull(getActivity())).userActual.getCoins();
+        int gemasDisponibles = ((MenuActivity) Objects.requireNonNull(getActivity())).getUserActual().getCoins();
         //Update Gemas
         int gemasUpdate = gemasDisponibles - costoWalpaper;
         presenter.updateGemas(user.getUserName(),user.getPassword(),user.getIdUser(),gemasUpdate);
@@ -340,10 +307,9 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            //AnimeAdapter adapter = (AnimeAdapter) recyclerViewAnimes.getAdapter();
             List<Anime> lstAnimeFilter = new ArrayList<>();
             for (Anime anime : lstAnime){
-                String textAnime = anime.getAnime().toLowerCase();
+                String textAnime = anime.getName().toLowerCase();
                 if (textAnime.contains(s)){
                     lstAnimeFilter.add(anime);
                 }
@@ -353,7 +319,6 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
             adapterFilter.setLstAnimes(lstAnimeFilter);
             recyclerViewAnimes.setAdapter(adapterFilter);
             adapterFilter.notifyDataSetChanged();
-
         }
 
         @Override
@@ -365,15 +330,6 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
     private class DownloadWallpaperTask extends AsyncTask<String,Integer,Bitmap> {
 
         private String sFormato;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-        }
 
         @Override
         protected Bitmap doInBackground(String... url) {
@@ -384,7 +340,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
                 bitmap = BitmapFactory.decodeStream(inputStream);       // Decode Bitmap
                 inputStream.close();
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("Error-",e.getMessage());
             }
             return bitmap;
         }
@@ -397,19 +353,17 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
                     if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
                         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE}, 999);
                     } else {
-                        if (Utils.SaveImage(bitmap, sFormato, context())) {
+                        if (Utils.saveImage(bitmap, sFormato, context())) {
                             //Descontar Gemas
                             restaGemas();
                             Toast.makeText(context(),R.string.msgWallpaperSaved2,Toast.LENGTH_LONG).show();
                         }
                     }
-
                 } else {
-                    if (Utils.SaveImage(bitmap, sFormato, context())) {
+                    if (Utils.saveImage(bitmap, sFormato, context())) {
                         //Descontar Gemas
                         restaGemas();
                         Toast.makeText(context(),R.string.msgWallpaperSaved2,Toast.LENGTH_LONG).show();
-
                     }
                 }
             } else {
@@ -422,8 +376,6 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
-            //  Log.v(TAG,"Permission: "+permissions[0]+ "was "+grantResults[0]);
-            //resume tasks needing this permission
            Toast.makeText(context(),"Permiso concedido, vuelve a descargar la imagen",Toast.LENGTH_LONG).show();
         }
     }

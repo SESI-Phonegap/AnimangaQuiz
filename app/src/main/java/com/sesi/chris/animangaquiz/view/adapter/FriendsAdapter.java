@@ -82,14 +82,14 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendVi
         TextView tvUserName;
         CircleImageView imgUser;
         User user;
-        View itemView;
+        View itemViewed;
 
         public FriendViewHolder(View itemView) {
             super(itemView);
             this.tvUserName = itemView.findViewById(R.id.tv_userID);
             this.tvNombreUSer = itemView.findViewById(R.id.tv_nombre);
             this.imgUser = itemView.findViewById(R.id.imgUser);
-            this.itemView = itemView;
+            this.itemViewed = itemView;
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.sesi.chris.animangaquiz.presenter;
 
+import android.util.Log;
+
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
@@ -9,7 +11,7 @@ import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 
-public class WallpaperPresenter extends Presenter<WallpaperPresenter.View> {
+public class WallpaperPresenter extends Presenter<WallpaperPresenter.ViewWallpaper> {
 
     private WallpaperInteractor wallpaperInteractor;
 
@@ -66,7 +68,7 @@ public class WallpaperPresenter extends Presenter<WallpaperPresenter.View> {
     public void updateGemas(String userName, String pass, int idUser, int gemas){
         getView().showLoading();
         Disposable disposable = wallpaperInteractor.updateGemas(userName,pass,idUser,gemas)
-                .doOnError(error -> error.printStackTrace())
+                .doOnError(error -> Log.e("Error-",error.getMessage()))
                 .subscribe(updateResponse -> {
                     if (null != updateResponse){
                         getView().hideLoading();
@@ -84,7 +86,7 @@ public class WallpaperPresenter extends Presenter<WallpaperPresenter.View> {
         getView().launchAvatarByAnime(anime);
     }
 
-    public interface View extends Presenter.View {
+    public interface ViewWallpaper extends Presenter.View {
 
         void showLoading();
 

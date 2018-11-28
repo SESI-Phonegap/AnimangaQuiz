@@ -121,4 +121,11 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient{
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
+    public Observable<UpdateResponse> updateEsferas(String userName, String pass, int idUser, int esferas) {
+        return getQuizService().updateEsferas(userName, pass, idUser, esferas)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 }

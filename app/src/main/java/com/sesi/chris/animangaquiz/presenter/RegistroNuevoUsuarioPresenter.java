@@ -1,13 +1,12 @@
 package com.sesi.chris.animangaquiz.presenter;
 
+import android.util.Log;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
 import com.sesi.chris.animangaquiz.interactor.RegistroNuevoUsuarioInteractor;
-
-
 import io.reactivex.disposables.Disposable;
 
-public class RegistroNuevoUsuarioPresenter extends Presenter<RegistroNuevoUsuarioPresenter.View> {
+public class RegistroNuevoUsuarioPresenter extends Presenter<RegistroNuevoUsuarioPresenter.ViewRegistro> {
 
     private RegistroNuevoUsuarioInteractor interactor;
 
@@ -19,7 +18,7 @@ public class RegistroNuevoUsuarioPresenter extends Presenter<RegistroNuevoUsuari
         getView().showLoading();
         Disposable disposable = interactor.registroNuevoUsuario(userNameFriend,username,nombre,email,edad,genero,password)
                 .doOnError(error -> {
-                    error.printStackTrace();
+                    Log.e("Error-",error.getMessage());
                     getView().hideLoading();
                 })
                 .subscribe(updateResponse -> {
@@ -46,7 +45,7 @@ public class RegistroNuevoUsuarioPresenter extends Presenter<RegistroNuevoUsuari
 
     }
 
-    public interface View extends Presenter.View {
+    public interface ViewRegistro extends Presenter.View {
 
         void showLoading();
 

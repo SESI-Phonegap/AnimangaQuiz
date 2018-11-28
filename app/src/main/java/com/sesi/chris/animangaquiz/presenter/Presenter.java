@@ -20,7 +20,7 @@ public class Presenter<T extends Presenter.View> {
     }
 
     public void initialize() {
-
+        //Empty Method
     }
 
     public void terminate() {

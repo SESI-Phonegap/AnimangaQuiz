@@ -39,6 +39,10 @@ public class User implements Serializable{
     @SerializedName("imgUser")
     @Expose
     private String urlImageUser;
+    @SerializedName("esferas")
+    @Expose
+    private int esferas;
+
 
     public int getIdUser() {
         return idUser;
@@ -126,5 +130,13 @@ public class User implements Serializable{
 
     public void setUrlImageUser(String urlImageUser) {
         this.urlImageUser = urlImageUser;
+    }
+
+    public int getEsferas() {
+        return esferas;
+    }
+
+    public void setEsferas(int esferas) {
+        this.esferas = esferas;
     }
 }

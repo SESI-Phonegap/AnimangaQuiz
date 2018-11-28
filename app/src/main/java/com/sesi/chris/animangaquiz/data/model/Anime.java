@@ -10,7 +10,7 @@ public class Anime {
     private int idAnime;
     @SerializedName("anime")
     @Expose
-    private String anime;
+    private String name;
     @SerializedName("imgUrl")
     @Expose
     private String imgUrl;
@@ -23,12 +23,12 @@ public class Anime {
         this.idAnime = idAnime;
     }
 
-    public String getAnime() {
-        return anime;
+    public String getName() {
+        return name;
     }
 
-    public void setAnime(String anime) {
-        this.anime = anime;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getImgUrl() {

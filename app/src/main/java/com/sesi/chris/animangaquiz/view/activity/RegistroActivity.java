@@ -24,14 +24,8 @@ import com.sesi.chris.animangaquiz.interactor.RegistroNuevoUsuarioInteractor;
 import com.sesi.chris.animangaquiz.presenter.RegistroNuevoUsuarioPresenter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
 
-public class RegistroActivity extends AppCompatActivity implements RegistroNuevoUsuarioPresenter.View{
+public class RegistroActivity extends AppCompatActivity implements RegistroNuevoUsuarioPresenter.ViewRegistro{
 
-    private EditText etUsername;
-    private EditText etNombre;
-    private EditText etEmail;
-    private EditText etEdad;
-    private EditText etPassword;
-    private EditText etUserNameFriend;
     private ProgressBar pbRegistro;
     private Context context;
     private RegistroNuevoUsuarioPresenter presenter;
@@ -53,12 +47,12 @@ public class RegistroActivity extends AppCompatActivity implements RegistroNuevo
         presenter.setView(this);
         ConstraintLayout background = findViewById(R.id.Constraint_background);
         ((AnimationDrawable) background.getBackground()).start();
-        etUsername = findViewById(R.id.et_userName);
-        etNombre = findViewById(R.id.et_nombre);
-        etEmail = findViewById(R.id.et_email);
-        etEdad = findViewById(R.id.et_edad);
-        etPassword = findViewById(R.id.et_password);
-        etUserNameFriend = findViewById(R.id.et_friendUserName);
+        EditText etUsername = findViewById(R.id.et_userName);
+        EditText etNombre = findViewById(R.id.et_nombre);
+        EditText etEmail = findViewById(R.id.et_email);
+        EditText etEdad = findViewById(R.id.et_edad);
+        EditText etPassword = findViewById(R.id.et_password);
+        EditText etUserNameFriend = findViewById(R.id.et_friendUserName);
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
         Button btnRegistrar = findViewById(R.id.btn_registrar);
         pbRegistro = findViewById(R.id.pb_registro);
@@ -71,15 +65,7 @@ public class RegistroActivity extends AppCompatActivity implements RegistroNuevo
         });
 
         radioGroup.setOnCheckedChangeListener((radioGroup1, id) -> {
-            switch (id){
-                case R.id.radioHombre:
-                    sGenero = "H";
-                    break;
-
-                case R.id.radioMujer:
-                    sGenero = "M";
-                    break;
-            }
+           sGenero = (id == R.id.radioHombre) ? "H" : "M";
         });
 
         btnRegistrar.setOnClickListener(v -> {
@@ -121,7 +107,7 @@ public class RegistroActivity extends AppCompatActivity implements RegistroNuevo
 
     @Override
     public void showLoginNotFoundMessage() {
-
+        //Empty Method
     }
 
     @Override
@@ -144,14 +130,12 @@ public class RegistroActivity extends AppCompatActivity implements RegistroNuevo
     @Override
     public void renderLogin(LoginResponse loginResponse) {
         User user = loginResponse.getUser();
-        // Log.d("Respuesta--",loginResponse.getEstatus());
         if (null != user) {
             Intent intent = new Intent(context(),MenuActivity.class);
             intent.putExtra("user",user);
             startActivity(intent);
             finish();
         } else {
-            // Log.d("", loginResponse.getError());
             Toast.makeText(context(),loginResponse.getError(),Toast.LENGTH_LONG).show();
         }
     }

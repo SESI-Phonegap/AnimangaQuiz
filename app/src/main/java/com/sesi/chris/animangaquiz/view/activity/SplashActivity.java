@@ -40,7 +40,7 @@ public class SplashActivity extends AppCompatActivity {
                 Log.d("KeyHas",Base64.encodeToString(md.digest(),Base64.DEFAULT));
             }
         } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            Log.e("Error-",e.getMessage());
         }
     }
 

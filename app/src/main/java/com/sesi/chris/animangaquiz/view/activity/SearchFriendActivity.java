@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -25,17 +24,14 @@ import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.FriendsInteractor;
 import com.sesi.chris.animangaquiz.presenter.SearchFriendPresenter;
 import com.sesi.chris.animangaquiz.view.adapter.FriendsAdapter;
-
 import java.util.List;
 
-public class SearchFriendActivity extends AppCompatActivity implements SearchFriendPresenter.View {
+public class SearchFriendActivity extends AppCompatActivity implements SearchFriendPresenter.ViewSearchFriend {
 
     private SearchFriendPresenter presenter;
-    private EditText et_searchFriend;
-    private RecyclerView rv_firends;
+    private RecyclerView rvFirends;
     private Context context;
     private ProgressBar progressBar;
-    private List<User> lstUser;
     private User user;
     private AdView mAdview;
 
@@ -50,12 +46,12 @@ public class SearchFriendActivity extends AppCompatActivity implements SearchFri
         presenter = new SearchFriendPresenter(new FriendsInteractor(new QuizClient()));
         presenter.setView(this);
         context = this;
-        et_searchFriend = findViewById(R.id.et_search);
-        rv_firends = findViewById(R.id.rv_amigos);
+        EditText etSearchFriend = findViewById(R.id.et_search);
+        rvFirends = findViewById(R.id.rv_amigos);
         progressBar = findViewById(R.id.pb_friends);
         user = (User) getIntent().getSerializableExtra("user");
         setupRecyclerViewFriends();
-        et_searchFriend.addTextChangedListener(textWatcherBuscar);
+        etSearchFriend.addTextChangedListener(textWatcherBuscar);
         cargarPublicidad();
     }
 
@@ -76,9 +72,9 @@ public class SearchFriendActivity extends AppCompatActivity implements SearchFri
     private void setupRecyclerViewFriends(){
         FriendsAdapter adapter = new FriendsAdapter();
         adapter.setItemClickListener((User userFriend) -> showConfirmDialog(userFriend.getIdUser()));
-        rv_firends.setLayoutManager(new LinearLayoutManager(this));
-        rv_firends.setHasFixedSize(true);
-        rv_firends.setAdapter(adapter);
+        rvFirends.setLayoutManager(new LinearLayoutManager(this));
+        rvFirends.setHasFixedSize(true);
+        rvFirends.setAdapter(adapter);
 
     }
 
@@ -100,11 +96,9 @@ public class SearchFriendActivity extends AppCompatActivity implements SearchFri
 
     @Override
     public void renderFriends(List<User> lstUser) {
-        FriendsAdapter adapter = (FriendsAdapter) rv_firends.getAdapter();
+        FriendsAdapter adapter = (FriendsAdapter) rvFirends.getAdapter();
         adapter.setLstUser(lstUser);
         adapter.notifyDataSetChanged();
-        this.lstUser = lstUser;
-
     }
 
     @Override
@@ -122,12 +116,12 @@ public class SearchFriendActivity extends AppCompatActivity implements SearchFri
     TextWatcher textWatcherBuscar = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+            //Empty Method
         }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+            //Empty Method
         }
 
         @Override
@@ -156,7 +150,6 @@ public class SearchFriendActivity extends AppCompatActivity implements SearchFri
         tvMensaje.setText(context().getString(R.string.msg_confirmar_amigo));
 
         btnAceptar.setOnClickListener(v -> {
-            //guardarWallpaper(url,formato);
             presenter.addFriend(user.getUserName(),user.getPassword(),user.getIdUser(),iIdFriend);
             dialog.dismiss();
         });

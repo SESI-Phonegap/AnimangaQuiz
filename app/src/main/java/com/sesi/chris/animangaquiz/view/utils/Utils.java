@@ -11,7 +11,9 @@ import android.os.Parcelable;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Toast;
+
 import com.sesi.chris.animangaquiz.R;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -19,28 +21,27 @@ import java.util.List;
 
 public class Utils {
 
+    private Utils() {
+        throw new IllegalStateException("Utils class");
+    }
+
     public static boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
         return Environment.MEDIA_MOUNTED.equals(state);
     }
 
-    public static boolean SaveImage(Bitmap finalBitmap, String formato, Context context) {
+    public static boolean saveImage(Bitmap finalBitmap, String formato, Context context) {
 
         String date = (DateFormat.format("yyyyMMdd_hhmmss", new java.util.Date()).toString());
         String fname = "Image-" + date + formato;
 
         try {
-            // guarda archvos dentro de una caperta privada de la App [Los archivos son borrados cuando desinstalas la app]
-            //   File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-
             //Creas el path personalizado dentro de la memoria interna
             String sPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/AnimangaQuiz";
             File storageDir = new File(sPath);
 
-            if (!storageDir.exists()) {
-                if (!storageDir.mkdirs()) {
-                    Log.d("NOOO--", "No se creo el directorio");
-                }
+            if (!storageDir.exists() && !storageDir.mkdirs()) {
+                Log.d("NOOO--", "No se creo el directorio");
             }
             File file = new File(storageDir.getAbsolutePath(), fname);
             FileOutputStream out = new FileOutputStream(file);
@@ -49,7 +50,7 @@ public class Utils {
             out.close();
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("Error-", e.getMessage());
             Toast.makeText(context, context.getString(R.string.msgWallpaperNoSaved), Toast.LENGTH_LONG).show();
             return false;
         }
@@ -83,19 +84,13 @@ public class Utils {
                     intent.putExtra(context.getString(R.string.app_name), resInfo.loadLabel(pm).toString());
                     intent.setAction(Intent.ACTION_SEND);
                     intent.setType("text/plain");
-                    intent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.playstore,userName));
+                    intent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.playstore, userName));
                     intent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.compartir));
                     intent.setPackage(packageName);
                     targetShareIntents.add(intent);
                 }
             }
             if (!targetShareIntents.isEmpty()) {
-              /*  Collections.sort(targetShareIntents, new Comparator<Intent>() {
-                    @Override
-                    public int compare(Intent o1, Intent o2) {
-                        return o1.getStringExtra("AppName").compareTo(o2.getStringExtra("AppName"));
-                    }
-                });*/
                 Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), context.getString(R.string.msgCompartir));
                 chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
                 context.startActivity(chooserIntent);

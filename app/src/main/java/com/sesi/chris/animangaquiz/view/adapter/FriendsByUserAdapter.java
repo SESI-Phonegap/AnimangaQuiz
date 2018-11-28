@@ -83,7 +83,7 @@ public class FriendsByUserAdapter extends RecyclerView.Adapter<FriendsByUserAdap
         TextView tvPuntos;
         CircleImageView imgUser;
         User user;
-        View itemView;
+        View itemViewed;
 
         public FriendViewHolder(View itemView) {
             super(itemView);
@@ -91,7 +91,7 @@ public class FriendsByUserAdapter extends RecyclerView.Adapter<FriendsByUserAdap
             this.tvNombreUSer = itemView.findViewById(R.id.tv_nombre);
             this.imgUser = itemView.findViewById(R.id.imgUser);
             this.tvPuntos = itemView.findViewById(R.id.tv_puntos);
-            this.itemView = itemView;
+            this.itemViewed = itemView;
         }
     }
 }

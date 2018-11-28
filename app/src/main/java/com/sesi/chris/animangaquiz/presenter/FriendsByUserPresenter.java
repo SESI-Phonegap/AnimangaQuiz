@@ -2,12 +2,10 @@ package com.sesi.chris.animangaquiz.presenter;
 
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.FriendsByUserInteractor;
-
 import java.util.List;
-
 import io.reactivex.disposables.Disposable;
 
-public class FriendsByUserPresenter extends Presenter<FriendsByUserPresenter.View> {
+public class FriendsByUserPresenter extends Presenter<FriendsByUserPresenter.ViewFriendsByUser> {
 
     private FriendsByUserInteractor interactor;
 
@@ -33,7 +31,7 @@ public class FriendsByUserPresenter extends Presenter<FriendsByUserPresenter.Vie
     }
 
     public void clickFriend(User user) {
-
+        //Metodo en construccion
     }
 
     @Override
@@ -42,7 +40,7 @@ public class FriendsByUserPresenter extends Presenter<FriendsByUserPresenter.Vie
         setView(null);
     }
 
-    public interface View extends Presenter.View {
+    public interface ViewFriendsByUser extends Presenter.View {
 
         void showLoading();
 

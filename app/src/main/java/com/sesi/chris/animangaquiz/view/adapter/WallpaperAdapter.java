@@ -7,13 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -38,14 +36,6 @@ public class WallpaperAdapter extends RecyclerView.Adapter<WallpaperAdapter.Wall
         Wallpaper wallpaper = lstWallpaper.get(position);
         holder.wallpaper = wallpaper;
         holder.tvCosto.setText(String.valueOf(wallpaper.getCosto()));
-
-        //No guarda imagen en cache
-  /*      GlideApp.with(holder.imgAnime.getContext())
-                .load(holder.wallpaper.getUrl())
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .into(holder.imgAnime);*/
-
         Picasso.get()
                 .load(Constants.URL_BASE + holder.wallpaper.getUrl())
                 .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
@@ -79,13 +69,13 @@ public class WallpaperAdapter extends RecyclerView.Adapter<WallpaperAdapter.Wall
         TextView tvCosto;
         ImageView imgAnime;
         Wallpaper wallpaper;
-        View itemView;
+        View itemViewed;
 
         public WallpaperViewHolder(View itemView) {
             super(itemView);
             this.tvCosto = itemView.findViewById(R.id.txt_wallpaper_costo);
             this.imgAnime = itemView.findViewById(R.id.img_view_wallpaper);
-            this.itemView = itemView;
+            this.itemViewed = itemView;
         }
     }
 }

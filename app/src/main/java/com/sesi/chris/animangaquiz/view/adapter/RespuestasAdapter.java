@@ -31,7 +31,7 @@ public class RespuestasAdapter extends RecyclerView.Adapter<RespuestasAdapter.Re
     public void onBindViewHolder(@NonNull RespuestaViewHolder holder, int position) {
         Respuesta respuesta = lstRespuesta.get(position);
         holder.respuesta = respuesta;
-        holder.tvRespuesta.setText(respuesta.getRespuesta());
+        holder.tvRespuesta.setText(respuesta.getQuestion());
         holder.itemView.setOnClickListener(v -> {
             if (null != itemClickListener){
                 itemClickListener.onItemClick(respuesta);
@@ -58,12 +58,12 @@ public class RespuestasAdapter extends RecyclerView.Adapter<RespuestasAdapter.Re
     public static  class RespuestaViewHolder extends RecyclerView.ViewHolder{
         TextView tvRespuesta;
         Respuesta respuesta;
-        View itemView;
+        View itemViewed;
 
         public RespuestaViewHolder(View itemView) {
             super(itemView);
             this.tvRespuesta = itemView.findViewById(R.id.tv_respuesta);
-            this.itemView = itemView;
+            this.itemViewed = itemView;
         }
     }
 }

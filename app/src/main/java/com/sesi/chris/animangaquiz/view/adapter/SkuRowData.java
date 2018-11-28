@@ -23,7 +23,10 @@ import com.android.billingclient.api.SkuDetails;
  * A model for SkusAdapter's row
  */
 public class SkuRowData {
-    private String sku, title, price, description;
+    private String sku;
+    private String title;
+    private String price;
+    private String description;
     private @SkusAdapter.RowTypeDef
     int type;
     private @SkuType

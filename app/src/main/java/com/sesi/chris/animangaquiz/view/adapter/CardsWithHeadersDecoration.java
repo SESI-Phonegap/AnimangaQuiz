@@ -1,6 +1,4 @@
 // Copyright 2017 Google Inc.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
@@ -23,7 +21,8 @@ import android.view.View;
 public class CardsWithHeadersDecoration extends RecyclerView.ItemDecoration {
 
         private final RowDataProvider mRowDataProvider;
-        private final int mHeaderGap, mRowGap;
+        private final int mHeaderGap;
+        private final int mRowGap;
 
         public CardsWithHeadersDecoration(RowDataProvider rowDataProvider, int headerGap,
                                           int rowGap) {

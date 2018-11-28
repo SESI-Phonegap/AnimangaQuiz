@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.User;
@@ -24,18 +23,16 @@ import com.sesi.chris.animangaquiz.view.activity.LoginActivity;
 import com.sesi.chris.animangaquiz.view.activity.SearchFriendActivity;
 import com.sesi.chris.animangaquiz.view.adapter.FriendsByUserAdapter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
-
 import java.util.List;
 import java.util.Objects;
 
 
-public class FriendsFragment extends Fragment implements FriendsByUserPresenter.View {
+public class FriendsFragment extends Fragment implements FriendsByUserPresenter.ViewFriendsByUser {
 
     private FriendsByUserPresenter presenter;
-    private RecyclerView rv_friends;
-    private ProgressBar pb_friends;
+    private RecyclerView rvFriends;
+    private ProgressBar pbFriends;
     private Context context;
-    private FloatingActionButton btn_addFriend;
 
 
     public FriendsFragment() {
@@ -44,8 +41,7 @@ public class FriendsFragment extends Fragment implements FriendsByUserPresenter.
 
 
     public static FriendsFragment newInstance() {
-        FriendsFragment fragment = new FriendsFragment();
-        return fragment;
+        return new FriendsFragment();
     }
 
     @Override
@@ -70,9 +66,9 @@ public class FriendsFragment extends Fragment implements FriendsByUserPresenter.
         context = getContext();
         presenter = new FriendsByUserPresenter(new FriendsByUserInteractor(new QuizClient()));
         presenter.setView(this);
-        btn_addFriend = getActivity().findViewById(R.id.floatButton);
-        pb_friends = Objects.requireNonNull(getActivity()).findViewById(R.id.pb_friend_fragment);
-        rv_friends = Objects.requireNonNull(getActivity()).findViewById(R.id.rv_friends);
+        FloatingActionButton btnAddFriend = getActivity().findViewById(R.id.floatButton);
+        pbFriends = Objects.requireNonNull(getActivity()).findViewById(R.id.pb_friend_fragment);
+        rvFriends = Objects.requireNonNull(getActivity()).findViewById(R.id.rv_friends);
         User user = (User) getActivity().getIntent().getSerializableExtra("user");
         setupRecyclerView();
         if (UtilInternetConnection.isOnline(context())){
@@ -87,7 +83,7 @@ public class FriendsFragment extends Fragment implements FriendsByUserPresenter.
             startActivity(intent);
         }
 
-        btn_addFriend.setOnClickListener(v -> {
+        btnAddFriend.setOnClickListener(v -> {
             Intent intent = new Intent(context(),SearchFriendActivity.class);
             intent.putExtra("user",user);
             startActivity(intent);
@@ -97,45 +93,35 @@ public class FriendsFragment extends Fragment implements FriendsByUserPresenter.
     public void setupRecyclerView(){
         FriendsByUserAdapter adapter = new FriendsByUserAdapter();
         adapter.setItemClickListener(user -> presenter.clickFriend(user));
-        rv_friends.setHasFixedSize(true);
-        rv_friends.setLayoutManager(new LinearLayoutManager(context()));
-        rv_friends.setAdapter(adapter);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
+        rvFriends.setHasFixedSize(true);
+        rvFriends.setLayoutManager(new LinearLayoutManager(context()));
+        rvFriends.setAdapter(adapter);
     }
 
     @Override
     public void showLoading() {
-        pb_friends.setVisibility(View.VISIBLE);
+        pbFriends.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
-        pb_friends.setVisibility(View.GONE);
+        pbFriends.setVisibility(View.GONE);
     }
 
     @Override
     public void showFriendsNotFoundMessage() {
-        pb_friends.setVisibility(View.GONE);
+        pbFriends.setVisibility(View.GONE);
     }
 
     @Override
     public void showServerError(String error) {
-        pb_friends.setVisibility(View.GONE);
+        pbFriends.setVisibility(View.GONE);
         Toast.makeText(context(),error,Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void renderFriends(List<User> lstUser) {
-        FriendsByUserAdapter adapter = (FriendsByUserAdapter) rv_friends.getAdapter();
+        FriendsByUserAdapter adapter = (FriendsByUserAdapter) rvFriends.getAdapter();
         adapter.setLstUser(lstUser);
         adapter.notifyDataSetChanged();
     }

@@ -11,6 +11,10 @@ import android.provider.MediaStore;
 
 public class ImageFilePath {
 
+    private ImageFilePath(){
+        //Empty Constructor
+    }
+
     /**
      * Method for return file path of Gallery image
      *
@@ -20,13 +24,10 @@ public class ImageFilePath {
      */
     public static String getPath(final Context context, final Uri uri)
     {
-
         //check here to KITKAT or new version
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-
         // DocumentProvider
         if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
-
             // ExternalStorageProvider
             if (isExternalStorageDocument(uri)) {
                 final String docId = DocumentsContract.getDocumentId(uri);

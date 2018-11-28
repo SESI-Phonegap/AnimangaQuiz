@@ -2,7 +2,6 @@ package com.sesi.chris.animangaquiz.view.fragment;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.SkuDetails;
 import com.android.billingclient.api.SkuDetailsResponseListener;
@@ -26,7 +24,6 @@ import com.sesi.chris.animangaquiz.view.adapter.CardsWithHeadersDecoration;
 import com.sesi.chris.animangaquiz.view.adapter.SkuRowData;
 import com.sesi.chris.animangaquiz.view.adapter.SkusAdapter;
 import com.sesi.chris.animangaquiz.view.adapter.UiManager;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -94,16 +91,6 @@ public class PurchaseFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
     /**
      * Executes query for SKU details at the background thread
      */
@@ -130,64 +117,52 @@ public class PurchaseFragment extends Fragment {
             // Filling the list with all the data to render subscription rows
             List<String> subscriptionsSkus = uiManager.getDelegatesFactory()
                     .getSkuList(BillingClient.SkuType.SUBS);
-            addSkuRows(dataList, subscriptionsSkus, BillingClient.SkuType.SUBS, new Runnable() {
-                @Override
-                public void run() {
-                    // Once we added all the subscription items, fill the in-app items rows below
-                    List<String> inAppSkus = uiManager.getDelegatesFactory()
-                            .getSkuList(BillingClient.SkuType.INAPP);
-                    addSkuRows(dataList, inAppSkus, BillingClient.SkuType.INAPP, null);
-                }
+            addSkuRows(dataList, subscriptionsSkus, BillingClient.SkuType.SUBS, () -> {
+                // Once we added all the subscription items, fill the in-app items rows below
+                List<String> inAppSkus = uiManager.getDelegatesFactory()
+                        .getSkuList(BillingClient.SkuType.INAPP);
+                addSkuRows(dataList, inAppSkus, BillingClient.SkuType.INAPP, null);
             });
         }
     }
 
     private void addSkuRows(final List<SkuRowData> inList, List<String> skusList,
                             final @BillingClient.SkuType String billingType, final Runnable executeWhenFinished) {
-
         mBillingProvider.getBillingManager().querySkuDetailsAsync(billingType, skusList,
-                new SkuDetailsResponseListener() {
-                    @Override
-                    public void onSkuDetailsResponse(int responseCode, List<SkuDetails> skuDetailsList) {
-
-                        if (responseCode != BillingClient.BillingResponse.OK) {
-                            Log.w("TAG", "Unsuccessful query for type: " + billingType
-                                    + ". Error code: " + responseCode);
-                        } else if (skuDetailsList != null
-                                && skuDetailsList.size() > 0) {
-                            // If we successfully got SKUs, add a header in front of the row
-                            @StringRes int stringRes = (billingType == BillingClient.SkuType.INAPP)
-                                    ? R.string.header_inapp : R.string.header_subscriptions;
-                            inList.add(new SkuRowData(getString(stringRes)));
-                            // Then fill all the other rows
-                            for (SkuDetails details : skuDetailsList) {
-                                Log.i("TAG", "Adding sku: " + details);
-                                inList.add(new SkuRowData(details, SkusAdapter.TYPE_NORMAL,
-                                        billingType));
-                            }
-
-                            if (inList.size() == 0) {
-                                displayAnErrorIfNeeded();
-                            } else {
-                                if (mRecyclerView.getAdapter() == null) {
-                                    mRecyclerView.setAdapter(mAdapter);
-                                    Resources res = getActivity().getResources();
-                                    mRecyclerView.addItemDecoration(new CardsWithHeadersDecoration(
-                                            mAdapter, (int) res.getDimension(R.dimen.header_gap),
-                                            (int) res.getDimension(R.dimen.row_gap)));
-                                    mRecyclerView.setLayoutManager(
-                                            new LinearLayoutManager(getActivity()));
-                                }
-
-                                mAdapter.updateData(inList);
-                                setWaitScreen(false);
-                            }
-
+                (responseCode, skuDetailsList) -> {
+                    if (responseCode != BillingClient.BillingResponse.OK) {
+                        Log.w("TAG", "Unsuccessful query for type: " + billingType
+                                + ". Error code: " + responseCode);
+                    } else if (skuDetailsList != null
+                            && skuDetailsList.isEmpty()) {
+                        // If we successfully got SKUs, add a header in front of the row
+                        @StringRes int stringRes = (billingType == BillingClient.SkuType.INAPP)
+                                ? R.string.header_inapp : R.string.header_subscriptions;
+                        inList.add(new SkuRowData(getString(stringRes)));
+                        // Then fill all the other rows
+                        for (SkuDetails details : skuDetailsList) {
+                            Log.i("TAG", "Adding sku: " + details);
+                            inList.add(new SkuRowData(details, SkusAdapter.TYPE_NORMAL,
+                                    billingType));
                         }
-
-                        if (executeWhenFinished != null) {
-                            executeWhenFinished.run();
+                        if (inList.isEmpty()) {
+                            displayAnErrorIfNeeded();
+                        } else {
+                            if (mRecyclerView.getAdapter() == null) {
+                                mRecyclerView.setAdapter(mAdapter);
+                                Resources res = getActivity().getResources();
+                                mRecyclerView.addItemDecoration(new CardsWithHeadersDecoration(
+                                        mAdapter, (int) res.getDimension(R.dimen.header_gap),
+                                        (int) res.getDimension(R.dimen.row_gap)));
+                                mRecyclerView.setLayoutManager(
+                                        new LinearLayoutManager(getActivity()));
+                            }
+                            mAdapter.updateData(inList);
+                            setWaitScreen(false);
                         }
+                    }
+                    if (executeWhenFinished != null) {
+                        executeWhenFinished.run();
                     }
                 });
     }
@@ -197,8 +172,6 @@ public class PurchaseFragment extends Fragment {
             Log.i("TAG", "No need to show an error - activity is finishing already");
             return;
         }
-
-        // mLoadingView.setVisibility(View.GONE);
         mErrorTextView.setVisibility(View.VISIBLE);
         int billingResponseCode = mBillingProvider.getBillingManager()
                 .getBillingClientResponseCode();

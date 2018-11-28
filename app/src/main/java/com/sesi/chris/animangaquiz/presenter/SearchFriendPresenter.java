@@ -6,7 +6,7 @@ import com.sesi.chris.animangaquiz.interactor.FriendsInteractor;
 import java.util.List;
 import io.reactivex.disposables.Disposable;
 
-public class SearchFriendPresenter extends Presenter<SearchFriendPresenter.View> {
+public class SearchFriendPresenter extends Presenter<SearchFriendPresenter.ViewSearchFriend> {
 
     private FriendsInteractor interactor;
 
@@ -44,7 +44,7 @@ public class SearchFriendPresenter extends Presenter<SearchFriendPresenter.View>
         addDisposableObserver(disposable);
     }
 
-    public interface View extends Presenter.View {
+    public interface ViewSearchFriend extends Presenter.View {
 
         void showLoading();
 

@@ -10,7 +10,7 @@ public class Respuesta {
     private String idRespuesta;
     @SerializedName("respuesta")
     @Expose
-    private String respuesta;
+    private String question;
     @SerializedName("isCorrect")
     @Expose
     private String isCorrect;
@@ -26,12 +26,12 @@ public class Respuesta {
         this.idRespuesta = idRespuesta;
     }
 
-    public String getRespuesta() {
-        return respuesta;
+    public String getQuestion() {
+        return question;
     }
 
-    public void setRespuesta(String respuesta) {
-        this.respuesta = respuesta;
+    public void setQuestion(String question) {
+        this.question = question;
     }
 
     public String getIsCorrect() {

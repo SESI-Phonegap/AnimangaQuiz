@@ -6,12 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.squareup.picasso.Picasso;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -33,14 +31,7 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.AnimeViewHol
     public void onBindViewHolder(AnimeViewHolder holder, int position) {
         Anime anime = lstAnimes.get(position);
         holder.anime = anime;
-        holder.tvAnimeNombre.setText(anime.getAnime());
-
-   /*     GlideApp.with(holder.imgAnime.getContext())
-                .load(Constants.URL_BASE+"AnimangaBackEnd"+anime.getImgUrl())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-               // .skipMemoryCache(true)
-                .into(holder.imgAnime);*/
-
+        holder.tvAnimeNombre.setText(anime.getName());
         Picasso.get()
                 .load(Constants.URL_BASE+"AnimangaBackEnd"+anime.getImgUrl())
                 .into(holder.imgAnime);
@@ -77,13 +68,13 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.AnimeViewHol
         TextView tvAnimeNombre;
         ImageView imgAnime;
         Anime anime;
-        View itemView;
+        View itemViewed;
 
         public AnimeViewHolder(View itemView) {
             super(itemView);
             this.tvAnimeNombre = itemView.findViewById(R.id.txt_anime_name);
             this.imgAnime = itemView.findViewById(R.id.img_view_anime_image);
-            this.itemView = itemView;
+            this.itemViewed = itemView;
         }
     }
 }

@@ -31,7 +31,6 @@
     <string name="password">Contraseña</string>
     <string name="btnLogin">Login</string>
     <string name="registrarse"><u>Registrarse</u></string>
-    <string name="title_activity_menu">MenuActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Nombre Usuario</string>
@@ -45,6 +44,7 @@
     <string name="misAvatar">Mis Avatars</string>
     <string name="noAvatars">No tienes avatars</string>
     <string name="o">Ó</string>
+    <string name="noValid">Opción no valida</string>
     
     <string name="facebook_app_id">1940196376274860</string>
     <string name="facebook_login_protocol_scheme">fb1940196376274860</string>
@@ -54,6 +54,7 @@
     <string name="score">Puntos: %1$s</string>
     <string name="msgImagenError">La imagen sobre pasa los 2 MB, no es posible guardarla</string>
     <string name="msgAvatrError">Error no fue posible actualizar el avatar</string>
+    <string name="msgErrorShenlong">Necesitas reunir las 7 esferas del dragon para invocar Shenlong</string>
 
     <!-- Dialog Resultado -->
     <string name="titlePreguntasCorrectas">Correctas</string>

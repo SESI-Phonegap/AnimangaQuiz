@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.View {
+public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.ViewMenu {
 
     private MenuPresenter menuPresenter;
     private RecyclerView recyclerViewAnimes;
@@ -43,7 +43,6 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
     private Context context;
     private AlertDialog dialog;
     private User user;
-    private ConstraintLayout constraintLayoutSearch;
     private List<Anime> lstAnime;
     private int iLevel;
     private int iScore;
@@ -82,9 +81,8 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         menuPresenter = new MenuPresenter(new MenuInteractor(new QuizClient()));
         menuPresenter.setView(this);
 
-        TextView et_Search = Objects.requireNonNull(getActivity()).findViewById(R.id.et_search);
-        et_Search.addTextChangedListener(textWatcherFilter);
-        constraintLayoutSearch = getActivity().findViewById(R.id.constraintSearch);
+        TextView etSearch = Objects.requireNonNull(getActivity()).findViewById(R.id.et_search);
+        etSearch.addTextChangedListener(textWatcherFilter);
         recyclerViewAnimes = getActivity().findViewById(R.id.recyclerViewAnime);
         progressBar = getActivity().findViewById(R.id.pb_login);
         user = (User) getActivity().getIntent().getSerializableExtra("user");
@@ -106,16 +104,6 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         AnimeAdapter adapter = new AnimeAdapter();
         adapter.setItemClickListener((Anime anime) -> menuPresenter.launchAnimeTest(anime));
         recyclerViewAnimes.setAdapter(adapter);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 
     @Override
@@ -158,7 +146,7 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         Score score = scoreResponse.getScore();
         if (null != score) {
             iLevel = Integer.parseInt(score.getLevel());
-            iScore = Integer.parseInt(score.getScore());
+            iScore = Integer.parseInt(score.getPuntos());
             createDialogLevel(user);
         } else {
             Toast.makeText(context(),scoreResponse.getError(),Toast.LENGTH_LONG).show();
@@ -212,6 +200,9 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
                     btnOtaku.setAlpha(1f);
                     btnOtaku.setEnabled(true);
                     break;
+            default:
+                //Empty
+                break;
         }
 
         btnFacil.setOnClickListener(v -> {
@@ -257,10 +248,9 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            //AnimeAdapter adapter = (AnimeAdapter) recyclerViewAnimes.getAdapter();
             List<Anime> lstAnimeFilter = new ArrayList<>();
             for (Anime anime : lstAnime){
-               String textAnime = anime.getAnime().toLowerCase();
+               String textAnime = anime.getName().toLowerCase();
                if (textAnime.contains(s)){
                    lstAnimeFilter.add(anime);
                }
