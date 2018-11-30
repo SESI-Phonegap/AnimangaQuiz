@@ -40,8 +40,6 @@ public class FriendsByUserAdapter extends RecyclerView.Adapter<FriendsByUserAdap
         holder.tvNombreUSer.setText(user.getName());
         holder.tvPuntos.setText(String.valueOf(user.getTotalScore()));
         if (!user.getUrlImageUser().equals("")) {
-           /* byte[] decodedAvatar = Base64.decode(user.getUrlImageUser(), Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedAvatar, 0, decodedAvatar.length);*/
             holder.imgUser.setImageBitmap(Utils.base64ToBitmapImage(user.getUrlImageUser()));
         } else {
             holder.imgUser.setImageResource(R.drawable.ic_account_circle_white_48dp);

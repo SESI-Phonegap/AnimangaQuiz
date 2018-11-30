@@ -40,8 +40,6 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendVi
         holder.tvUserName.setText(user.getUserName());
         holder.tvNombreUSer.setText(user.getName());
         if (!user.getUrlImageUser().equals("")) {
-       /*     byte[] decodedAvatar = Base64.decode(user.getUrlImageUser(), Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedAvatar, 0, decodedAvatar.length);*/
             holder.imgUser.setImageBitmap(Utils.base64ToBitmapImage(user.getUrlImageUser()));
         } else {
             holder.imgUser.setImageResource(R.drawable.ic_account_circle_white_48dp);
