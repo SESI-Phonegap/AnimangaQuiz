@@ -1,6 +1,5 @@
 package com.sesi.chris.animangaquiz.view.fragment;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,7 +16,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.SkuDetails;
-import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.billing.BillingProvider;
 import com.sesi.chris.animangaquiz.view.adapter.CardsWithHeadersDecoration;

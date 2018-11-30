@@ -307,16 +307,9 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            List<Anime> lstAnimeFilter = new ArrayList<>();
-            for (Anime anime : lstAnime){
-                String textAnime = anime.getName().toLowerCase();
-                if (textAnime.contains(s)){
-                    lstAnimeFilter.add(anime);
-                }
-            }
             AnimeAdapter adapterFilter = new AnimeAdapter();
             adapterFilter.setItemClickListener((Anime anime) -> showWallpaperAvatarDialog(anime));
-            adapterFilter.setLstAnimes(lstAnimeFilter);
+            adapterFilter.setLstAnimes(Utils.filtrarAnime(lstAnime,s));
             recyclerViewAnimes.setAdapter(adapterFilter);
             adapterFilter.notifyDataSetChanged();
         }

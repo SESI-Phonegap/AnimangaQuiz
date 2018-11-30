@@ -1,16 +1,15 @@
 package com.sesi.chris.animangaquiz.view.adapter;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.model.User;
+import com.sesi.chris.animangaquiz.view.utils.Utils;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -41,9 +40,9 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendVi
         holder.tvUserName.setText(user.getUserName());
         holder.tvNombreUSer.setText(user.getName());
         if (!user.getUrlImageUser().equals("")) {
-            byte[] decodedAvatar = Base64.decode(user.getUrlImageUser(), Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedAvatar, 0, decodedAvatar.length);
-            holder.imgUser.setImageBitmap(decodedByte);
+       /*     byte[] decodedAvatar = Base64.decode(user.getUrlImageUser(), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedAvatar, 0, decodedAvatar.length);*/
+            holder.imgUser.setImageBitmap(Utils.base64ToBitmapImage(user.getUrlImageUser()));
         } else {
             holder.imgUser.setImageResource(R.drawable.ic_account_circle_white_48dp);
         }

@@ -199,17 +199,17 @@ public class BillingManager implements PurchasesUpdatedListener {
         mTokensToBeConsumed.add(purchaseToken);
 
         // Generating Consume Response listener
-        final ConsumeResponseListener onConsumeListener = (responseCode, purchaseToken1) -> {
+        final ConsumeResponseListener onConsumeListener = (responseCode, purchaseToken1) ->
             // If billing service was disconnected, we try to reconnect 1 time
             // (feel free to introduce your retry policy here).
             mBillingUpdatesListener.onConsumeFinished(purchaseToken1, responseCode);
-        };
+
 
         // Creating a runnable from the request to use it inside our connection retry policy below
-        Runnable consumeRequest = () -> {
+        Runnable consumeRequest = () ->
             // Consume the purchase async
             mBillingClient.consumeAsync(purchaseToken, onConsumeListener);
-        };
+
 
         executeServiceRequest(consumeRequest);
     }

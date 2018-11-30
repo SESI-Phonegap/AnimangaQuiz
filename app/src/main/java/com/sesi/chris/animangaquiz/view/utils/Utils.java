@@ -6,13 +6,16 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.text.format.DateFormat;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.sesi.chris.animangaquiz.R;
+import com.sesi.chris.animangaquiz.data.model.Anime;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -54,6 +57,22 @@ public class Utils {
             Toast.makeText(context, context.getString(R.string.msgWallpaperNoSaved), Toast.LENGTH_LONG).show();
             return false;
         }
+    }
+
+    public static List<Anime> filtrarAnime(List<Anime> lstAnime, CharSequence s){
+        List<Anime> lstAnimeFilter = new ArrayList<>();
+        for (Anime anime : lstAnime){
+            String textAnime = anime.getName().toLowerCase();
+            if (textAnime.contains(s)){
+                lstAnimeFilter.add(anime);
+            }
+        }
+        return lstAnimeFilter;
+    }
+
+    public static Bitmap base64ToBitmapImage(String sUrlImage){
+        byte[] decodedAvatar = Base64.decode(sUrlImage, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedAvatar, 0, decodedAvatar.length);
     }
 
     public static void sharedSocial(Context context, String userName) {

@@ -8,7 +8,6 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,7 +22,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -65,7 +63,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import static com.sesi.chris.animangaquiz.data.api.billing.BillingManager.BILLING_MANAGER_NOT_INITIALIZED;
@@ -176,7 +173,7 @@ public class MenuActivity extends AppCompatActivity
             }
             animationDrawable.start();
 
-            new Handler().postDelayed(() -> animationDrawable.stop(), totalFrameDuration);
+            new Handler().postDelayed(animationDrawable::stop, totalFrameDuration);
 
         }
 

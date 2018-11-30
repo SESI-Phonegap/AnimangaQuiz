@@ -64,9 +64,7 @@ public class RegistroActivity extends AppCompatActivity implements RegistroNuevo
             startActivity(intent);
         });
 
-        radioGroup.setOnCheckedChangeListener((radioGroup1, id) -> {
-           sGenero = (id == R.id.radioHombre) ? "H" : "M";
-        });
+        radioGroup.setOnCheckedChangeListener((radioGroup1, id) -> sGenero = id == R.id.radioHombre ? "H" : "M");
 
         btnRegistrar.setOnClickListener(v -> {
             if (UtilInternetConnection.isOnline(this)){

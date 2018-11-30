@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +30,8 @@ import com.sesi.chris.animangaquiz.view.activity.LoginActivity;
 import com.sesi.chris.animangaquiz.view.activity.PreguntasActivity;
 import com.sesi.chris.animangaquiz.view.adapter.AnimeAdapter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
+import com.sesi.chris.animangaquiz.view.utils.Utils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -248,16 +249,16 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            List<Anime> lstAnimeFilter = new ArrayList<>();
+          /*  List<Anime> lstAnimeFilter = new ArrayList<>();
             for (Anime anime : lstAnime){
                String textAnime = anime.getName().toLowerCase();
                if (textAnime.contains(s)){
                    lstAnimeFilter.add(anime);
                }
-            }
+            }*/
             AnimeAdapter adapterFilter = new AnimeAdapter();
             adapterFilter.setItemClickListener((Anime anime) -> menuPresenter.launchAnimeTest(anime));
-            adapterFilter.setLstAnimes(lstAnimeFilter);
+            adapterFilter.setLstAnimes(Utils.filtrarAnime(lstAnime,s));
             recyclerViewAnimes.setAdapter(adapterFilter);
             adapterFilter.notifyDataSetChanged();
 
