@@ -16,6 +16,7 @@ public class Constants {
         }
         public static final String LOGIN_MOBILE = "/AnimangaBackEnd/service/loginmobile.php";
         public static final String GET_ALL_ANIMES = "/AnimangaBackEnd/service/getanimes.php";
+        public static final String GET_ALL_ANIMES_IMG = "/AnimangaBackEnd/service/getAnimeImg.php";
         public static final String GET_ALL_ANIMES_FOR_WALLPAPER = "/AnimangaBackEnd/service/getallanimesforwallpaper.php";
         public static final String GET_QUESTIONS_BY_ANIME_AND_LEVEL = "/AnimangaBackEnd/service/preguntasByAnimeByLeve.php";
         public static final String CHECK_LEVEL_AND_SCORE_BY_ANIME_AND_USER = "/AnimangaBackEnd/service/checkLevelAndScoreByAnimeAndUser.php";
@@ -30,6 +31,8 @@ public class Constants {
         public static final String UPDATE_AVATAR = "/AnimangaBackEnd/service/updateAvatar.php";
         public static final String CHECK_USER_FACEBOOK = "/AnimangaBackEnd/service/validaUserFacebook.php";
         public static final String UPDATE_ESFERAS = "/AnimangaBackEnd/service/updateEsferas.php";
+        public static final String GET_QUESTIONS_BY_ANIME_IMG = "/AnimangaBackEnd/service/getPreguntasByAnimeImg.php";
+
     }
 
     public static final class ParametersBackEnd{

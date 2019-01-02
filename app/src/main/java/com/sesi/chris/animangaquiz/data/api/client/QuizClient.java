@@ -31,6 +31,13 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient{
     }
 
     @Override
+    public Observable<List<Anime>> getAllAnimesImg(String userName, String pass) {
+        return getQuizService().getAllAnimesImg(userName, pass)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
     public Observable<List<Anime>> getAllAnimesForWallpaper(String userName, String pass) {
         return getQuizService().getAllanimesForWallpaper(userName,pass)
                 .subscribeOn(Schedulers.io())
@@ -124,6 +131,13 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient{
     @Override
     public Observable<UpdateResponse> updateEsferas(String userName, String pass, int idUser, int esferas) {
         return getQuizService().updateEsferas(userName, pass, idUser, esferas)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<List<Preguntas>> getQuestionsByAnimeImg(String userName, String pass, int idAnime) {
+        return getQuizService().getQuestionsByAnimeImg(userName,pass,idAnime)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

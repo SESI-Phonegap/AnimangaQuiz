@@ -27,6 +27,11 @@ public interface QuizRetrofitService {
     Observable<List<Anime>> getAllAnimes(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
                                          @Field(Constants.ParametersBackEnd.PASS) String pass);
 
+    @POST(Constants.EndPoint.GET_ALL_ANIMES_IMG)
+    @FormUrlEncoded
+    Observable<List<Anime>> getAllAnimesImg(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
+                                         @Field(Constants.ParametersBackEnd.PASS) String pass);
+
     @POST(Constants.EndPoint.GET_ALL_ANIMES_FOR_WALLPAPER)
     @FormUrlEncoded
     Observable<List<Anime>> getAllanimesForWallpaper(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
@@ -120,4 +125,10 @@ public interface QuizRetrofitService {
                                              @Field(Constants.ParametersBackEnd.PASS) String pass,
                                              @Field(Constants.ParametersBackEnd.ID_USER) int idUser,
                                              @Field(Constants.ParametersBackEnd.ESFERAS) int esferas);
+
+    @POST(Constants.EndPoint.GET_QUESTIONS_BY_ANIME_IMG)
+    @FormUrlEncoded
+    Observable<List<Preguntas>> getQuestionsByAnimeImg(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
+                                                            @Field(Constants.ParametersBackEnd.PASS) String pass,
+                                                            @Field(Constants.ParametersBackEnd.ID_ANIME) int idAnime);
     }

@@ -26,33 +26,5 @@
         android:duration="@integer/animDuration"
         android:drawable="@drawable/fondo6"/>
 
-    <item
-        android:duration="@integer/animDuration"
-        android:drawable="@drawable/fondo7"/>
-
-    <item
-        android:duration="@integer/animDuration"
-        android:drawable="@drawable/fondo8"/>
-
-    <item
-        android:duration="@integer/animDuration"
-        android:drawable="@drawable/fondo9"/>
-
-    <item
-        android:duration="@integer/animDuration"
-        android:drawable="@drawable/fondo10"/>
-
-    <item
-        android:duration="@integer/animDuration"
-        android:drawable="@drawable/fondo11"/>
-
-    <item
-        android:duration="@integer/animDuration"
-        android:drawable="@drawable/fondo12"/>
-
-    <item
-        android:duration="@integer/animDuration"
-        android:drawable="@drawable/fondo13"/>
-
 
 </animation-list>

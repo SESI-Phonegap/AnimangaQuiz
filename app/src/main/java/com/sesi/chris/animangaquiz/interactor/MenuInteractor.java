@@ -18,6 +18,10 @@ public class MenuInteractor {
         return quizServiceClient.getAllAnimes(userName,pass);
     }
 
+    public Observable<List<Anime>> getAnimesImg(String userName, String pass){
+        return quizServiceClient.getAllAnimesImg(userName, pass);
+    }
+
     public Observable<ScoreResponse> checkScoreAndLevel(String userName, String pass, int idAnime, int idUser){
         return quizServiceClient.checkScoreAndLevel(userName,pass,idAnime,idUser);
     }

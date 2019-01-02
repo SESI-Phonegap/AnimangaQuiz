@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.sesi.chris.animangaquiz"
         minSdkVersion 21
-        targetSdkVersion 27
-        versionCode 6
-        versionName "1.1"
+        targetSdkVersion 28
+        versionCode 7
+        versionName "2.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -22,43 +22,48 @@ android {
     }
 }
 
-sonarqube{
+sonarqube {
     properties {
         property "sonar.projectKey", "animangakey"
         property "sonar.projectName", "AnimangaQuiz"
         property "sonar.sources", "src/main/java/com/sesi/chris/animangaquiz"
+        property "sonar.exclusions", "src/main/java/com/sesi/chris/animangaquiz/presenter/*"
     }
 }
 
 dependencies {
     api 'com.android.billingclient:billing:1.0'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
-    implementation 'com.android.support:cardview-v7:27.1.1'
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:customtabs:28.0.0'
+    implementation 'com.android.support:exifinterface:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support:cardview-v7:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation 'com.google.android.gms:play-services-ads:17.1.1'
+    implementation 'com.google.android.gms:play-services-ads:17.1.2'
     implementation 'com.facebook.android:facebook-android-sdk:4.37.0'
     implementation 'de.hdodenhof:circleimageview:2.1.0'
     //Dependencias para Retrofit
-    implementation squareDependencies.retrofit
-    implementation squareDependencies.adapter_rx_java
-    implementation squareDependencies.logging_interceptor
-    implementation squareDependencies.converter_gson
+    implementation "com.squareup.retrofit2:retrofit:2.3.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.8.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.3.0"
     //Dependencia de Gson
-    implementation googleDependencies.gson
+    implementation "com.google.code.gson:gson:2.8.2"
     //Dependencias para RxJava
-    implementation reactiveDependencies.rxjava
-    implementation reactiveDependencies.rxandroid
+    implementation "io.reactivex.rxjava2:rxjava:2.1.5"
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
     //Dependencias de Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'com.android.support:support-v4:27.1.1'
+
     // Dependencias de Glide
     //implementation 'com.github.bumptech.glide:glide:4.8.0'
     //annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
-   // annotationProcessor project(':annotation:compiler')
-    testImplementation testingDependencies.junit
-    androidTestImplementation testingDependencies.runner
-    androidTestImplementation testingDependencies.espresso
+    // annotationProcessor project(':annotation:compiler')
+    testImplementation "junit:junit:4.12"
+    androidTestImplementation "com.android.support.test:runner:1.0.2"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.2"
+
 }

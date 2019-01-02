@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="animDuration">1500</integer>
+    <integer name="animDuration">1000</integer>
     <integer name="animDurationS">100</integer>
 
     <!-- Gemas Nivel Facil 10-->

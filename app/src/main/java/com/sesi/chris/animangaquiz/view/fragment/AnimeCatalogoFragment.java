@@ -28,11 +28,11 @@ import com.sesi.chris.animangaquiz.interactor.MenuInteractor;
 import com.sesi.chris.animangaquiz.presenter.MenuPresenter;
 import com.sesi.chris.animangaquiz.view.activity.LoginActivity;
 import com.sesi.chris.animangaquiz.view.activity.PreguntasActivity;
+import com.sesi.chris.animangaquiz.view.activity.PreguntasImgActivity;
 import com.sesi.chris.animangaquiz.view.adapter.AnimeAdapter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
 import com.sesi.chris.animangaquiz.view.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -48,19 +48,29 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
     private int iLevel;
     private int iScore;
     private int idAnime;
+    private String sOpcion;
+    private static final String ARG_OPCION = "opcion";
+    private static final String QUIZ_IMG = "img";
 
     public AnimeCatalogoFragment() {
         // Required empty public constructor
     }
 
-    public static AnimeCatalogoFragment newInstance() {
-        return new AnimeCatalogoFragment();
+    public static AnimeCatalogoFragment newInstance(String sOp) {
+        AnimeCatalogoFragment fragment = new AnimeCatalogoFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_OPCION, sOp);
+        fragment.setArguments(args);
+        return fragment;
 
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            sOpcion = getArguments().getString(ARG_OPCION);
+        }
 
     }
 
@@ -77,7 +87,7 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         init();
     }
 
-    public void init(){
+    public void init() {
         context = getContext();
         menuPresenter = new MenuPresenter(new MenuInteractor(new QuizClient()));
         menuPresenter.setView(this);
@@ -88,20 +98,24 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         progressBar = getActivity().findViewById(R.id.pb_login);
         user = (User) getActivity().getIntent().getSerializableExtra("user");
         setupRecyclerView();
-        if (UtilInternetConnection.isOnline(context())){
+        if (UtilInternetConnection.isOnline(context())) {
             if (null != user) {
-                menuPresenter.getAllAnimes(user.getUserName(), user.getPassword());
+                if (sOpcion.equals(QUIZ_IMG)) {
+                    menuPresenter.getAllAnimesImg(user.getUserName(), user.getPassword());
+                } else {
+                    menuPresenter.getAllAnimes(user.getUserName(), user.getPassword());
+                }
             } else {
-                Toast.makeText(context(),"Ocurrio un error",Toast.LENGTH_LONG).show();
+                Toast.makeText(context(), "Ocurrio un error", Toast.LENGTH_LONG).show();
             }
         } else {
-            Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(context(),LoginActivity.class);
+            Toast.makeText(context(), getString(R.string.noInternet), Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(context(), LoginActivity.class);
             startActivity(intent);
         }
     }
 
-    private void setupRecyclerView(){
+    private void setupRecyclerView() {
         AnimeAdapter adapter = new AnimeAdapter();
         adapter.setItemClickListener((Anime anime) -> menuPresenter.launchAnimeTest(anime));
         recyclerViewAnimes.setAdapter(adapter);
@@ -131,7 +145,7 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
     @Override
     public void showServerError(String error) {
         progressBar.setVisibility(View.GONE);
-        Toast.makeText(context(),error,Toast.LENGTH_LONG).show();
+        Toast.makeText(context(), error, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -148,24 +162,29 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         if (null != score) {
             iLevel = Integer.parseInt(score.getLevel());
             iScore = Integer.parseInt(score.getPuntos());
-            createDialogLevel(user);
+            if (sOpcion.equals(QUIZ_IMG)){
+                startQuizImg(idAnime,user);
+            } else {
+                createDialogLevel(user);
+            }
         } else {
-            Toast.makeText(context(),scoreResponse.getError(),Toast.LENGTH_LONG).show();
+            Toast.makeText(context(), scoreResponse.getError(), Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
     public void showScoreError() {
-        Toast.makeText(context(),"Error !!!!",Toast.LENGTH_LONG).show();
+        Toast.makeText(context(), "Error !!!!", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void launchAnimeTest(Anime anime) {
-        if (UtilInternetConnection.isOnline(context())){
+        if (UtilInternetConnection.isOnline(context())) {
             idAnime = anime.getIdAnime();
-            menuPresenter.checkScoreAndLevel(user.getUserName(),user.getPassword(),anime.getIdAnime(),user.getIdUser());
+            menuPresenter.checkScoreAndLevel(user.getUserName(), user.getPassword(), anime.getIdAnime(), user.getIdUser());
+
         } else {
-            Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
+            Toast.makeText(context(), getString(R.string.noInternet), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -176,7 +195,7 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
 
     public void createDialogLevel(User user) {
 
-        AlertDialog.Builder builder =  new AlertDialog.Builder(context());
+        AlertDialog.Builder builder = new AlertDialog.Builder(context());
         final View view = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.dialog_nivel, null);
 
         Button btnFacil = view.findViewById(R.id.btn_level_facil);
@@ -184,23 +203,27 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         Button btnDificil = view.findViewById(R.id.btn_level_dificil);
         Button btnOtaku = view.findViewById(R.id.btn_level_dios);
 
-        switch (iLevel){
-            case 1: break;
-            case 2: btnNormal.setAlpha(1f);
-                    btnNormal.setEnabled(true);
-                    break;
-            case 3: btnNormal.setAlpha(1f);
-                    btnNormal.setEnabled(true);
-                    btnDificil.setAlpha(1f);
-                    btnDificil.setEnabled(true);
-                    break;
-            case 4: btnNormal.setAlpha(1f);
-                    btnNormal.setEnabled(true);
-                    btnDificil.setAlpha(1f);
-                    btnDificil.setEnabled(true);
-                    btnOtaku.setAlpha(1f);
-                    btnOtaku.setEnabled(true);
-                    break;
+        switch (iLevel) {
+            case 1:
+                break;
+            case 2:
+                btnNormal.setAlpha(1f);
+                btnNormal.setEnabled(true);
+                break;
+            case 3:
+                btnNormal.setAlpha(1f);
+                btnNormal.setEnabled(true);
+                btnDificil.setAlpha(1f);
+                btnDificil.setEnabled(true);
+                break;
+            case 4:
+                btnNormal.setAlpha(1f);
+                btnNormal.setEnabled(true);
+                btnDificil.setAlpha(1f);
+                btnDificil.setEnabled(true);
+                btnOtaku.setAlpha(1f);
+                btnOtaku.setEnabled(true);
+                break;
             default:
                 //Empty
                 break;
@@ -208,22 +231,22 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
 
         btnFacil.setOnClickListener(v -> {
             dialog.dismiss();
-            startQuiz(idAnime,1,user);
+            startQuiz(idAnime, 1, user);
         });
 
         btnNormal.setOnClickListener(v -> {
             dialog.dismiss();
-            startQuiz(idAnime,2,user);
+            startQuiz(idAnime, 2, user);
         });
 
         btnDificil.setOnClickListener(v -> {
             dialog.dismiss();
-            startQuiz(idAnime,3,user);
+            startQuiz(idAnime, 3, user);
         });
 
         btnOtaku.setOnClickListener(v -> {
             dialog.dismiss();
-            startQuiz(idAnime,4,user);
+            startQuiz(idAnime, 4, user);
         });
 
         builder.setView(view);
@@ -232,12 +255,20 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         dialog.show();
     }
 
-    public void startQuiz(int idAnime, int level, User user){
+    public void startQuiz(int idAnime, int level, User user) {
         Intent intent = new Intent(getContext(), PreguntasActivity.class);
-        intent.putExtra("level",level);
-        intent.putExtra("idAnime",idAnime);
-        intent.putExtra("score",iScore);
-        intent.putExtra("user",user);
+        intent.putExtra("level", level);
+        intent.putExtra("idAnime", idAnime);
+        intent.putExtra("score", iScore);
+        intent.putExtra("user", user);
+        startActivity(intent);
+    }
+
+    public void startQuizImg(int idAnime, User user) {
+        Intent intent = new Intent(getContext(), PreguntasImgActivity.class);
+        intent.putExtra("idAnime", idAnime);
+        intent.putExtra("score", iScore);
+        intent.putExtra("user", user);
         startActivity(intent);
     }
 
@@ -258,7 +289,7 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
             }*/
             AnimeAdapter adapterFilter = new AnimeAdapter();
             adapterFilter.setItemClickListener((Anime anime) -> menuPresenter.launchAnimeTest(anime));
-            adapterFilter.setLstAnimes(Utils.filtrarAnime(lstAnime,s));
+            adapterFilter.setLstAnimes(Utils.filtrarAnime(lstAnime, s));
             recyclerViewAnimes.setAdapter(adapterFilter);
             adapterFilter.notifyDataSetChanged();
 

@@ -15,6 +15,7 @@ import io.reactivex.Observable;
 public interface QuizServiceClient {
     Observable<LoginResponse> login(String userName, String pass);
     Observable<List<Anime>> getAllAnimes(String userName, String pass);
+    Observable<List<Anime>> getAllAnimesImg(String userName, String pass);
     Observable<List<Anime>> getAllAnimesForWallpaper(String userName, String pass);
     Observable<List<Preguntas>> getQuestionsByAnimeAndLevel(String userName, String pass, int idAnime, int level);
     Observable<ScoreResponse> checkScoreAndLevel(String userName, String pass, int idAnime, int idUser);
@@ -32,4 +33,5 @@ public interface QuizServiceClient {
     Observable<UpdateResponse> updateAvatar(String userName,String pass, int idUser, String b64);
     Observable<LoginResponse> validaUsuarioFacebook(String userName);
     Observable<UpdateResponse> updateEsferas(String userName,String pass, int idUser, int esferas);
+    Observable<List<Preguntas>> getQuestionsByAnimeImg(String userName, String pass, int idAnime);
 }

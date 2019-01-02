@@ -13,9 +13,9 @@
     <string name="bannerId">ca-app-pub-2449148181464779/4983262083</string>
     <string name="interstitialId">ca-app-pub-2449148181464779/3826927234</string>
     <string name="bannerBonificacion">ca-app-pub-2449148181464779/7334216966</string>
-   <!-- Bonificacion Test -->
+    <!-- Bonificacion Test -->
     <!-- <string name="bannerBonificacion">ca-app-pub-3940256099942544/5224354917</string> -->
-    <string name="btnBannerBonificacion">Obten Gemas extras viendo un anuncio</string>
+    <string name="btnBannerBonificacion">Gemas gratis ver anuncio</string>
 
     <!-- Menu -->
     <string name="quiz">Quiz</string>
@@ -24,6 +24,7 @@
     <string name="compartir">Compartir con un amigo \n Puedes ganar 2500 gemas por cada amigo que descargue la app</string>
     <string name="redesSociales">Compartir</string>
     <string name="msgCompartir">Puedes ganar 2500 gemas, por cada amigo que descargue la app</string>
+    <string name="quienes">¿Quien es?</string>
 
     <string name="noInternet">No tienes conexión a Internet</string>
     <!-- LoginActivity -->
@@ -45,7 +46,7 @@
     <string name="noAvatars">No tienes avatars</string>
     <string name="o">Ó</string>
     <string name="noValid">Opción no valida</string>
-    
+
     <string name="facebook_app_id">1940196376274860</string>
     <string name="facebook_login_protocol_scheme">fb1940196376274860</string>
 
@@ -115,5 +116,8 @@
     <string name="alert_already_purchased">El artículo ya está comprado</string>
     <string name="header_inapp">Compras</string>
     <string name="header_subscriptions">Suscripciones</string>
+
+    <!-- Activity PreguntasImg -->
+    <string name="titlePreguntas">¿Que personaje es?</string>
 
 </resources>

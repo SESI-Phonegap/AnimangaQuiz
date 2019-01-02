@@ -1,4 +1,5 @@
 package com.sesi.chris.animangaquiz.view.activity;
+
 import android.Manifest;
 import android.content.ComponentName;
 import android.content.Context;
@@ -33,6 +34,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.Purchase;
 import com.google.android.gms.ads.AdListener;
@@ -58,13 +60,16 @@ import com.sesi.chris.animangaquiz.view.fragment.PurchaseFragment;
 import com.sesi.chris.animangaquiz.view.fragment.WallpaperFragment;
 import com.sesi.chris.animangaquiz.view.utils.ImageFilePath;
 import com.sesi.chris.animangaquiz.view.utils.Utils;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+
 import static com.sesi.chris.animangaquiz.data.api.billing.BillingManager.BILLING_MANAGER_NOT_INITIALIZED;
 import static com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection.isOnline;
 
@@ -132,27 +137,28 @@ public class MenuActivity extends AppCompatActivity
         toggle.syncState();
         progressBar = findViewById(R.id.pb_login);
         userActual = (User) getIntent().getSerializableExtra("user");
-        refreshUserData();
-        changeFragment(AnimeCatalogoFragment.newInstance(), R.id.mainFrame, false, false);
+        changeFragment(AnimeCatalogoFragment.newInstance("quiz"), R.id.mainFrame, false, false);
         imgShenglong = findViewById(R.id.shenglong);
         frameLayout = findViewById(R.id.mainFrame);
         imgDragonBalls.setOnClickListener(v -> {
             if (userActual.getEsferas() == 7) {
                 invokeShenlong();
             } else {
-                Toast.makeText(context(),R.string.msgErrorShenlong,Toast.LENGTH_LONG).show();
+                Toast.makeText(context(), R.string.msgErrorShenlong, Toast.LENGTH_LONG).show();
             }
         });
 
         imgAvatar.setOnClickListener(v ->
-            openGallery()
+                openGallery()
         );
 
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (ActivityCompat.checkSelfPermission(context(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 999);
-            }
+        if (Build.VERSION.SDK_INT >= 23 && checkExternalStoragePermission()) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 999);
         }
+    }
+
+    private boolean checkExternalStoragePermission() {
+        return ActivityCompat.checkSelfPermission(context(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED;
     }
 
     private void invokeShenlong() {
@@ -334,7 +340,7 @@ public class MenuActivity extends AppCompatActivity
                     Toast.makeText(context(), R.string.msgImagenError, Toast.LENGTH_LONG).show();
                 }
             } catch (IOException e) {
-                Log.e("Error-",e.getMessage());
+                Log.e("Error-", e.getMessage());
             }
         }
     }
@@ -361,27 +367,37 @@ public class MenuActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_quiz) {
-            // Handle the camera action
-            changeFragment(AnimeCatalogoFragment.newInstance(), R.id.mainFrame, false, false);
-        } else if (id == R.id.nav_wallpaper) {
-            changeFragment(WallpaperFragment.newInstance(), R.id.mainFrame, false, false);
-        } else if (id == R.id.nav_tienda) {
-            if (fPurchaseFragment == null) {
-                fPurchaseFragment = new PurchaseFragment();
-            }
-            if (mBillingManager != null
-                    && mBillingManager.getBillingClientResponseCode()
-                    > BILLING_MANAGER_NOT_INITIALIZED) {
-                fPurchaseFragment.onManagerReady(this);
-                changeFragment(fPurchaseFragment, R.id.mainFrame, false, false);
-            }
-        } else if (id == R.id.nav_compartit) {
-            Utils.sharedSocial(context(), userActual.getUserName());
-        } else if (id == R.id.nav_friend) {
-            changeFragment(FriendsFragment.newInstance(), R.id.mainFrame, false, false);
+        switch (id) {
+            case R.id.nav_quiz:
+                changeFragment(AnimeCatalogoFragment.newInstance("quiz"), R.id.mainFrame, false, false);
+                break;
+            case R.id.nav_quizImg:
+                changeFragment(AnimeCatalogoFragment.newInstance("img"), R.id.mainFrame, false, false);
+                break;
+            case R.id.nav_wallpaper:
+                changeFragment(WallpaperFragment.newInstance(), R.id.mainFrame, false, false);
+                break;
+            case R.id.nav_tienda:
+                if (fPurchaseFragment == null) {
+                    fPurchaseFragment = new PurchaseFragment();
+                }
+                if (mBillingManager != null
+                        && mBillingManager.getBillingClientResponseCode()
+                        > BILLING_MANAGER_NOT_INITIALIZED) {
+                    fPurchaseFragment.onManagerReady(this);
+                    changeFragment(fPurchaseFragment, R.id.mainFrame, false, false);
+                }
+                break;
+            case R.id.nav_compartit:
+                Utils.sharedSocial(context(), userActual.getUserName());
+                break;
+            case R.id.nav_friend:
+                changeFragment(FriendsFragment.newInstance(), R.id.mainFrame, false, false);
+                break;
+            default:
+                Utils.sharedSocial(context(), userActual.getUserName());
+                break;
         }
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -418,7 +434,7 @@ public class MenuActivity extends AppCompatActivity
             tvEmail.setText((sEmail != null) ? sEmail : user.getEmail());
             tvTotalScore.setText(getString(R.string.score, String.valueOf(user.getTotalScore())));
             tvGems.setText(String.valueOf(user.getCoins()));
-            switch (user.getEsferas()){
+            switch (user.getEsferas()) {
                 case 1:
                     imgDragonBalls.setVisibility(View.VISIBLE);
                     imgDragonBalls.setImageDrawable(getDrawable(R.drawable.esferas1));
@@ -579,8 +595,8 @@ public class MenuActivity extends AppCompatActivity
                         getBillingManager().consumeAsync(purchase.getPurchaseToken());
                         break;
                     default:
-                         Toast.makeText(context(),R.string.noValid,Toast.LENGTH_LONG).show();
-                         break;
+                        Toast.makeText(context(), R.string.noValid, Toast.LENGTH_LONG).show();
+                        break;
 
                 }
             }

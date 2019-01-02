@@ -7,8 +7,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.android.vending.BILLING" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <supports-screens android:largeScreens="true"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <supports-screens android:largeScreens="true" />
 
     <application
         android:allowBackup="true"
@@ -18,14 +19,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
-
+            android:value="@string/facebook_app_id" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/admodId"/>
+            android:value="@string/admodId" />
+
         <activity
             android:name=".view.activity.LoginActivity"
             android:screenOrientation="portrait"
@@ -47,11 +47,13 @@
         <activity
             android:name=".view.activity.PreguntasActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".view.activity.RegistroActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".view.activity.SearchFriendActivity"
-            android:screenOrientation="portrait"/>
-
+        <activity
+            android:name=".view.activity.RegistroActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.SearchFriendActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".view.activity.PreguntasImgActivity"></activity>
     </application>
 
 </manifest>

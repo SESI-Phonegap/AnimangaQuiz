@@ -16,7 +16,8 @@ public class MenuPresenter extends Presenter<MenuPresenter.ViewMenu>{
 
     public void getAllAnimes(String userName, String pass){
         getView().showLoading();
-        Disposable disposable = interactor.animes(userName,pass).subscribe(animes -> {
+        Disposable disposable = interactor.animes(userName,pass)
+                .subscribe(animes -> {
             if (!animes.isEmpty()){
                 getView().hideLoading();
                 getView().renderAnimes(animes);
@@ -24,6 +25,23 @@ public class MenuPresenter extends Presenter<MenuPresenter.ViewMenu>{
                 getView().showAnimesNotFoundMessage();
             }
         },Throwable::printStackTrace);
+        addDisposableObserver(disposable);
+    }
+
+    public void getAllAnimesImg(String userName, String pass){
+        getView().showLoading();
+        Disposable disposable = interactor.getAnimesImg(userName, pass)
+                .doOnError(error -> {
+                    getView().hideLoading();
+                    getView().showServerError(error.getMessage());
+                }).subscribe(anime -> {
+                    getView().hideLoading();
+                    if (!anime.isEmpty()){
+                        getView().renderAnimes(anime);
+                    } else {
+                        getView().showAnimesNotFoundMessage();
+                    }
+                },Throwable::printStackTrace);
         addDisposableObserver(disposable);
     }
 
