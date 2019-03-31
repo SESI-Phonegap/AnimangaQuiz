@@ -36,14 +36,29 @@ public class LoginPresenter extends Presenter<LoginPresenter.ViewLogin> {
                         getView().showServerError(error.getMessage()))
                 .subscribe(updateResponse -> {
                     if (null != updateResponse){
-                        getView().hideLoading();
                         getView().updateGemsResponse(updateResponse);
+                        getView().hideLoading();
                     } else {
                         getView().showUpdateGemsError();
                     }
                 },Throwable::printStackTrace);
         addDisposableObserver(disposable);
 
+    }
+
+    public void onUpdateEsferas(String userName, String pass, int idUser, int esferas ){
+        getView().showLoading();
+        Disposable disposable = interactor.updateEsferas(userName, pass, idUser, esferas)
+                .doOnError(error -> getView().showServerError(error.getMessage()))
+                .subscribe(updateResponse -> {
+                    if (null != updateResponse){
+                        getView().hideLoading();
+                        getView().updateGemsResponse(updateResponse);
+                    } else {
+                        getView().showServerError("Ocurrio un error");
+                    }
+                },Throwable::printStackTrace);
+        addDisposableObserver(disposable);
     }
 
     public void onUpdateAvatar(String userName, String pass, int idUser, String b64){

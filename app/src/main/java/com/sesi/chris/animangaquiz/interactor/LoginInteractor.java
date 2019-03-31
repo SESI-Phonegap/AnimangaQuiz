@@ -34,4 +34,8 @@ public class LoginInteractor {
         return quizServiceClient.validaUsuarioFacebook(userName);
     }
 
+    public Observable<UpdateResponse> updateEsferas(String userName, String pass, int idUser, int esferas ){
+        return quizServiceClient.updateEsferas(userName,pass,idUser,esferas);
+    }
+
 }

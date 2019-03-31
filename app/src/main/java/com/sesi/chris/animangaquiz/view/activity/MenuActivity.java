@@ -162,6 +162,7 @@ public class MenuActivity extends AppCompatActivity
     }
 
     private void invokeShenlong() {
+        loginPresenter.onUpdateGems(userActual.getUserName(),userActual.getPassword(),userActual.getIdUser(),userActual.getCoins() + 10000);
         frameLayout.setVisibility(View.GONE);
         imgShenglong.setVisibility(View.VISIBLE);
         imgShenglong.setBackgroundResource(R.drawable.animation_shenlong);
@@ -183,6 +184,7 @@ public class MenuActivity extends AppCompatActivity
 
         }
 
+        loginPresenter.onUpdateEsferas(userActual.getUserName(),userActual.getPassword(),userActual.getIdUser(),0);
 
         imgShenglong.setOnClickListener(v -> {
             if (!animationDrawable.isRunning()) {

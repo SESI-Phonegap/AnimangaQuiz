@@ -355,7 +355,7 @@ public class PreguntasImgActivity extends AppCompatActivity implements Preguntas
             iGemas = getResources().getInteger(R.integer.medMed);
         } else if (puntos >= 4001 && puntos <= 6000) {
             iGemas = getResources().getInteger(R.integer.medMax);
-            if (iEsferas < 4 && iEsferas >=0){
+            if (iEsferas < 7 && iEsferas >=0){
                 presenter.updateEsferas(user.getUserName(),user.getPassword(),user.getIdUser(),user.getEsferas() + 1);
             }
         }

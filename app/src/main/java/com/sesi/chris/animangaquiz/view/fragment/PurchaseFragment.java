@@ -132,7 +132,7 @@ public class PurchaseFragment extends Fragment {
                         Log.w("TAG", "Unsuccessful query for type: " + billingType
                                 + ". Error code: " + responseCode);
                     } else if (skuDetailsList != null
-                            && skuDetailsList.isEmpty()) {
+                            && !skuDetailsList.isEmpty()) {
                         // If we successfully got SKUs, add a header in front of the row
                         @StringRes int stringRes = (billingType == BillingClient.SkuType.INAPP)
                                 ? R.string.header_inapp : R.string.header_subscriptions;
