@@ -3,8 +3,8 @@ package com.sesi.chris.animangaquiz.view.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 

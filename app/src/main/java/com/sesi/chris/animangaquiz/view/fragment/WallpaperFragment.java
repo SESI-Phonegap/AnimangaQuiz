@@ -1,21 +1,25 @@
 package com.sesi.chris.animangaquiz.view.fragment;
 
-import android.Manifest;
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.os.Build;
+import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.CountDownTimer;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,11 +43,7 @@ import com.sesi.chris.animangaquiz.view.adapter.AnimeAdapter;
 import com.sesi.chris.animangaquiz.view.adapter.WallpaperAdapter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
 import com.sesi.chris.animangaquiz.view.utils.Utils;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class WallpaperFragment extends Fragment implements WallpaperPresenter.ViewWallpaper {
 
@@ -57,6 +57,8 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
     private List<Anime> lstAnime;
     private User user;
     private int costoWalpaper;
+    private BroadcastReceiver onDownloadFinishReceiver;
+    private  DownloadManager dm;
 
     public WallpaperFragment() {
         // Required empty public constructor
@@ -75,26 +77,29 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_wallpaper, container, false);
+        View viewRoot = inflater.inflate(R.layout.fragment_wallpaper, container, false);
+        init(viewRoot);
+        return viewRoot;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        init();
     }
 
-    private void init(){
+    private void init(View viewRoot){
+        Log.i("Wallpaper", "Iniciado");
         context = getContext();
         presenter = new WallpaperPresenter(new WallpaperInteractor(new QuizClient()));
         presenter.setView(this);
-        imgBtnBack = Objects.requireNonNull(getActivity()).findViewById(R.id.imgBtnBack);
-        etSearch = Objects.requireNonNull(getActivity()).findViewById(R.id.et_search);
+        imgBtnBack = viewRoot.findViewById(R.id.imgBtnBack);
+        etSearch = viewRoot.findViewById(R.id.et_search);
         etSearch.addTextChangedListener(textWatcherFilter);
-        recyclerViewAnimes = getActivity().findViewById(R.id.recyclerViewAnime);
-        recyclerViewWallpapers = getActivity().findViewById(R.id.recyclerViewWallpaper);
-        progressBar = getActivity().findViewById(R.id.pb_wallpaper);
-        user = (User) getActivity().getIntent().getSerializableExtra("user");
+        recyclerViewAnimes = viewRoot.findViewById(R.id.recyclerViewAnime);
+        recyclerViewWallpapers = viewRoot.findViewById(R.id.recyclerViewWallpaper);
+        progressBar = viewRoot.findViewById(R.id.pb_wallpaper);
+        user = (User) requireActivity().getIntent().getSerializableExtra("user");
+        Log.i("Wallpaper user", user.toString());
         setupRecyclerViewAnimes();
         if (UtilInternetConnection.isOnline(context())){
             if (null != user){
@@ -143,6 +148,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
         tvMensaje.setText(context().getString(R.string.msg_wallpapers));
 
@@ -194,10 +200,12 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         adapter.setLstWallpaper(lstWallpaper);
         adapter.setItemClickListener((Wallpaper wallpaper) -> {
 
-            if (((MenuActivity) Objects.requireNonNull(getActivity())).getUserActual().getCoins() >= wallpaper.getCosto()){
+            if (((MenuActivity) requireActivity()).getUserActual().getCoins() >= wallpaper.getCosto()){
                 costoWalpaper = wallpaper.getCosto();
                 String url = Constants.URL_BASE + wallpaper.getUrl();
-                String formato = url.substring(url.length()-4,url.length());
+                String formato = url.substring(url.length()-4);
+                Log.i("Wallpaper", url);
+                Log.i("Wallpaper", formato);
                 showConfirmDialog(costoWalpaper, url,formato);
 
             } else {
@@ -214,10 +222,10 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         WallpaperAdapter adapter = new WallpaperAdapter();
         adapter.setLstWallpaper(lstAvatar);
         adapter.setItemClickListener((Wallpaper avatar) -> {
-            if (((MenuActivity) Objects.requireNonNull(getActivity())).getUserActual().getCoins() >= avatar.getCosto()){
+            if (((MenuActivity) requireActivity()).getUserActual().getCoins() >= avatar.getCosto()){
                 costoWalpaper = avatar.getCosto();
                 String sUrl = Constants.URL_BASE + avatar.getUrl();
-                String formato = sUrl.substring(sUrl.length()-4,sUrl.length());
+                String formato = sUrl.substring(sUrl.length()-4);
                 showConfirmDialog(costoWalpaper,sUrl,formato);
             } else {
                 Toast.makeText(context(),getString(R.string.noAlcanza),Toast.LENGTH_LONG).show();
@@ -251,7 +259,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
             Log.d("GEMASRESPONSE--",updateResponse.estatus);
             Log.d("GEMASRESPONSE--",updateResponse.error);
         }
-        ((MenuActivity) Objects.requireNonNull(getActivity())).refreshUserData();
+        ((MenuActivity) requireActivity()).refreshUserData();
 
     }
 
@@ -261,7 +269,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
     }
 
     private void restaGemas(){
-        int gemasDisponibles = ((MenuActivity) Objects.requireNonNull(getActivity())).getUserActual().getCoins();
+        int gemasDisponibles = ((MenuActivity) requireActivity()).getUserActual().getCoins();
         //Update Gemas
         int gemasUpdate = gemasDisponibles - costoWalpaper;
         presenter.updateGemas(user.getUserName(),user.getPassword(),user.getIdUser(),gemasUpdate);
@@ -269,8 +277,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
 
     private void guardarWallpaper(String url, String formato){
         //Descargar la imagen
-        DownloadWallpaperTask download = new DownloadWallpaperTask();
-        download.execute(url,formato);
+        downloadWallpaper(url, formato);
     }
 
     public void showConfirmDialog(int costoWallpaper, String url, String formato){
@@ -320,56 +327,74 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         }
     };
 
-    private class DownloadWallpaperTask extends AsyncTask<String,Integer,Bitmap> {
+    private void downloadWallpaper(String url, String format) {
+        dm = (DownloadManager) requireActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).mkdirs();
+        String date = (DateFormat.format("yyyyMMdd_hhmmss", new java.util.Date()).toString());
+        String fname = "Image-" + date + format;
 
-        private String sFormato;
+        Long lastDownload = dm.enqueue(new DownloadManager.Request(Uri.parse(url))
+                .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE)
+                .setAllowedOverRoaming(false)
+                .setTitle("Download")
+                .setDescription("Download Wallpaper")
+                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fname)
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED));
+        CountDownTimer countDownTimer = new CountDownTimer(5000,1000) {
+            @Override
+            public void onTick(long l) {
 
-        @Override
-        protected Bitmap doInBackground(String... url) {
-            Bitmap bitmap = null;
-            try {
-                sFormato = url[1];
-                InputStream inputStream = new URL(url[0]).openStream();   // Download Image from URL
-                bitmap = BitmapFactory.decodeStream(inputStream);       // Decode Bitmap
-                inputStream.close();
-            } catch (Exception e) {
-                Log.e("Error-",e.getMessage());
             }
-            return bitmap;
+
+            @Override
+            public void onFinish() {
+                queryStatus(dm, lastDownload);
+            }
+        }.start();
+    }
+
+    public void queryStatus(DownloadManager dm, Long lastDownload) {
+        Cursor c= dm.query(new DownloadManager.Query().setFilterById(lastDownload));
+
+        if (c==null) {
+            Toast.makeText(getContext(), "Download not found!", Toast.LENGTH_LONG).show();
         }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            super.onPostExecute(bitmap);
-            if (Utils.isExternalStorageWritable()) {
-                if (Build.VERSION.SDK_INT >= 23) {
-                    if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE}, 999);
-                    } else {
-                        if (Utils.saveImage(bitmap, sFormato, context())) {
-                            //Descontar Gemas
-                            restaGemas();
-                            Toast.makeText(context(),R.string.msgWallpaperSaved2,Toast.LENGTH_LONG).show();
-                        }
-                    }
-                } else {
-                    if (Utils.saveImage(bitmap, sFormato, context())) {
-                        //Descontar Gemas
-                        restaGemas();
-                        Toast.makeText(context(),R.string.msgWallpaperSaved2,Toast.LENGTH_LONG).show();
-                    }
-                }
-            } else {
-                Toast.makeText(context(),getString(R.string.msgNoSd),Toast.LENGTH_LONG).show();
-            }
+        else {
+            c.moveToFirst();
+            Toast.makeText(getContext(), statusMessage(c), Toast.LENGTH_LONG).show();
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
-           Toast.makeText(context(),"Permiso concedido, vuelve a descargar la imagen",Toast.LENGTH_LONG).show();
+    private String statusMessage(Cursor c) {
+        String msg;
+
+        switch(c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS))) {
+            case DownloadManager.STATUS_FAILED:
+                msg="Download failed!";
+                break;
+
+            case DownloadManager.STATUS_PAUSED:
+                msg="Download paused!";
+                break;
+
+            case DownloadManager.STATUS_PENDING:
+                msg="Download pending!";
+                break;
+
+            case DownloadManager.STATUS_RUNNING:
+                msg="Download in progress!";
+                break;
+
+            case DownloadManager.STATUS_SUCCESSFUL:
+                msg="Download complete!";
+                restaGemas();
+                break;
+
+            default:
+                msg="Download is nowhere in sight";
+                break;
         }
+
+        return(msg);
     }
 }

@@ -2,18 +2,20 @@ package com.sesi.chris.animangaquiz.view.fragment;
 
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.SkuDetails;
 import com.sesi.chris.animangaquiz.R;
@@ -24,7 +26,6 @@ import com.sesi.chris.animangaquiz.view.adapter.SkusAdapter;
 import com.sesi.chris.animangaquiz.view.adapter.UiManager;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 public class PurchaseFragment extends Fragment {
@@ -49,19 +50,20 @@ public class PurchaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_purchase, container, false);
+        View viewRoot = inflater.inflate(R.layout.fragment_purchase, container, false);
+        init(viewRoot);
+        return viewRoot;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        init();
     }
 
-    public void init(){
-        mRecyclerView = Objects.requireNonNull(getActivity()).findViewById(R.id.list);
-        mErrorTextView = getActivity().findViewById(R.id.error_textview);
-        progressBar = getActivity().findViewById(R.id.progressBarPurchase);
+    public void init(View viewRoot){
+        mRecyclerView = viewRoot.findViewById(R.id.list);
+        mErrorTextView = viewRoot.findViewById(R.id.error_textview);
+        progressBar = viewRoot.findViewById(R.id.progressBarPurchase);
 
         if (mBillingProvider != null) {
             handleManagerAndUiReady();
@@ -128,7 +130,7 @@ public class PurchaseFragment extends Fragment {
                             final @BillingClient.SkuType String billingType, final Runnable executeWhenFinished) {
         mBillingProvider.getBillingManager().querySkuDetailsAsync(billingType, skusList,
                 (responseCode, skuDetailsList) -> {
-                    if (responseCode != BillingClient.BillingResponse.OK) {
+                    if (responseCode.getResponseCode() != BillingClient.BillingResponseCode.OK) {
                         Log.w("TAG", "Unsuccessful query for type: " + billingType
                                 + ". Error code: " + responseCode);
                     } else if (skuDetailsList != null
@@ -147,6 +149,7 @@ public class PurchaseFragment extends Fragment {
                             displayAnErrorIfNeeded();
                         } else {
                             if (mRecyclerView.getAdapter() == null) {
+                                Log.d("AdapterNull", "Ok");
                                 mRecyclerView.setAdapter(mAdapter);
                                 Resources res = getActivity().getResources();
                                 mRecyclerView.addItemDecoration(new CardsWithHeadersDecoration(
@@ -155,6 +158,7 @@ public class PurchaseFragment extends Fragment {
                                 mRecyclerView.setLayoutManager(
                                         new LinearLayoutManager(getActivity()));
                             }
+                            Log.d("AdapterOk", "Ok");
                             mAdapter.updateData(inList);
                             setWaitScreen(false);
                         }
@@ -175,11 +179,11 @@ public class PurchaseFragment extends Fragment {
                 .getBillingClientResponseCode();
 
         switch (billingResponseCode) {
-            case BillingClient.BillingResponse.OK:
+            case BillingClient.BillingResponseCode.OK:
                 // If manager was connected successfully, then show no SKUs error
                 mErrorTextView.setText(getText(R.string.error_no_skus));
                 break;
-            case BillingClient.BillingResponse.BILLING_UNAVAILABLE:
+            case BillingClient.BillingResponseCode.BILLING_UNAVAILABLE:
                 mErrorTextView.setText(getText(R.string.error_billing_unavailable));
                 break;
             default:

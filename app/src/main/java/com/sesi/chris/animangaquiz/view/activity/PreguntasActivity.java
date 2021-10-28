@@ -1,12 +1,10 @@
 package com.sesi.chris.animangaquiz.view.activity;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.CountDownTimer;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -14,14 +12,28 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.reward.RewardItem;
-import com.google.android.gms.ads.reward.RewardedVideoAd;
-import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.google.android.gms.ads.OnUserEarnedRewardListener;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+import com.google.android.gms.ads.rewarded.RewardItem;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
@@ -34,7 +46,7 @@ import com.sesi.chris.animangaquiz.view.adapter.RespuestasAdapter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
 import java.util.List;
 
-public class PreguntasActivity extends AppCompatActivity implements RewardedVideoAdListener,PreguntasPresenter.ViewPreguntas {
+public class PreguntasActivity extends AppCompatActivity implements PreguntasPresenter.ViewPreguntas {
 
     private static final String TRUE = "1";
     private static final int TIME_QUESTIONS = 16000;
@@ -63,9 +75,10 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
     private int iCorrectas = 0;
     private int iIdAnime;
     private InterstitialAd mInterstitialAd;
-    private RewardedVideoAd mRewardedVideoAd;
     private AdView mAdview;
     private TextView tvDialogGemas;
+    private RewardedAd mRewardedAd;
+    private AdRequest adRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +89,13 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
 
     private void init() {
         context = this;
-        // Use an activity context to get the rewarded video instance.
-        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
-        mRewardedVideoAd.setRewardedVideoAdListener(this);
-        mRewardedVideoAd.loadAd(getString(R.string.bannerBonificacion),
-                new AdRequest.Builder().build());
+        MobileAds.initialize(getApplicationContext(), new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+
+            }
+        });
+
         presenter = new PreguntasPresenter(new PreguntasInteractor(new QuizClient()));
         presenter.setView(this);
         tvPregunta = findViewById(R.id.tv_pregunta);
@@ -95,6 +110,8 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
         iActualScore = bundle.getInt("score");
         setupRecyclerView();
         if (UtilInternetConnection.isOnline(context())) {
+            // Use an activity context to get the rewarded video instance.
+            loadAdReward();
             cargarInterstitial();
             if (null != user) {
                 presenter.getQuestionsByAnimeAndLevel(user.getUserName(), user.getPassword(), iIdAnime, level);
@@ -104,6 +121,58 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
         } else {
             Toast.makeText(context(), getString(R.string.noInternet), Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void loadAdReward(){
+        adRequest = new AdRequest.Builder().build();
+        RewardedAd.load(getApplicationContext(),getString(R.string.bannerBonificacion), adRequest, new RewardedAdLoadCallback() {
+            @Override
+            public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
+                mRewardedAd = rewardedAd;
+                super.onAdLoaded(rewardedAd);
+            }
+
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                mRewardedAd = null;
+                super.onAdFailedToLoad(loadAdError);
+            }
+        });
+    }
+
+    private void showRewardedVideo(){
+        if (null != mRewardedAd){
+            mRewardedAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                @Override
+                public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
+                    super.onAdFailedToShowFullScreenContent(adError);
+                    // Called when ad fails to show.
+                    Log.d("Ad", "Ad failed to show.");
+                }
+
+                @Override
+                public void onAdShowedFullScreenContent() {
+                    super.onAdShowedFullScreenContent();
+                    // Called when ad is shown.
+                    Log.d("Ad","Ad was shown.");
+                }
+
+                @Override
+                public void onAdDismissedFullScreenContent() {
+                    super.onAdDismissedFullScreenContent();
+                    Log.d("Ad", "Ad was dismissed.");
+                    mRewardedAd = null;
+                }
+            });
+            mRewardedAd.show(this, new OnUserEarnedRewardListener() {
+                @Override
+                public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
+                    gemas += rewardItem.getAmount();
+                    tvDialogGemas.setText(String.valueOf(gemas));
+                }
+            });
+        }
+
     }
 
     private void setupRecyclerView() {
@@ -116,7 +185,6 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
 
     private void cargarInterstitial(){
         mAdview = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
         mAdview.loadAd(adRequest);
         mAdview.setAdListener(new AdListener() {
             @Override
@@ -125,22 +193,39 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
                 mAdview.loadAd(new AdRequest.Builder().build());
             }
         });
-        mInterstitialAd = new InterstitialAd(context());
-        mInterstitialAd.setAdUnitId(getString(R.string.interstitialId));
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
-        mInterstitialAd.setAdListener(new AdListener() {
+        InterstitialAd.load(getApplicationContext(), getString(R.string.interstitialId), adRequest, new InterstitialAdLoadCallback() {
             @Override
-            public void onAdClosed() {
-                // Load the next interstitial.
-                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                super.onAdLoaded(interstitialAd);
+                mInterstitialAd = interstitialAd;
+                mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                    @Override
+                    public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
+                        super.onAdFailedToShowFullScreenContent(adError);
+                    }
+
+                    @Override
+                    public void onAdShowedFullScreenContent() {
+                        super.onAdShowedFullScreenContent();
+                    }
+
+                    @Override
+                    public void onAdDismissedFullScreenContent() {
+                        super.onAdDismissedFullScreenContent();
+                    }
+                });
             }
 
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                super.onAdFailedToLoad(loadAdError);
+            }
         });
     }
 
     public void showInterstitialAd(){
-        if (mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
+        if (mInterstitialAd != null) {
+            mInterstitialAd.show(this);
         } else {
             Log.d("TAG", "The interstitial wasn't loaded yet.");
         }
@@ -148,20 +233,17 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
 
     @Override
     protected void onDestroy() {
-        mRewardedVideoAd.destroy(this);
         presenter.terminate();
         super.onDestroy();
     }
 
     @Override
     protected void onResume() {
-        mRewardedVideoAd.resume(this);
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        mRewardedVideoAd.pause(this);
         super.onPause();
     }
 
@@ -305,15 +387,14 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
         });
 
         tvBtnAnuncio.setOnClickListener(v -> {
-            if (mRewardedVideoAd.isLoaded()) {
-                mRewardedVideoAd.show();
-            }
+            showRewardedVideo();
         });
 
         builder.setView(view);
         dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
 
@@ -408,46 +489,5 @@ public class PreguntasActivity extends AppCompatActivity implements RewardedVide
 
         }
         return iGemas;
-    }
-
-    @Override
-    public void onRewardedVideoAdLoaded() {
-        //Empty Method
-    }
-
-    @Override
-    public void onRewardedVideoAdOpened() {
-        //Empty Method
-    }
-
-    @Override
-    public void onRewardedVideoStarted() {
-        //Empty Method
-    }
-
-    @Override
-    public void onRewardedVideoAdClosed() {
-        //Empty Method
-    }
-
-    @Override
-    public void onRewarded(RewardItem rewardItem) {
-        //Empty Method
-    }
-
-    @Override
-    public void onRewardedVideoAdLeftApplication() {
-        //Empty Method
-    }
-
-    @Override
-    public void onRewardedVideoAdFailedToLoad(int i) {
-        //Empty Method
-    }
-
-    @Override
-    public void onRewardedVideoCompleted() {
-        gemas += getResources().getInteger(R.integer.bono);
-        tvDialogGemas.setText(String.valueOf(gemas));
     }
 }

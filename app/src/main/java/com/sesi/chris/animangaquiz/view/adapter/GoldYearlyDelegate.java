@@ -59,10 +59,10 @@ public class GoldYearlyDelegate extends UiManagingDelegate {
                 ArrayList<String> currentSubscriptionSku = new ArrayList<>();
                 currentSubscriptionSku.add(GoldMonthlyDelegate.SKU_ID);
                 mBillingProvider.getBillingManager().initiatePurchaseFlow(data.getSku(),
-                        currentSubscriptionSku, data.getSkuType());
+                        currentSubscriptionSku, data.getSkuType(), data.getDetails());
             } else {
                 mBillingProvider.getBillingManager().initiatePurchaseFlow(data.getSku(),
-                        data.getSkuType());
+                        data.getSkuType(), data.getDetails());
             }
         }
     }

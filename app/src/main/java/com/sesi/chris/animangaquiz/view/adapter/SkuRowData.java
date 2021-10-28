@@ -31,6 +31,7 @@ public class SkuRowData {
     int type;
     private @SkuType
     String billingType;
+    private SkuDetails details;
 
     public SkuRowData(SkuDetails details, @SkusAdapter.RowTypeDef int rowType,
                       @SkuType String billingType) {
@@ -40,6 +41,7 @@ public class SkuRowData {
         this.description = details.getDescription();
         this.type = rowType;
         this.billingType = billingType;
+        this.details = details;
     }
 
     public SkuRowData(String title) {
@@ -71,5 +73,13 @@ public class SkuRowData {
     public @SkuType
     String getSkuType() {
         return billingType;
+    }
+
+    public SkuDetails getDetails() {
+        return details;
+    }
+
+    public void setDetails(SkuDetails details) {
+        this.details = details;
     }
 }

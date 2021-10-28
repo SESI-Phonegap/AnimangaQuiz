@@ -12,8 +12,9 @@
 package com.sesi.chris.animangaquiz.view.adapter;
 
 import android.graphics.Rect;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * A separator for RecyclerView that keeps the specified spaces between headers and the cards.

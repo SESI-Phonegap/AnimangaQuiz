@@ -15,7 +15,7 @@
     <string name="bannerBonificacion">ca-app-pub-2449148181464779/7334216966</string>
     <!-- Bonificacion Test -->
     <!-- <string name="bannerBonificacion">ca-app-pub-3940256099942544/5224354917</string> -->
-    <string name="btnBannerBonificacion">Gemas gratis ver anuncio</string>
+    <string name="btnBannerBonificacion">Ver anuncio</string>
 
     <!-- Menu -->
     <string name="quiz">Quiz</string>
@@ -64,7 +64,8 @@
     <string name="btnAceptar">Aceptar</string>
 
     <!-- PreguntasActivity -->
-    <string name="newRecord">Felicidades has batido un nuevo récord !!</string>
+    <string name="newRecord">Felicidades \n has batido un nuevo récord !!</string>
+    <string name="AdReward">Gana mas Gemas viendo un comercial.</string>
 
 
     <string name="hello_blank_fragment">Hello blank fragment</string>

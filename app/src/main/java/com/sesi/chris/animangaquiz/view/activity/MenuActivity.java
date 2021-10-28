@@ -1,6 +1,7 @@
 package com.sesi.chris.animangaquiz.view.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -15,16 +16,21 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import com.google.android.gms.ads.RequestConfiguration;
+import com.google.android.material.navigation.NavigationView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
@@ -65,6 +71,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -116,7 +123,7 @@ public class MenuActivity extends AppCompatActivity
         // Create and initialize BillingManager which talks to BillingLibrary
         mBillingManager = new BillingManager(this, mUpdateListener);
         context = this;
-        MobileAds.initialize(this, getString(R.string.admodId));
+        initAds();
         loginPresenter = new LoginPresenter(new LoginInteractor(new QuizClient()));
         loginPresenter.setView(this);
         cargarPublicidad();
@@ -155,6 +162,13 @@ public class MenuActivity extends AppCompatActivity
         if (Build.VERSION.SDK_INT >= 23 && checkExternalStoragePermission()) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 999);
         }
+    }
+
+    private void initAds(){
+        MobileAds.initialize(this, initializationStatus -> { });
+        RequestConfiguration configuration =
+                new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("212A472E4A57221D579423A6E0AC58B2")).build();
+        MobileAds.setRequestConfiguration(configuration);
     }
 
     private boolean checkExternalStoragePermission() {
@@ -349,7 +363,7 @@ public class MenuActivity extends AppCompatActivity
 
     public Long getImageSizeInKb(Long imageLength) {
         if (imageLength <= 0) {
-            return 0l;
+            return 0L;
         } else {
             return imageLength / 1024;
         }
@@ -363,7 +377,7 @@ public class MenuActivity extends AppCompatActivity
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
@@ -389,9 +403,6 @@ public class MenuActivity extends AppCompatActivity
                     fPurchaseFragment.onManagerReady(this);
                     changeFragment(fPurchaseFragment, R.id.mainFrame, false, false);
                 }
-                break;
-            case R.id.nav_compartit:
-                Utils.sharedSocial(context(), userActual.getUserName());
                 break;
             case R.id.nav_friend:
                 changeFragment(FriendsFragment.newInstance(), R.id.mainFrame, false, false);
@@ -439,31 +450,31 @@ public class MenuActivity extends AppCompatActivity
             switch (user.getEsferas()) {
                 case 1:
                     imgDragonBalls.setVisibility(View.VISIBLE);
-                    imgDragonBalls.setImageDrawable(getDrawable(R.drawable.esferas1));
+                    imgDragonBalls.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.esferas1));
                     break;
                 case 2:
                     imgDragonBalls.setVisibility(View.VISIBLE);
-                    imgDragonBalls.setImageDrawable(getDrawable(R.drawable.esferas2));
+                    imgDragonBalls.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.esferas2));
                     break;
                 case 3:
                     imgDragonBalls.setVisibility(View.VISIBLE);
-                    imgDragonBalls.setImageDrawable(getDrawable(R.drawable.esferas3));
+                    imgDragonBalls.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.esferas3));
                     break;
                 case 4:
                     imgDragonBalls.setVisibility(View.VISIBLE);
-                    imgDragonBalls.setImageDrawable(getDrawable(R.drawable.esferas4));
+                    imgDragonBalls.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.esferas4));
                     break;
                 case 5:
                     imgDragonBalls.setVisibility(View.VISIBLE);
-                    imgDragonBalls.setImageDrawable(getDrawable(R.drawable.esferas5));
+                    imgDragonBalls.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.esferas5));
                     break;
                 case 6:
                     imgDragonBalls.setVisibility(View.VISIBLE);
-                    imgDragonBalls.setImageDrawable(getDrawable(R.drawable.esferas6));
+                    imgDragonBalls.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.esferas6));
                     break;
                 case 7:
                     imgDragonBalls.setVisibility(View.VISIBLE);
-                    imgDragonBalls.setImageDrawable(getDrawable(R.drawable.esferas7));
+                    imgDragonBalls.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.esferas7));
                     break;
                 default:
                     imgDragonBalls.setVisibility(View.INVISIBLE);
@@ -550,7 +561,7 @@ public class MenuActivity extends AppCompatActivity
         }
 
         @Override
-        public void onConsumeFinished(String token, @BillingClient.BillingResponse int result) {
+        public void onConsumeFinished(String token, int result) {
             Log.d("TAG", "Consumption finished. Purchase token: " + token + ", result: " + result);
 
             // Note: We know this is the SKU_GAS, because it's the only one we consume, so we don't
@@ -561,7 +572,7 @@ public class MenuActivity extends AppCompatActivity
             // of all tokens into SKUs which were scheduled to be consumed and then looking through
             // it here to check which SKU corresponds to a consumed token.
 //---------------------------------------------------------
-            if (result == BillingClient.BillingResponse.OK) {
+            if (result == BillingClient.BillingResponseCode.OK) {
                 Log.d("TAG", "Consumption successful. Provisioning.");
             } else {
                 Toast.makeText(context(), R.string.errorCompra, Toast.LENGTH_LONG).show();
@@ -577,29 +588,31 @@ public class MenuActivity extends AppCompatActivity
 
             int iGemas = 0;
             for (Purchase purchase : purchaseList) {
-                Log.d("SUSCRIPCION", purchase.getSku());
-                switch (purchase.getSku()) {
+                Log.d("SUSCRIPCION", purchase.getSkus().toString());
+                for(String sku : purchase.getSkus()) {
+                    switch (sku) {
 
-                    case SmallGemsDelegate.SKU_ID:
-                        iGemas = userActual.getCoins() + Constants.Compras.SMALL_GEMS;
-                        loginPresenter.onUpdateGems(userActual.getUserName(), userActual.getPassword(), userActual.getIdUser(), iGemas);
-                        getBillingManager().consumeAsync(purchase.getPurchaseToken());
-                        break;
-                    case MedGemsDelegate.SKU_ID:
-                        iGemas = userActual.getCoins() + Constants.Compras.MED_GEMS;
-                        loginPresenter.onUpdateGems(userActual.getUserName(), userActual.getPassword(), userActual.getIdUser(), iGemas);
-                        getBillingManager().consumeAsync(purchase.getPurchaseToken());
-                        break;
+                        case SmallGemsDelegate.SKU_ID:
+                            iGemas = userActual.getCoins() + Constants.Compras.SMALL_GEMS;
+                            loginPresenter.onUpdateGems(userActual.getUserName(), userActual.getPassword(), userActual.getIdUser(), iGemas);
+                            getBillingManager().consumeAsync(purchase.getPurchaseToken());
+                            break;
+                        case MedGemsDelegate.SKU_ID:
+                            iGemas = userActual.getCoins() + Constants.Compras.MED_GEMS;
+                            loginPresenter.onUpdateGems(userActual.getUserName(), userActual.getPassword(), userActual.getIdUser(), iGemas);
+                            getBillingManager().consumeAsync(purchase.getPurchaseToken());
+                            break;
 
-                    case LargeGemsDelegate.SKU_ID:
-                        iGemas = userActual.getCoins() + Constants.Compras.LARGE_GEMS;
-                        loginPresenter.onUpdateGems(userActual.getUserName(), userActual.getPassword(), userActual.getIdUser(), iGemas);
-                        getBillingManager().consumeAsync(purchase.getPurchaseToken());
-                        break;
-                    default:
-                        Toast.makeText(context(), R.string.noValid, Toast.LENGTH_LONG).show();
-                        break;
+                        case LargeGemsDelegate.SKU_ID:
+                            iGemas = userActual.getCoins() + Constants.Compras.LARGE_GEMS;
+                            loginPresenter.onUpdateGems(userActual.getUserName(), userActual.getPassword(), userActual.getIdUser(), iGemas);
+                            getBillingManager().consumeAsync(purchase.getPurchaseToken());
+                            break;
+                        default:
+                            Toast.makeText(context(), R.string.noValid, Toast.LENGTH_LONG).show();
+                            break;
 
+                    }
                 }
             }
         }

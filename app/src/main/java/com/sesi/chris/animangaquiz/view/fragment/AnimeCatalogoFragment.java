@@ -2,14 +2,12 @@ package com.sesi.chris.animangaquiz.view.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +15,12 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
@@ -34,7 +38,6 @@ import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
 import com.sesi.chris.animangaquiz.view.utils.Utils;
 
 import java.util.List;
-import java.util.Objects;
 
 public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.ViewMenu {
 
@@ -78,25 +81,27 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_anime_catalogo, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_anime_catalogo, container, false);
+        init(rootView);
+        return rootView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        init();
     }
 
-    public void init() {
+    public void init(View rootView) {
+        Log.i("AnimeFragment", "Iniciado");
         context = getContext();
         menuPresenter = new MenuPresenter(new MenuInteractor(new QuizClient()));
         menuPresenter.setView(this);
 
-        TextView etSearch = Objects.requireNonNull(getActivity()).findViewById(R.id.et_search);
+        TextView etSearch = rootView.findViewById(R.id.et_search);
         etSearch.addTextChangedListener(textWatcherFilter);
-        recyclerViewAnimes = getActivity().findViewById(R.id.recyclerViewAnime);
-        progressBar = getActivity().findViewById(R.id.pb_login);
-        user = (User) getActivity().getIntent().getSerializableExtra("user");
+        recyclerViewAnimes = rootView.findViewById(R.id.recyclerViewAnime);
+        progressBar = rootView.findViewById(R.id.pb_login);
+        user = (User) requireActivity().getIntent().getSerializableExtra("user");
         setupRecyclerView();
         if (UtilInternetConnection.isOnline(context())) {
             if (null != user) {
@@ -196,7 +201,7 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
     public void createDialogLevel(User user) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context());
-        final View view = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.dialog_nivel, null);
+        final View view = requireActivity().getLayoutInflater().inflate(R.layout.dialog_nivel, null);
 
         Button btnFacil = view.findViewById(R.id.btn_level_facil);
         Button btnNormal = view.findViewById(R.id.btn_level_normal);
@@ -252,6 +257,7 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         builder.setView(view);
         dialog = builder.create();
         dialog.setCanceledOnTouchOutside(true);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
 

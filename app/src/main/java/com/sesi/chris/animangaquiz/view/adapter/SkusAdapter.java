@@ -15,9 +15,10 @@
  */
 package com.sesi.chris.animangaquiz.view.adapter;
 
-import android.support.annotation.IntDef;
-import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
+
+import androidx.annotation.IntDef;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.annotation.Retention;
 import java.util.List;

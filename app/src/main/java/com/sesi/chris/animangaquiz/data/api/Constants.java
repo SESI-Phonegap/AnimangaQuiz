@@ -8,7 +8,7 @@ public class Constants {
     }
 
     //URL Produccion
-    public static final String URL_BASE = "http://www.animangaquiz.mx/";
+    public static final String URL_BASE = "http://192.168.50.244/";
 
     public static final class EndPoint{
         private EndPoint() {
