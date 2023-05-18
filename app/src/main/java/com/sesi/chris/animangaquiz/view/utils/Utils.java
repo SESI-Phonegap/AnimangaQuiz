@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.text.format.DateFormat;
@@ -80,42 +81,21 @@ public class Utils {
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.playstore, userName));
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.compartir));
         PackageManager pm = context.getPackageManager();
-        List<ResolveInfo> resInfos = pm.queryIntentActivities(shareIntent, 0);
+
+        List<ResolveInfo> resInfos;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            resInfos = pm.queryIntentActivities(shareIntent, PackageManager.ResolveInfoFlags.of(PackageManager.MATCH_ALL));
+        } else {
+            resInfos = pm.queryIntentActivities(shareIntent, PackageManager.MATCH_ALL);
+        }
+
         if (!resInfos.isEmpty()) {
-            for (ResolveInfo resInfo : resInfos) {
-                String packageName = resInfo.activityInfo.packageName;
-                Log.i("Package Name", packageName);
-
-/*         if (packageName.contains("com.twitter.android") || packageName.contains("com.facebook.katana")
-                 || packageName.contains("com.whatsapp") || packageName.contains("com.google.android.apps.plus")
-                 || packageName.contains("com.google.android.talk") || packageName.contains("com.slack")
-                 || packageName.contains("com.google.android.gm") || packageName.contains("com.facebook.orca")
-                 || packageName.contains("com.yahoo.mobile") || packageName.contains("com.skype.raider")
-                 || packageName.contains("com.android.mms")|| packageName.contains("com.linkedin.android")
-                 || packageName.contains("com.google.android.apps.messaging")) {*/
-                if (packageName.contains("com.twitter.android") || packageName.contains("com.facebook.katana")
-                        || packageName.contains("com.whatsapp") || packageName.contains("com.facebook.orca")
-                        || packageName.contains("com.google.android.apps.plus") || packageName.contains("com.skype.raider")) {
-                    Intent intent = new Intent();
-
-                    intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
-                    intent.putExtra(context.getString(R.string.app_name), resInfo.loadLabel(pm).toString());
-                    intent.setAction(Intent.ACTION_SEND);
-                    intent.setType("text/plain");
-                    intent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.playstore, userName));
-                    intent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.compartir));
-                    intent.setPackage(packageName);
-                    targetShareIntents.add(intent);
-                }
-            }
-            if (!targetShareIntents.isEmpty()) {
-                Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), context.getString(R.string.msgCompartir));
-                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
-                context.startActivity(chooserIntent);
-            } else {
-                Toast.makeText(context.getApplicationContext(), "No app to share.", Toast.LENGTH_LONG).show();
-            }
+            Intent chooserIntent = Intent.createChooser(shareIntent, context.getString(R.string.msgCompartir));
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
+            context.startActivity(chooserIntent);
         }
     }
 

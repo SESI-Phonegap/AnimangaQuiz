@@ -4,7 +4,7 @@ android {
     compileSdkVersion 33
     defaultConfig {
         applicationId "com.sesi.chris.animangaquiz"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 33
         versionCode 10
         versionName "2.0.3"
