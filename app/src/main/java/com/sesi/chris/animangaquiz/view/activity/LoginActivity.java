@@ -70,8 +70,6 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
     public void init (){
         loginPresenter = new LoginPresenter(new LoginInteractor(new QuizClient()));
         loginPresenter.setView(this);
-        ConstraintLayout background = findViewById(R.id.Constraint_background);
-        ((AnimationDrawable) background.getBackground()).start();
         progressBar = findViewById(R.id.pb_login);
         etUserName = findViewById(R.id.et_userName);
         etPassword = findViewById(R.id.et_password);

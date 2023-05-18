@@ -47,8 +47,6 @@ public class RegistroActivity extends AppCompatActivity implements RegistroNuevo
         context = this;
         presenter = new RegistroNuevoUsuarioPresenter(new RegistroNuevoUsuarioInteractor(new QuizClient()));
         presenter.setView(this);
-        ConstraintLayout background = findViewById(R.id.Constraint_background);
-        ((AnimationDrawable) background.getBackground()).start();
         EditText etUsername = findViewById(R.id.et_userName);
         EditText etNombre = findViewById(R.id.et_nombre);
         EditText etEmail = findViewById(R.id.et_email);
@@ -61,7 +59,7 @@ public class RegistroActivity extends AppCompatActivity implements RegistroNuevo
         TextView tvAviso = findViewById(R.id.tv_aviso);
 
         tvAviso.setOnClickListener(v->{
-            Uri uri = Uri.parse("http://www.animangaquiz.mx/privacidad.html");
+            Uri uri = Uri.parse("http://chrisscloud.ddns.net:8080/aviso/privacidad.html");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         });
