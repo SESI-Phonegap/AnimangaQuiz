@@ -14,7 +14,7 @@
             android:id="@+id/Constraint_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/animation_background">
+            android:background="@drawable/wallpaper">
 
             <com.facebook.login.widget.LoginButton
                 android:id="@+id/loginButton"

@@ -54,7 +54,7 @@
         android:id="@+id/img_publi_no_internet"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:src="@drawable/fondo1"
+        android:src="@drawable/wallpaper"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
