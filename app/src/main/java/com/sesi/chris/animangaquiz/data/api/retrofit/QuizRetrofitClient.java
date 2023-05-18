@@ -52,7 +52,9 @@ public class QuizRetrofitClient {
     private OkHttpClient getOkHttpClient() {
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
+        HttpLoggingInterceptor loggingInterceptorHeader = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        loggingInterceptorHeader.setLevel(HttpLoggingInterceptor.Level.HEADERS);
         client.addInterceptor(loggingInterceptor);
         return client.build();
     }

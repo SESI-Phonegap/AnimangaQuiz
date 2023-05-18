@@ -35,7 +35,7 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.AnimeViewHol
         holder.anime = anime;
         holder.tvAnimeNombre.setText(anime.getName());
         Picasso.get()
-                .load(Constants.URL_BASE+"AnimangaBackEnd"+anime.getImgUrl())
+                .load(Constants.URL_BASE+anime.getImgUrl())
                 .into(holder.imgAnime);
 
         holder.itemView.setOnClickListener(v -> {
