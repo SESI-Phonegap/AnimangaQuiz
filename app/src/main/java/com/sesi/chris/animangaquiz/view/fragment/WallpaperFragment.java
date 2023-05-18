@@ -202,7 +202,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
 
             if (((MenuActivity) requireActivity()).getUserActual().getCoins() >= wallpaper.getCosto()){
                 costoWalpaper = wallpaper.getCosto();
-                String url = Constants.URL_BASE + wallpaper.getUrl();
+                String url = Constants.URL_BASE+"/images/"+ wallpaper.getUrl();
                 String formato = url.substring(url.length()-4);
                 Log.i("Wallpaper", url);
                 Log.i("Wallpaper", formato);

@@ -78,7 +78,26 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
         context = this;
         cbGuardarUser = findViewById(R.id.checkBox);
         facebookLogin();
-        sharedPreferenceLogin();
+
+        //Stilo de texto tipo Link para Registro
+        SpannableString content = new SpannableString(getString(R.string.registrarse));
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        tvRegistro.setText(content);
+        btnLogin.setOnClickListener(v -> {
+            if (!etUserName.getText().toString().isEmpty() && !etPassword.getText().toString().isEmpty()){
+                if (UtilInternetConnection.isOnline(context())) {
+                    blockUi();
+                    loginPresenter.onLogin(etUserName.getText().toString(), etPassword.getText().toString());
+                } else {
+                    Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        tvRegistro.setOnClickListener(v -> {
+            Intent intent = new Intent(this,RegistroActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     private void facebookLogin(){
@@ -137,39 +156,6 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
         }
     }
 
-    private void sharedPreferenceLogin(){
-        List<String> lstDataUser = UtilsPreference.getUserDataLogin(context());
-        if (!lstDataUser.get(0).isEmpty() && !lstDataUser.get(1).isEmpty()){
-            blockUi();
-            tvRegistro.setVisibility(View.GONE);
-            if (UtilInternetConnection.isOnline(context())){
-                loginPresenter.onLogin(lstDataUser.get(0),lstDataUser.get(1));
-            } else {
-                Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
-            }
-        } else {
-            //Stilo de texto tipo Link para Registro
-            SpannableString content = new SpannableString(getString(R.string.registrarse));
-            content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-            tvRegistro.setText(content);
-            btnLogin.setOnClickListener(v -> {
-                if (!etUserName.getText().toString().isEmpty() && !etPassword.getText().toString().isEmpty()){
-                    if (UtilInternetConnection.isOnline(context())) {
-                        blockUi();
-                        loginPresenter.onLogin(etUserName.getText().toString(), etPassword.getText().toString());
-                    } else {
-                        Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
-            tvRegistro.setOnClickListener(v -> {
-                Intent intent = new Intent(this,RegistroActivity.class);
-                startActivity(intent);
-                finish();
-            });
-        }
-    }
-
     public void blockUi(){
         etUserName.setEnabled(false);
         etPassword.setEnabled(false);
@@ -216,6 +202,7 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
     public void showServerError(String error) {
         Toast.makeText(context(),getString(R.string.serverError,error),Toast.LENGTH_LONG).show();
         progressBar.setVisibility(View.GONE);
+        desBlockUi();
     }
 
     @Override

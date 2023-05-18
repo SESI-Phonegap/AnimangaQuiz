@@ -287,7 +287,7 @@ public class PreguntasImgActivity extends AppCompatActivity implements Preguntas
             Preguntas pregunta = lstPreguntas.get(index);
             puntos = pregunta.getPuntos();
             Picasso.get()
-                    .load(Constants.URL_BASE+pregunta.getQuestion())
+                    .load(Constants.URL_BASE+"/images/"+pregunta.getQuestion())
                     .into(new Target() {
 
                         @Override
