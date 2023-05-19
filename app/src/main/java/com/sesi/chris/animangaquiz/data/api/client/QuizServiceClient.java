@@ -13,7 +13,7 @@ import java.util.List;
 import io.reactivex.Observable;
 
 public interface QuizServiceClient {
-    Observable<LoginResponse> login(String userName, String pass);
+    Observable<LoginResponse> login(String email, String pass);
     Observable<List<Anime>> getAllAnimes(String userName, String pass);
     Observable<List<Anime>> getAllAnimesImg(String userName, String pass);
     Observable<List<Anime>> getAllAnimesForWallpaper(String userName, String pass);

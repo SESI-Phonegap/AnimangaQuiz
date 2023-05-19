@@ -594,18 +594,18 @@ public class MenuActivity extends AppCompatActivity
 
                         case SmallGemsDelegate.SKU_ID:
                             iGemas = userActual.getCoins() + Constants.Compras.SMALL_GEMS;
-                            loginPresenter.onUpdateGems(userActual.getUserName(), userActual.getPassword(), userActual.getIdUser(), iGemas);
+                            loginPresenter.onUpdateGems(userActual.getEmail(), userActual.getPassword(), userActual.getIdUser(), iGemas);
                             getBillingManager().consumeAsync(purchase.getPurchaseToken());
                             break;
                         case MedGemsDelegate.SKU_ID:
                             iGemas = userActual.getCoins() + Constants.Compras.MED_GEMS;
-                            loginPresenter.onUpdateGems(userActual.getUserName(), userActual.getPassword(), userActual.getIdUser(), iGemas);
+                            loginPresenter.onUpdateGems(userActual.getEmail(), userActual.getPassword(), userActual.getIdUser(), iGemas);
                             getBillingManager().consumeAsync(purchase.getPurchaseToken());
                             break;
 
                         case LargeGemsDelegate.SKU_ID:
                             iGemas = userActual.getCoins() + Constants.Compras.LARGE_GEMS;
-                            loginPresenter.onUpdateGems(userActual.getUserName(), userActual.getPassword(), userActual.getIdUser(), iGemas);
+                            loginPresenter.onUpdateGems(userActual.getEmail(), userActual.getPassword(), userActual.getIdUser(), iGemas);
                             getBillingManager().consumeAsync(purchase.getPurchaseToken());
                             break;
                         default:

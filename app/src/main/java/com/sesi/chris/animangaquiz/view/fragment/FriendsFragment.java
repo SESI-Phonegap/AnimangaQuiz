@@ -76,7 +76,7 @@ public class FriendsFragment extends Fragment implements FriendsByUserPresenter.
         setupRecyclerView();
         if (UtilInternetConnection.isOnline(context())){
             if (null != user){
-                presenter.getAllFriendsByUser(user.getUserName(),user.getPassword());
+                presenter.getAllFriendsByUser(user.getEmail(),user.getPassword());
             } else {
                 Toast.makeText(context(),"Ocurrio un error",Toast.LENGTH_LONG).show();
             }

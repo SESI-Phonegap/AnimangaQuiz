@@ -18,7 +18,7 @@ public class RegistroNuevoUsuarioInteractor {
         return quizServiceClient.registroNuevoUsuario(userNameFriend,username,nombre,email,edad,genero,password);
     }
 
-    public Observable<LoginResponse> login(String userName, String pass){
-        return quizServiceClient.login(userName,pass);
+    public Observable<LoginResponse> login(String email, String pass){
+        return quizServiceClient.login(email,pass);
     }
 }

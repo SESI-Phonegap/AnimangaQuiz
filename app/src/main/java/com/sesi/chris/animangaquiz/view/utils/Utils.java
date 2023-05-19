@@ -13,6 +13,7 @@ import android.os.Parcelable;
 import android.text.format.DateFormat;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Patterns;
 import android.widget.Toast;
 
 import com.sesi.chris.animangaquiz.R;
@@ -97,6 +98,10 @@ public class Utils {
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
             context.startActivity(chooserIntent);
         }
+    }
+
+    public static boolean isValidEmail(final String email) {
+        return (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches());
     }
 
 }

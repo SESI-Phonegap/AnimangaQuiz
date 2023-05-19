@@ -17,8 +17,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class QuizClient extends QuizRetrofitClient implements QuizServiceClient{
     @Override
-    public Observable<LoginResponse> login(String userName, String pass) {
-        return getQuizService().login(userName,pass)
+    public Observable<LoginResponse> login(String email, String pass) {
+        return getQuizService().login(email,pass)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

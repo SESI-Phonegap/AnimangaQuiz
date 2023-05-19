@@ -19,7 +19,7 @@ public interface QuizRetrofitService {
 
     @POST(Constants.EndPoint.LOGIN_MOBILE)
     @FormUrlEncoded
-    Observable<LoginResponse> login(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
+    Observable<LoginResponse> login(@Field(Constants.ParametersBackEnd.EMAIL) String username,
                                     @Field(Constants.ParametersBackEnd.PASS) String pass);
 
     @POST(Constants.EndPoint.GET_ALL_ANIMES)

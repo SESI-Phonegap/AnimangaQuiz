@@ -103,7 +103,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         setupRecyclerViewAnimes();
         if (UtilInternetConnection.isOnline(context())){
             if (null != user){
-                presenter.getAllAnimes(user.getUserName(),user.getPassword());
+                presenter.getAllAnimes(user.getEmail(),user.getPassword());
             } else {
                 Toast.makeText(context(),"Ocurrio un error",Toast.LENGTH_LONG).show();
             }
@@ -238,7 +238,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
     @Override
     public void launchWallpaperByanime(Anime anime) {
         if (UtilInternetConnection.isOnline(context())){
-            presenter.getWallpaperByAnime(user.getUserName(),user.getPassword(),anime.getIdAnime());
+            presenter.getWallpaperByAnime(user.getEmail(),user.getPassword(),anime.getIdAnime());
         } else {
             Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
         }
@@ -247,7 +247,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
     @Override
     public void launchAvatarByAnime(Anime anime) {
         if (UtilInternetConnection.isOnline(context())){
-            presenter.getAvatarsByAnime(user.getUserName(),user.getPassword(),anime.getIdAnime());
+            presenter.getAvatarsByAnime(user.getEmail(),user.getPassword(),anime.getIdAnime());
         } else {
             Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
         }
@@ -272,7 +272,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         int gemasDisponibles = ((MenuActivity) requireActivity()).getUserActual().getCoins();
         //Update Gemas
         int gemasUpdate = gemasDisponibles - costoWalpaper;
-        presenter.updateGemas(user.getUserName(),user.getPassword(),user.getIdUser(),gemasUpdate);
+        presenter.updateGemas(user.getEmail(),user.getPassword(),user.getIdUser(),gemasUpdate);
     }
 
     private void guardarWallpaper(String url, String formato){

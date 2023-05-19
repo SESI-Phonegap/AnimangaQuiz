@@ -31,9 +31,9 @@ public class RegistroNuevoUsuarioPresenter extends Presenter<RegistroNuevoUsuari
         addDisposableObserver(disposable);
     }
 
-    public void onLogin(String userName, String password){
+    public void onLogin(String email, String password){
         getView().showLoading();
-        Disposable disposable = interactor.login(userName,password).doOnError(error -> getView().showServerError(error.getMessage())).subscribe(login -> {
+        Disposable disposable = interactor.login(email,password).doOnError(error -> getView().showServerError(error.getMessage())).subscribe(login -> {
             if (null != login){
                 getView().hideLoading();
                 getView().renderLogin(login);

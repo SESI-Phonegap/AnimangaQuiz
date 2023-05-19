@@ -106,9 +106,9 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         if (UtilInternetConnection.isOnline(context())) {
             if (null != user) {
                 if (sOpcion.equals(QUIZ_IMG)) {
-                    menuPresenter.getAllAnimesImg(user.getUserName(), user.getPassword());
+                    menuPresenter.getAllAnimesImg(user.getEmail(), user.getPassword());
                 } else {
-                    menuPresenter.getAllAnimes(user.getUserName(), user.getPassword());
+                    menuPresenter.getAllAnimes(user.getEmail(), user.getPassword());
                 }
             } else {
                 Toast.makeText(context(), "Ocurrio un error", Toast.LENGTH_LONG).show();
@@ -186,7 +186,7 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
     public void launchAnimeTest(Anime anime) {
         if (UtilInternetConnection.isOnline(context())) {
             idAnime = anime.getIdAnime();
-            menuPresenter.checkScoreAndLevel(user.getUserName(), user.getPassword(), anime.getIdAnime(), user.getIdUser());
+            menuPresenter.checkScoreAndLevel(user.getEmail(), user.getPassword(), anime.getIdAnime(), user.getIdUser());
 
         } else {
             Toast.makeText(context(), getString(R.string.noInternet), Toast.LENGTH_LONG).show();

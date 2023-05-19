@@ -14,8 +14,8 @@ public class LoginInteractor {
         this.quizServiceClient = quizServiceClient;
     }
 
-    public Observable<LoginResponse> login(String userName, String pass){
-        return quizServiceClient.login(userName,pass);
+    public Observable<LoginResponse> login(String email, String pass){
+        return quizServiceClient.login(email,pass);
     }
 
     public Observable<UpdateResponse> updateGems(String userName, String pass, int idUser, int gemas ){

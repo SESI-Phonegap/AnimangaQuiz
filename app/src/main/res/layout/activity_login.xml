@@ -78,10 +78,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/btn_login_facebook" />
 
             <EditText
-                android:id="@+id/et_userName"
+                android:id="@+id/et_email"
                 style="@style/styleEditText"
                 android:layout_marginTop="16dp"
-                android:hint="@string/userName"
+                android:hint="@string/email"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -94,7 +94,7 @@
                 android:inputType="textPassword"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/et_userName" />
+                app:layout_constraintTop_toBottomOf="@+id/et_email" />
 
             <Button
                 android:id="@+id/btn_login"

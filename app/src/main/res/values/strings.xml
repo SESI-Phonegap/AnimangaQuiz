@@ -96,6 +96,7 @@
     <string name="hombre">Hombre</string>
     <string name="mujer">Mujer</string>
     <string name="email">Email</string>
+    <string name="email_invalid">Tu correo electrónico es inválido</string>
     <string name="msg_registro_exitoso">Registro Exitoso !</string>
     <string name="datosincompletos">Datos incompletos</string>
     <string name="avisoPrivacidad"><u>Aviso de privacidad </u></string>

@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +35,7 @@ import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.presenter.LoginPresenter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
+import com.sesi.chris.animangaquiz.view.utils.Utils;
 import com.sesi.chris.animangaquiz.view.utils.UtilsPreference;
 import java.util.Arrays;
 import java.util.List;
@@ -41,7 +44,7 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
 
     private LoginPresenter loginPresenter;
     private ProgressBar progressBar;
-    private EditText etUserName;
+    private EditText etEmail;
     private EditText etPassword;
     private Context context;
     private CheckBox cbGuardarUser;
@@ -67,11 +70,11 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
         super.onDestroy();
     }
 
-    public void init (){
+    public void init () {
         loginPresenter = new LoginPresenter(new LoginInteractor(new QuizClient()));
         loginPresenter.setView(this);
         progressBar = findViewById(R.id.pb_login);
-        etUserName = findViewById(R.id.et_userName);
+        etEmail = findViewById(R.id.et_email);
         etPassword = findViewById(R.id.et_password);
         tvRegistro = findViewById(R.id.tv_registro);
         btnLogin = findViewById(R.id.btn_login);
@@ -79,15 +82,17 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
         cbGuardarUser = findViewById(R.id.checkBox);
         facebookLogin();
 
+        etEmail.addTextChangedListener(emailWatcher);
         //Stilo de texto tipo Link para Registro
         SpannableString content = new SpannableString(getString(R.string.registrarse));
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
         tvRegistro.setText(content);
         btnLogin.setOnClickListener(v -> {
-            if (!etUserName.getText().toString().isEmpty() && !etPassword.getText().toString().isEmpty()){
+            String email = etEmail.getText().toString();
+            if (Utils.isValidEmail(email) && !etPassword.getText().toString().isEmpty()){
                 if (UtilInternetConnection.isOnline(context())) {
                     blockUi();
-                    loginPresenter.onLogin(etUserName.getText().toString(), etPassword.getText().toString());
+                    loginPresenter.onLogin(etEmail.getText().toString(), etPassword.getText().toString());
                 } else {
                     Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
                 }
@@ -99,6 +104,28 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
             finish();
         });
     }
+
+    private TextWatcher emailWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String email = etEmail.getText().toString();
+            if (Utils.isValidEmail(email)){
+                etEmail.setError(null);
+            } else {
+                etEmail.setError(getString(R.string.email_invalid));
+            }
+        }
+    };
 
     private void facebookLogin(){
         //Facebook
@@ -157,7 +184,7 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
     }
 
     public void blockUi(){
-        etUserName.setEnabled(false);
+        etEmail.setEnabled(false);
         etPassword.setEnabled(false);
         btnLogin.setEnabled(false);
         btnLogin.setClickable(false);
@@ -165,7 +192,7 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
     }
 
     public void desBlockUi(){
-        etUserName.setEnabled(true);
+        etEmail.setEnabled(true);
         etPassword.setEnabled(true);
         btnLogin.setEnabled(true);
         btnLogin.setClickable(true);
@@ -210,7 +237,7 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
         User user = loginResponse.getUser();
         if (null != user) {
             if (cbGuardarUser.isChecked()) {
-                UtilsPreference.savePreferenceUserLogin(context(), user.getUserName(), user.getPassword());
+                UtilsPreference.savePreferenceUserLogin(context(), user.getEmail(), user.getPassword());
             }
             Intent intent = new Intent(context(),MenuActivity.class);
             intent.putExtra("user",user);

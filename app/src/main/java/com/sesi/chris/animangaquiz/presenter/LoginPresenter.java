@@ -13,9 +13,9 @@ public class LoginPresenter extends Presenter<LoginPresenter.ViewLogin> {
         this.interactor = interactor;
     }
 
-    public void onLogin(String userName, String password) {
+    public void onLogin(String email, String password) {
         getView().showLoading();
-        Disposable disposable = interactor.login(userName, password)
+        Disposable disposable = interactor.login(email, password)
                 .doOnError(error ->
                         getView().showServerError(error.getMessage()))
                 .subscribe(login -> {

@@ -129,7 +129,7 @@ public class SearchFriendActivity extends AppCompatActivity implements SearchFri
         @Override
         public void afterTextChanged(Editable queryUserName) {
             if (queryUserName.length() >= 3){
-                presenter.searchFriend(user.getUserName(),user.getPassword(),queryUserName.toString());
+                presenter.searchFriend(user.getEmail(),user.getPassword(),queryUserName.toString());
             }
         }
     };
@@ -152,7 +152,7 @@ public class SearchFriendActivity extends AppCompatActivity implements SearchFri
         tvMensaje.setText(context().getString(R.string.msg_confirmar_amigo));
 
         btnAceptar.setOnClickListener(v -> {
-            presenter.addFriend(user.getUserName(),user.getPassword(),user.getIdUser(),iIdFriend);
+            presenter.addFriend(user.getEmail(),user.getPassword(),user.getIdUser(),iIdFriend);
             dialog.dismiss();
         });
 

@@ -102,7 +102,7 @@ public class PreguntasImgActivity extends AppCompatActivity implements Preguntas
         if (UtilInternetConnection.isOnline(context())) {
             cargarInterstitial();
             if (null != user) {
-                presenter.getQuestionsByAnimeImg(user.getUserName(), user.getPassword(), iIdAnime);
+                presenter.getQuestionsByAnimeImg(user.getEmail(), user.getPassword(), iIdAnime);
             } else {
                 Toast.makeText(context(), "Ocurrio un error", Toast.LENGTH_LONG).show();
             }
@@ -398,7 +398,7 @@ public class PreguntasImgActivity extends AppCompatActivity implements Preguntas
         int finalIscoreAux = iscoreAux;
         btnDialogAceptar.setOnClickListener(v -> {
             dialog.dismiss();
-            updataLevelScoreGems(user.getUserName(),user.getPassword(),gemas, finalIscoreAux,4,user.getIdUser(),iIdAnime);
+            updataLevelScoreGems(user.getEmail(),user.getPassword(),gemas, finalIscoreAux,4,user.getIdUser(),iIdAnime);
         });
 
         tvBtnAnuncio.setOnClickListener(v -> {
@@ -422,7 +422,7 @@ public class PreguntasImgActivity extends AppCompatActivity implements Preguntas
         } else if (puntos >= 4001 && puntos <= 6000) {
             iGemas = getResources().getInteger(R.integer.medMax);
             if (iEsferas < 7 && iEsferas >=0){
-                presenter.updateEsferas(user.getUserName(),user.getPassword(),user.getIdUser(),user.getEsferas() + 1);
+                presenter.updateEsferas(user.getEmail(),user.getPassword(),user.getIdUser(),user.getEsferas() + 1);
             }
         }
         return iGemas;

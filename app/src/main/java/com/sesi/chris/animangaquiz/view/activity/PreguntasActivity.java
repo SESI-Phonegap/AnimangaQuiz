@@ -114,7 +114,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
             loadAdReward();
             cargarInterstitial();
             if (null != user) {
-                presenter.getQuestionsByAnimeAndLevel(user.getUserName(), user.getPassword(), iIdAnime, level);
+                presenter.getQuestionsByAnimeAndLevel(user.getEmail(), user.getPassword(), iIdAnime, level);
             } else {
                 Toast.makeText(context(), "Ocurrio un error", Toast.LENGTH_LONG).show();
             }
@@ -383,7 +383,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         int finalIscoreAux = iscoreAux;
         btnDialogAceptar.setOnClickListener(v -> {
             dialog.dismiss();
-            updataLevelScoreGems(user.getUserName(),user.getPassword(),gemas, finalIscoreAux,level,user.getIdUser(),iIdAnime);
+            updataLevelScoreGems(user.getEmail(),user.getPassword(),gemas, finalIscoreAux,level,user.getIdUser(),iIdAnime);
         });
 
         tvBtnAnuncio.setOnClickListener(v -> {
@@ -415,7 +415,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         } else if (puntos >= 2001 && puntos <= 3000) {
             iGemas = getResources().getInteger(R.integer.facilMax);
             if (user.getEsferas() < 2){
-                presenter.updateEsferas(user.getUserName(),user.getPassword(),user.getIdUser(),user.getEsferas() + 1);
+                presenter.updateEsferas(user.getEmail(),user.getPassword(),user.getIdUser(),user.getEsferas() + 1);
             }
         }
         return iGemas;
@@ -430,7 +430,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         } else if (puntos >= 4001 && puntos <= 6000) {
             iGemas = getResources().getInteger(R.integer.medMax);
             if (user.getEsferas() < 4 && user.getEsferas() >=2){
-                presenter.updateEsferas(user.getUserName(),user.getPassword(),user.getIdUser(),user.getEsferas() + 1);
+                presenter.updateEsferas(user.getEmail(),user.getPassword(),user.getIdUser(),user.getEsferas() + 1);
             }
         }
         return iGemas;
@@ -445,7 +445,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         } else if (puntos >= 6001 && puntos <= 9000) {
             iGemas = getResources().getInteger(R.integer.dificilMax);
             if (user.getEsferas() < 6 && user.getEsferas() >=4){
-                presenter.updateEsferas(user.getUserName(),user.getPassword(),user.getIdUser(),user.getEsferas() + 1);
+                presenter.updateEsferas(user.getEmail(),user.getPassword(),user.getIdUser(),user.getEsferas() + 1);
             }
         }
         return iGemas;
@@ -460,7 +460,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
         } else if (puntos >= 9001 && puntos <= 13500) {
             iGemas = getResources().getInteger(R.integer.otakuMax);
             if (user.getEsferas() < 7 && user.getEsferas() >=6){
-                presenter.updateEsferas(user.getUserName(),user.getPassword(),user.getIdUser(),user.getEsferas() + 1);
+                presenter.updateEsferas(user.getEmail(),user.getPassword(),user.getIdUser(),user.getEsferas() + 1);
             }
         }
         return iGemas;
