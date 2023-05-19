@@ -104,4 +104,8 @@ public class Utils {
         return (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches());
     }
 
+    public static boolean isValidPass(String pass){
+        return (!pass.isEmpty() && pass.length() >= 8);
+    }
+
 }

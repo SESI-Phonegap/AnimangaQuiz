@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +27,7 @@ import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.RegistroNuevoUsuarioInteractor;
 import com.sesi.chris.animangaquiz.presenter.RegistroNuevoUsuarioPresenter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
+import com.sesi.chris.animangaquiz.view.utils.Utils;
 
 public class RegistroActivity extends AppCompatActivity implements RegistroNuevoUsuarioPresenter.ViewRegistro{
 
@@ -34,6 +37,8 @@ public class RegistroActivity extends AppCompatActivity implements RegistroNuevo
     private String sGenero;
     private String sUserName;
     private String sPassword;
+    private EditText etEmail;
+    EditText etPassword;
 
 
     @Override
@@ -49,9 +54,11 @@ public class RegistroActivity extends AppCompatActivity implements RegistroNuevo
         presenter.setView(this);
         EditText etUsername = findViewById(R.id.et_userName);
         EditText etNombre = findViewById(R.id.et_nombre);
-        EditText etEmail = findViewById(R.id.et_email);
+        etEmail = findViewById(R.id.et_email);
+        etEmail.addTextChangedListener(emailWatcher);
         EditText etEdad = findViewById(R.id.et_edad);
-        EditText etPassword = findViewById(R.id.et_password);
+        etPassword = findViewById(R.id.et_password);
+        etPassword.addTextChangedListener(passWatcher);
         EditText etUserNameFriend = findViewById(R.id.et_friendUserName);
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
         Button btnRegistrar = findViewById(R.id.btn_registrar);
@@ -74,7 +81,7 @@ public class RegistroActivity extends AppCompatActivity implements RegistroNuevo
                 String sEdad = etEdad.getText().toString();
                 sPassword = etPassword.getText().toString();
 
-                if (!sUserName.equals("") && !sNombre.equals("") && !sEmail.equals("") && !sEdad.equals("") && !sPassword.equals("") && sGenero != null){
+                if (!sUserName.equals("") && !sNombre.equals("") && Utils.isValidEmail(sEmail) && !sEdad.equals("") && Utils.isValidPass(sPassword) && sGenero != null){
                     presenter.registroNuevoUsuario(etUserNameFriend.getText().toString(),sUserName,sNombre,sEmail,Integer.parseInt(sEdad),sGenero,sPassword);
                 } else {
                     Toast.makeText(context(),getString(R.string.datosincompletos),Toast.LENGTH_LONG).show();
@@ -84,6 +91,50 @@ public class RegistroActivity extends AppCompatActivity implements RegistroNuevo
             }
         });
     }
+
+    private TextWatcher emailWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String email = etEmail.getText().toString();
+            if (Utils.isValidEmail(email)){
+                etEmail.setError(null);
+            } else {
+                etEmail.setError(getString(R.string.email_invalid));
+            }
+        }
+    };
+
+    private TextWatcher passWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String pass = etPassword.getText().toString();
+            if (Utils.isValidPass(pass)){
+                etPassword.setError(null);
+            } else {
+                etPassword.setError(getString(R.string.pass_invalid));
+            }
+        }
+    };
 
     @Override
     public void onBackPressed() {
