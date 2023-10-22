@@ -8,30 +8,30 @@ public class Constants {
     }
 
     //URL Produccion
-    public static final String URL_BASE = "http://chrisscloud.ddns.net:8080";
+    public static final String URL_BASE = "https://chrisstek.com";
 
     public static final class EndPoint{
         private EndPoint() {
             throw new IllegalStateException("EndPoint class");
         }
-        public static final String LOGIN_MOBILE = "/service/loginmobile.php";
-        public static final String GET_ALL_ANIMES = "/service/getanimes.php";
-        public static final String GET_ALL_ANIMES_IMG = "/service/getAnimeImg.php";
-        public static final String GET_ALL_ANIMES_FOR_WALLPAPER = "/service/getallanimesforwallpaper.php";
-        public static final String GET_QUESTIONS_BY_ANIME_AND_LEVEL = "/service/preguntasByAnimeByLeve.php";
-        public static final String CHECK_LEVEL_AND_SCORE_BY_ANIME_AND_USER = "/service/checkLevelAndScoreByAnimeAndUser.php";
-        public static final String UPDATE_LEVEL_AND_SCORE = "/service/updateScoreAndGems.php";
-        public static final String GET_WALLPAPER_BY_ANIME = "/service/getWallpaperByAnime.php";
-        public static final String UPDATE_GEMAS = "/service/updateGems.php";
-        public static final String REGISTRO_NUEVO_USUARIO = "/service/registroNuevoUsuario.php";
-        public static final String SEARCH_FRIEND_BY_USER_NAME = "/service/searchFriendByUserName.php";
-        public static final String ADD_FRIEND_BY_ID = "/service/addFriendById.php";
-        public static final String GET_AVATARS_BY_ANIME = "/service/getAvatarsByAnime.php";
-        public static final String GET_ALL_FRIENDS_BY_USER = "/service/getAllFriendsByUser.php";
-        public static final String UPDATE_AVATAR = "/service/updateAvatar.php";
-        public static final String CHECK_USER_FACEBOOK = "/service/validaUserFacebook.php";
-        public static final String UPDATE_ESFERAS = "/service/updateEsferas.php";
-        public static final String GET_QUESTIONS_BY_ANIME_IMG = "/service/getPreguntasByAnimeImg.php";
+        public static final String LOGIN_MOBILE = "/AnimangaBackEnd/service/loginmobile.php";
+        public static final String GET_ALL_ANIMES = "/AnimangaBackEnd/service/getanimes.php";
+        public static final String GET_ALL_ANIMES_IMG = "/AnimangaBackEnd/service/getAnimeImg.php";
+        public static final String GET_ALL_ANIMES_FOR_WALLPAPER = "/AnimangaBackEnd/service/getallanimesforwallpaper.php";
+        public static final String GET_QUESTIONS_BY_ANIME_AND_LEVEL = "/AnimangaBackEnd/service/preguntasByAnimeByLeve.php";
+        public static final String CHECK_LEVEL_AND_SCORE_BY_ANIME_AND_USER = "/AnimangaBackEnd/service/checkLevelAndScoreByAnimeAndUser.php";
+        public static final String UPDATE_LEVEL_AND_SCORE = "/AnimangaBackEnd/service/updateScoreAndGems.php";
+        public static final String GET_WALLPAPER_BY_ANIME = "/AnimangaBackEnd/service/getWallpaperByAnime.php";
+        public static final String UPDATE_GEMAS = "/AnimangaBackEnd/service/updateGems.php";
+        public static final String REGISTRO_NUEVO_USUARIO = "/AnimangaBackEnd/service/registroNuevoUsuario.php";
+        public static final String SEARCH_FRIEND_BY_USER_NAME = "/AnimangaBackEnd/service/searchFriendByUserName.php";
+        public static final String ADD_FRIEND_BY_ID = "/AnimangaBackEnd/service/addFriendById.php";
+        public static final String GET_AVATARS_BY_ANIME = "/AnimangaBackEnd/service/getAvatarsByAnime.php";
+        public static final String GET_ALL_FRIENDS_BY_USER = "/AnimangaBackEnd/service/getAllFriendsByUser.php";
+        public static final String UPDATE_AVATAR = "/AnimangaBackEnd/service/updateAvatar.php";
+        public static final String CHECK_USER_FACEBOOK = "/AnimangaBackEnd/service/validaUserFacebook.php";
+        public static final String UPDATE_ESFERAS = "/AnimangaBackEnd/service/updateEsferas.php";
+        public static final String GET_QUESTIONS_BY_ANIME_IMG = "/AnimangaBackEnd/service/getPreguntasByAnimeImg.php";
 
     }
 

@@ -41,28 +41,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.billingclient.api.BillingClient;
-import com.android.billingclient.api.Purchase;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.sesi.chris.animangaquiz.R;
-import com.sesi.chris.animangaquiz.data.api.Constants;
-import com.sesi.chris.animangaquiz.data.api.billing.BillingManager;
-import com.sesi.chris.animangaquiz.data.api.billing.BillingProvider;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.presenter.LoginPresenter;
-import com.sesi.chris.animangaquiz.view.adapter.LargeGemsDelegate;
-import com.sesi.chris.animangaquiz.view.adapter.MedGemsDelegate;
-import com.sesi.chris.animangaquiz.view.adapter.SmallGemsDelegate;
 import com.sesi.chris.animangaquiz.view.fragment.AnimeCatalogoFragment;
+import com.sesi.chris.animangaquiz.view.fragment.BillingPurchaseFragment;
 import com.sesi.chris.animangaquiz.view.fragment.FriendsFragment;
-import com.sesi.chris.animangaquiz.view.fragment.PurchaseFragment;
 import com.sesi.chris.animangaquiz.view.fragment.WallpaperFragment;
 import com.sesi.chris.animangaquiz.view.utils.ImageFilePath;
 import com.sesi.chris.animangaquiz.view.utils.Utils;
@@ -75,13 +67,14 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.sesi.chris.animangaquiz.data.api.billing.BillingManager.BILLING_MANAGER_NOT_INITIALIZED;
 import static com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection.isOnline;
 
+@AndroidEntryPoint
 public class MenuActivity extends AppCompatActivity
-        implements BillingProvider, NavigationView.OnNavigationItemSelectedListener, LoginPresenter.ViewLogin {
+        implements NavigationView.OnNavigationItemSelectedListener, LoginPresenter.ViewLogin {
 
     private TextView tvUserName;
     private TextView tvEmail;
@@ -93,9 +86,9 @@ public class MenuActivity extends AppCompatActivity
     private User userActual;
     private Context context;
     private AdView mAdview;
-    private PurchaseFragment fPurchaseFragment;
+    //private PurchaseFragment fPurchaseFragment;
+    private BillingPurchaseFragment billingPurchaseFragment;
     private static final String DIALOG_TAG = "dialog";
-    private BillingManager mBillingManager;
     private static final int PICK_IMAGE = 100;
     private ImageView imgShenglong;
     private FrameLayout frameLayout;
@@ -113,15 +106,12 @@ public class MenuActivity extends AppCompatActivity
         init();
         // Try to restore dialog fragment if we were showing it prior to screen rotation
         if (savedInstanceState != null) {
-            fPurchaseFragment = (PurchaseFragment) getSupportFragmentManager()
+            billingPurchaseFragment = (BillingPurchaseFragment) getSupportFragmentManager()
                     .findFragmentByTag(DIALOG_TAG);
         }
     }
 
     public void init() {
-        UpdateListener mUpdateListener = new UpdateListener();
-        // Create and initialize BillingManager which talks to BillingLibrary
-        mBillingManager = new BillingManager(this, mUpdateListener);
         context = this;
         initAds();
         loginPresenter = new LoginPresenter(new LoginInteractor(new QuizClient()));
@@ -159,7 +149,7 @@ public class MenuActivity extends AppCompatActivity
                 openGallery()
         );
 
-        if (Build.VERSION.SDK_INT >= 23 && checkExternalStoragePermission()) {
+        if (checkExternalStoragePermission()) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 999);
         }
     }
@@ -264,14 +254,6 @@ public class MenuActivity extends AppCompatActivity
         transaction.commit();
     }
 
-    /**
-     * Remove loading spinner and refresh the UI
-     */
-    public void showRefreshedUi() {
-        if (fPurchaseFragment != null) {
-            fPurchaseFragment.refreshUI();
-        }
-    }
 
     private void openGallery() {
         if (Build.VERSION.SDK_INT >= 23) {
@@ -369,14 +351,6 @@ public class MenuActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        }
-    }
-
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -394,15 +368,11 @@ public class MenuActivity extends AppCompatActivity
                 changeFragment(WallpaperFragment.newInstance(), R.id.mainFrame, false, false);
                 break;
             case R.id.nav_tienda:
-                if (fPurchaseFragment == null) {
-                    fPurchaseFragment = new PurchaseFragment();
+                if (billingPurchaseFragment == null) {
+                    billingPurchaseFragment = new BillingPurchaseFragment();
                 }
-                if (mBillingManager != null
-                        && mBillingManager.getBillingClientResponseCode()
-                        > BILLING_MANAGER_NOT_INITIALIZED) {
-                    fPurchaseFragment.onManagerReady(this);
-                    changeFragment(fPurchaseFragment, R.id.mainFrame, false, false);
-                }
+                changeFragment(billingPurchaseFragment, R.id.mainFrame, false, false);
+
                 break;
             case R.id.nav_friend:
                 changeFragment(FriendsFragment.newInstance(), R.id.mainFrame, false, false);
@@ -534,87 +504,4 @@ public class MenuActivity extends AppCompatActivity
         return context;
     }
 
-    @Override
-    public BillingManager getBillingManager() {
-        return mBillingManager;
-    }
-
-    @Override
-    public boolean isSixMonthlySubscribed() {
-        return false;
-    }
-
-    @Override
-    public boolean isYearlySubscribed() {
-        return false;
-    }
-
-
-    /**
-     * Handler to billing updates
-     */
-    private class UpdateListener implements BillingManager.BillingUpdatesListener {
-        @Override
-        public void onBillingClientSetupFinished() {
-            if (null != fPurchaseFragment)
-                fPurchaseFragment.onManagerReady(MenuActivity.this);
-        }
-
-        @Override
-        public void onConsumeFinished(String token, int result) {
-            Log.d("TAG", "Consumption finished. Purchase token: " + token + ", result: " + result);
-
-            // Note: We know this is the SKU_GAS, because it's the only one we consume, so we don't
-            // check if token corresponding to the expected sku was consumed.
-            // If you have more than one sku, you probably need to validate that the token matches
-            // the SKU you expect.
-            // It could be done by maintaining a map (updating it every time you call consumeAsync)
-            // of all tokens into SKUs which were scheduled to be consumed and then looking through
-            // it here to check which SKU corresponds to a consumed token.
-//---------------------------------------------------------
-            if (result == BillingClient.BillingResponseCode.OK) {
-                Log.d("TAG", "Consumption successful. Provisioning.");
-            } else {
-                Toast.makeText(context(), R.string.errorCompra, Toast.LENGTH_LONG).show();
-                Log.d("TAG", "Error consumption");
-            }
-
-            showRefreshedUi();
-            Log.d("TAG", "End consumption flow.");
-        }
-
-        @Override
-        public void onPurchasesUpdated(List<Purchase> purchaseList) {
-
-            int iGemas = 0;
-            for (Purchase purchase : purchaseList) {
-                Log.d("SUSCRIPCION", purchase.getSkus().toString());
-                for(String sku : purchase.getSkus()) {
-                    switch (sku) {
-
-                        case SmallGemsDelegate.SKU_ID:
-                            iGemas = userActual.getCoins() + Constants.Compras.SMALL_GEMS;
-                            loginPresenter.onUpdateGems(userActual.getEmail(), userActual.getPassword(), userActual.getIdUser(), iGemas);
-                            getBillingManager().consumeAsync(purchase.getPurchaseToken());
-                            break;
-                        case MedGemsDelegate.SKU_ID:
-                            iGemas = userActual.getCoins() + Constants.Compras.MED_GEMS;
-                            loginPresenter.onUpdateGems(userActual.getEmail(), userActual.getPassword(), userActual.getIdUser(), iGemas);
-                            getBillingManager().consumeAsync(purchase.getPurchaseToken());
-                            break;
-
-                        case LargeGemsDelegate.SKU_ID:
-                            iGemas = userActual.getCoins() + Constants.Compras.LARGE_GEMS;
-                            loginPresenter.onUpdateGems(userActual.getEmail(), userActual.getPassword(), userActual.getIdUser(), iGemas);
-                            getBillingManager().consumeAsync(purchase.getPurchaseToken());
-                            break;
-                        default:
-                            Toast.makeText(context(), R.string.noValid, Toast.LENGTH_LONG).show();
-                            break;
-
-                    }
-                }
-            }
-        }
-    }
 }
