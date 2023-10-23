@@ -219,7 +219,7 @@ public class MenuActivity extends AppCompatActivity
 
     public void refreshUserData() {
         if (isOnline(context())) {
-            loginPresenter.onLogin(userActual.getUserName(), userActual.getPassword());
+            loginPresenter.onLogin(userActual.getEmail(), userActual.getPassword());
         } else {
             Toast.makeText(context(), getString(R.string.noInternet), Toast.LENGTH_LONG).show();
         }
@@ -308,11 +308,7 @@ public class MenuActivity extends AppCompatActivity
                 Uri imageUri = data.getData();
 
                 String selectedImagePath;
-                if (Build.VERSION.SDK_INT >= 23) {
-                    selectedImagePath = ImageFilePath.getPath(getApplication(), imageUri);
-                } else {
-                    selectedImagePath = imageUri.toString();
-                }
+                selectedImagePath = ImageFilePath.getPath(getApplication(), imageUri);
                 File fileImage = new File(selectedImagePath);
                 Long lSizeImage = getImageSizeInKb(fileImage.length());
 
@@ -326,7 +322,7 @@ public class MenuActivity extends AppCompatActivity
                         String sImgBase64 = Base64.encodeToString(imageBytes, Base64.DEFAULT);
                         Log.i("BASE64", sImgBase64);
                         //guardar en la BD
-                        loginPresenter.onUpdateAvatar(userActual.getUserName(),
+                        loginPresenter.onUpdateAvatar(userActual.getEmail(),
                                 userActual.getPassword(),
                                 userActual.getIdUser(),
                                 sImgBase64);
@@ -411,11 +407,11 @@ public class MenuActivity extends AppCompatActivity
     public void renderLogin(LoginResponse loginResponse) {
         User user = loginResponse.getUser();
         if (null != user) {
-            String sName = getIntent().getStringExtra("name");
-            String sEmail = getIntent().getStringExtra("email");
+            String sName = user.getName();
+            String sEmail = user.getEmail();
             tvUserName.setText((sName != null) ? sName : user.getName());
             tvEmail.setText((sEmail != null) ? sEmail : user.getEmail());
-            tvTotalScore.setText(getString(R.string.score, String.valueOf(user.getTotalScore())));
+            tvTotalScore.setText(String.format(getString(R.string.score), user.getTotalScore()));
             tvGems.setText(String.valueOf(user.getCoins()));
             switch (user.getEsferas()) {
                 case 1:
@@ -451,7 +447,7 @@ public class MenuActivity extends AppCompatActivity
                     break;
             }
             userActual = user;
-            if (!user.getUrlImageUser().equals("")) {
+            if (!user.getUrlImageUser().isEmpty()) {
                 byte[] decodedAvatar = Base64.decode(user.getUrlImageUser(), Base64.DEFAULT);
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedAvatar, 0, decodedAvatar.length);
                 imgAvatar.setImageBitmap(decodedByte);

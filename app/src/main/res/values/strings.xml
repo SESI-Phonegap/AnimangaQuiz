@@ -54,7 +54,7 @@
 
     <!-- MenuActivity -->
     <string name="titleMenu">Animes disponibles</string>
-    <string name="score">Puntos: %1$s</string>
+    <string name="score">Puntos: %1$d</string>
     <string name="msgImagenError">La imagen sobre pasa los 2 MB, no es posible guardarla</string>
     <string name="msgAvatrError">Error no fue posible actualizar el avatar</string>
     <string name="msgErrorShenlong">Necesitas reunir las 7 esferas del dragon para invocar Shenlong</string>
