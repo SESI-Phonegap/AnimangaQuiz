@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.ProductDetails
 import com.sesi.chris.animangaquiz.R
 import com.sesi.chris.animangaquiz.data.api.billing.BillingManagerV6.Companion.L_GEMS_20000
@@ -11,7 +12,7 @@ import com.sesi.chris.animangaquiz.data.api.billing.BillingManagerV6.Companion.M
 import com.sesi.chris.animangaquiz.data.api.billing.BillingManagerV6.Companion.SMALL_GEMS_5000
 import com.sesi.chris.animangaquiz.databinding.SkuDetailsRowBinding
 
-class BillingProductsAdapter() : RecyclerView.Adapter<BillingProductsAdapter.BillingProductsViewHolder>() {
+class BillingProductsAdapter(val action:RvAction) : RecyclerView.Adapter<BillingProductsAdapter.BillingProductsViewHolder>() {
 
     private var billingProducts =  listOf<ProductDetails>()
     class BillingProductsViewHolder(val binding: SkuDetailsRowBinding): RecyclerView.ViewHolder(binding.root)
@@ -23,6 +24,7 @@ class BillingProductsAdapter() : RecyclerView.Adapter<BillingProductsAdapter.Bil
     override fun onBindViewHolder(holder: BillingProductsViewHolder, position: Int) {
         with(holder) {
             with(billingProducts[position]) {
+                val product = this
                 binding.title.text = name
                 binding.description.text = description
                 binding.price.text = oneTimePurchaseOfferDetails!!.formattedPrice
@@ -48,6 +50,9 @@ class BillingProductsAdapter() : RecyclerView.Adapter<BillingProductsAdapter.Bil
                         )
                     )
                 }
+                binding.stateButton.setOnClickListener {
+                    action.onClick(product)
+                }
             }
         }
     }
@@ -59,4 +64,7 @@ class BillingProductsAdapter() : RecyclerView.Adapter<BillingProductsAdapter.Bil
         return billingProducts.size
     }
 
+    interface RvAction{
+        fun onClick(productDetails: ProductDetails)
+    }
 }

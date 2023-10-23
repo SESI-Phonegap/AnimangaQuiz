@@ -1,9 +1,12 @@
 package com.sesi.chris.animangaquiz.data.api.billing
 
+import android.app.Activity
 import android.content.Context
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
+import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.ProductDetailsResult
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
@@ -15,21 +18,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class BillingManagerV6 {
+class BillingManagerV6 @Inject constructor() {
 
-    private var billingClient: BillingClient
-    private val purchasesUpdatedListener =
-        PurchasesUpdatedListener { billingResult, purchases ->
-            // To be implemented in a later section.
-        }
-
-    @Inject
-    constructor(@ApplicationContext context: Context) {
-        billingClient = BillingClient.newBuilder(context).setListener(purchasesUpdatedListener)
-            .enablePendingPurchases().build()
-    }
-
-    fun openConnection(action:BillingAction) {
+    fun openConnection(billingClient:BillingClient, action:BillingAction) {
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
@@ -43,7 +34,7 @@ class BillingManagerV6 {
         })
     }
 
-    private suspend fun getInAppProducts(action:BillingAction) {
+    private suspend fun getInAppProducts(billingClient:BillingClient, action:BillingAction) {
         val productList = ArrayList<QueryProductDetailsParams.Product>()
         productList.add(
             QueryProductDetailsParams.Product.newBuilder()
@@ -73,10 +64,27 @@ class BillingManagerV6 {
         action.getProducts(products)
     }
 
-    fun getBillingInAppProducts(action:BillingAction){
+    fun getBillingInAppProducts(billingClient:BillingClient, action:BillingAction){
         CoroutineScope(Dispatchers.IO).launch{
-            getInAppProducts(action)
+            getInAppProducts(billingClient, action)
         }
+    }
+
+    fun purchaseProduct(billingClient:BillingClient, productDetails: ProductDetails, activity: Activity, action: BillingAction) {
+        val productDetailsParamsList = listOf(
+            BillingFlowParams.ProductDetailsParams.newBuilder()
+                // retrieve a value for "productDetails" by calling queryProductDetailsAsync()
+                .setProductDetails(productDetails)
+                // to get an offer token, call ProductDetails.subscriptionOfferDetails()
+                // for a list of offers that are available to the user
+                //.setOfferToken(selectedOfferToken)
+                .build()
+        )
+        val billingFlowParams = BillingFlowParams.newBuilder()
+            .setProductDetailsParamsList(productDetailsParamsList)
+            .build()
+        // Launch the billing flow
+        billingClient.launchBillingFlow(activity, billingFlowParams)
     }
 
     companion object {

@@ -1,7 +1,10 @@
 package com.sesi.chris.animangaquiz.view.fragment
 
+import android.app.Activity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.ProductDetailsResult
 import com.sesi.chris.animangaquiz.data.api.billing.BillingAction
 import com.sesi.chris.animangaquiz.data.api.billing.BillingManagerV6
@@ -16,13 +19,17 @@ class BillingPurchaseViewModel @Inject constructor(
     var isConnected = MutableLiveData<Boolean>()
     var isLoading = MutableLiveData<Boolean>()
     var products = MutableLiveData<ProductDetailsResult>()
-    fun connect() {
+    fun connect(billingClient: BillingClient) {
         isLoading.postValue(true)
-        billingManager.openConnection(this)
+        billingManager.openConnection(billingClient, this)
     }
 
-    fun getBillingProducts() {
-        billingManager.getBillingInAppProducts(this)
+    fun getBillingProducts(billingClient:BillingClient) {
+        billingManager.getBillingInAppProducts(billingClient, this)
+    }
+
+    fun purchaseProduct(productDetails: ProductDetails, billingClient:BillingClient, activity: Activity){
+        billingManager.purchaseProduct(billingClient, productDetails, activity, this)
     }
 
     override fun isConnected(connected: Boolean) {

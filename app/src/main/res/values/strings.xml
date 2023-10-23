@@ -25,6 +25,8 @@
     <string name="redesSociales">Compartir</string>
     <string name="msgCompartir">Puedes ganar 2500 gemas, por cada amigo que descargue la app</string>
     <string name="quienes">¿Quien es?</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="delete_account">Eliminar cuenta</string>
 
     <string name="noInternet">No tienes conexión a Internet</string>
     <!-- LoginActivity -->
