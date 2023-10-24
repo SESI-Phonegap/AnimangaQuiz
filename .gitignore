@@ -63,3 +63,4 @@ freeline_project_description.json
 app/release/app-release.aab
 .idea/misc.xml
 .idea/assetWizardSettings.xml
+.idea/jarRepositories.xml

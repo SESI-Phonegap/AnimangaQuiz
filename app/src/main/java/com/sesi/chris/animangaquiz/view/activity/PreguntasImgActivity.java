@@ -100,6 +100,7 @@ public class PreguntasImgActivity extends AppCompatActivity implements Preguntas
         iActualScore = bundle.getInt("score");
         setupRecyclerView();
         if (UtilInternetConnection.isOnline(context())) {
+            loadAdReward();
             cargarInterstitial();
             if (null != user) {
                 presenter.getQuestionsByAnimeImg(user.getEmail(), user.getPassword(), iIdAnime);
@@ -118,13 +119,11 @@ public class PreguntasImgActivity extends AppCompatActivity implements Preguntas
             @Override
             public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
                 mRewardedAd = rewardedAd;
-                super.onAdLoaded(rewardedAd);
             }
 
             @Override
             public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                 mRewardedAd = null;
-                super.onAdFailedToLoad(loadAdError);
             }
         });
     }
@@ -287,7 +286,7 @@ public class PreguntasImgActivity extends AppCompatActivity implements Preguntas
             Preguntas pregunta = lstPreguntas.get(index);
             puntos = pregunta.getPuntos();
             Picasso.get()
-                    .load(Constants.URL_BASE+"/images/"+pregunta.getQuestion())
+                    .load(Constants.URL_BASE+"/"+pregunta.getQuestion())
                     .into(new Target() {
 
                         @Override

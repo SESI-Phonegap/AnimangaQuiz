@@ -87,7 +87,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:2.2.6"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
     //Dependencias de Picasso
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.squareup.picasso:picasso:2.8'
     implementation 'androidx.drawerlayout:drawerlayout:1.2.0'
 
     // Dependencias de Glide
