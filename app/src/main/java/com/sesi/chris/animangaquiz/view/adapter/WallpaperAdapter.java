@@ -38,7 +38,7 @@ public class WallpaperAdapter extends RecyclerView.Adapter<WallpaperAdapter.Wall
         Wallpaper wallpaper = lstWallpaper.get(position);
         holder.wallpaper = wallpaper;
         holder.tvCosto.setText(String.valueOf(wallpaper.getCosto()));
-        String imgUrl = Constants.URL_BASE+"/images/"+ holder.wallpaper.getUrl();
+        String imgUrl = Constants.URL_BASE+"/"+ holder.wallpaper.getUrl();
         Picasso.get()
                 .load(imgUrl)
                 .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
