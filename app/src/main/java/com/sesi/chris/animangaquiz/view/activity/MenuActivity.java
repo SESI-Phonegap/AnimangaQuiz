@@ -58,6 +58,7 @@ import com.sesi.chris.animangaquiz.view.fragment.FriendsFragment;
 import com.sesi.chris.animangaquiz.view.fragment.WallpaperFragment;
 import com.sesi.chris.animangaquiz.view.utils.ImageFilePath;
 import com.sesi.chris.animangaquiz.view.utils.Utils;
+import com.sesi.chris.animangaquiz.view.utils.UtilsPreference;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -372,6 +373,13 @@ public class MenuActivity extends AppCompatActivity
                 break;
             case R.id.nav_friend:
                 changeFragment(FriendsFragment.newInstance(), R.id.mainFrame, false, false);
+                break;
+            case R.id.nav_logout:
+                UtilsPreference.resetPreferenceUser(context);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                finish();
+                startActivity(intent);
                 break;
             default:
                 Utils.sharedSocial(context(), userActual.getUserName());
