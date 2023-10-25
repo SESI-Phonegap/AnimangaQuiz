@@ -6,6 +6,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -16,11 +17,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -44,8 +51,7 @@ import com.sesi.chris.animangaquiz.interactor.PreguntasImgInteractor;
 import com.sesi.chris.animangaquiz.presenter.PreguntasImgPresenter;
 import com.sesi.chris.animangaquiz.view.adapter.RespuestasAdapter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+
 import java.util.List;
 
 public class PreguntasImgActivity extends AppCompatActivity implements PreguntasImgPresenter.ViewPreguntas {
@@ -263,7 +269,9 @@ public class PreguntasImgActivity extends AppCompatActivity implements Preguntas
             iLocalScore += (puntos * segundos);
             iCorrectas++;
         }
-        nextQuestion();
+        Handler handler = new Handler();
+        Runnable runnable = this::nextQuestion;
+        handler.postDelayed(runnable,500);
     }
 
     @Override
@@ -285,15 +293,37 @@ public class PreguntasImgActivity extends AppCompatActivity implements Preguntas
         if (index < lstPreguntas.size()) {
             Preguntas pregunta = lstPreguntas.get(index);
             puntos = pregunta.getPuntos();
-            Picasso.get()
+            Glide.with(context).load(Constants.URL_BASE+"/"+pregunta.getQuestion()).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+
+                    //imgQuiz.setImageBitmap(redimensionImgMax(((BitmapDrawable)resource).getBitmap(),100f,100f));
+                    imgQuiz.setImageDrawable(resource);
+                    imgQuiz.setColorFilter(R.color.black, PorterDuff.Mode.MULTIPLY);
+                    RespuestasAdapter adapter = new RespuestasAdapter();
+                    adapter.setItemClickListener((Respuesta respuesta) -> presenter.calculaPuntos(respuesta));
+                    adapter.setLstRespuesta(pregunta.getArrayRespuestas());
+                    rvRespuestas.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    String sNumPreguntas = (index + 1) + "/" + lstPreguntas.size();
+                    tvNumeroPreguntas.setText(sNumPreguntas);
+                    index++;
+                    pb.setVisibility(View.GONE);
+                    starTime();
+                    return false;
+                }
+            }).into(imgQuiz);
+          /*  Picasso.get()
                     .load(Constants.URL_BASE+"/"+pregunta.getQuestion())
                     .into(new Target() {
 
                         @Override
                         public void onBitmapLoaded (final Bitmap bitmap, Picasso.LoadedFrom from) {
-                            /* Save the bitmap or do something with it here */
-
-                            // Set it in the ImageView
                             imgQuiz.setImageBitmap(redimensionImgMax(bitmap,100f,100f));
                             imgQuiz.setColorFilter(R.color.black, PorterDuff.Mode.MULTIPLY);
                             RespuestasAdapter adapter = new RespuestasAdapter();
@@ -319,23 +349,13 @@ public class PreguntasImgActivity extends AppCompatActivity implements Preguntas
                         }
 
                     });
+*/
         } else {
             //Mostrar Resultados
             resetTimer();
             showDialogResultados();
         }
     }
-
-    public Bitmap redimensionImgMax(Bitmap bitmap, float newWidth, float newHeight){
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        //float scaleWidth = newWidth / width;
-        //float scaleHeight = newHeight / height;
-       // Matrix matrix = new Matrix();
-       // matrix.postScale(scaleWidth,scaleHeight);
-        return Bitmap.createBitmap(bitmap,0,0,width,height);
-    }
-
 
     private void resetTimer() {
         if (timer != null) {
