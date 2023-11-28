@@ -381,6 +381,7 @@ public class MenuActivity extends AppCompatActivity
                 finish();
                 startActivity(intent);
                 break;
+            case R.id.nav_delete:break;
             default:
                 Utils.sharedSocial(context(), userActual.getUserName());
                 break;
