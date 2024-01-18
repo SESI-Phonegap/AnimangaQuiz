@@ -302,4 +302,9 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
         }
     }
 
+    @Override
+    public void deleteUserAction() {
+
+    }
+
 }

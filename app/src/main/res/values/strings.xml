@@ -124,5 +124,6 @@
 
     <!-- Activity PreguntasImg -->
     <string name="titlePreguntas">¿Que personaje es?</string>
+    <string name="dialog_delete_msg">¿Deseas eliminar tu cuenta?</string>
 
 </resources>

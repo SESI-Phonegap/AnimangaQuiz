@@ -1,6 +1,8 @@
 package com.sesi.chris.animangaquiz.view.activity;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -147,6 +149,7 @@ public class SearchFriendActivity extends AppCompatActivity implements SearchFri
         dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
         tvMensaje.setText(context().getString(R.string.msg_confirmar_amigo));

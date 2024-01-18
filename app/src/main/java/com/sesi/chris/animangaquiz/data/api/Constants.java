@@ -32,6 +32,7 @@ public class Constants {
         public static final String CHECK_USER_FACEBOOK = "/AnimangaBackEnd/service/validaUserFacebook.php";
         public static final String UPDATE_ESFERAS = "/AnimangaBackEnd/service/updateEsferas.php";
         public static final String GET_QUESTIONS_BY_ANIME_IMG = "/AnimangaBackEnd/service/getPreguntasByAnimeImg.php";
+        public static final String DELETE_USER = "/AnimangaBackEnd/service/deleteUser.php";
 
     }
 

@@ -131,4 +131,9 @@ public interface QuizRetrofitService {
     Observable<List<Preguntas>> getQuestionsByAnimeImg(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
                                                             @Field(Constants.ParametersBackEnd.PASS) String pass,
                                                             @Field(Constants.ParametersBackEnd.ID_ANIME) int idAnime);
+    @POST(Constants.EndPoint.DELETE_USER)
+    @FormUrlEncoded
+    Observable<UpdateResponse> deleteUser(@Field(Constants.ParametersBackEnd.EMAIL) String email,
+                                          @Field(Constants.ParametersBackEnd.PASS) String pass,
+                                          @Field(Constants.ParametersBackEnd.ID_USER) int userId);
     }

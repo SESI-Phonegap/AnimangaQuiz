@@ -38,4 +38,8 @@ public class LoginInteractor {
         return quizServiceClient.updateEsferas(userName,pass,idUser,esferas);
     }
 
+    public Observable<UpdateResponse> deleteUser(String email, String pass, int idUser) {
+        return quizServiceClient.deleteUser(email, pass, idUser);
+    }
+
 }

@@ -9,7 +9,9 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.Toolbar;
@@ -35,6 +38,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -381,7 +385,9 @@ public class MenuActivity extends AppCompatActivity
                 finish();
                 startActivity(intent);
                 break;
-            case R.id.nav_delete:break;
+            case R.id.nav_delete:
+                showConfirmDialog();
+                break;
             default:
                 Utils.sharedSocial(context(), userActual.getUserName());
                 break;
@@ -389,6 +395,33 @@ public class MenuActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void showConfirmDialog(){
+        AlertDialog dialog;
+        AlertDialog.Builder builder =  new AlertDialog.Builder(context());
+        final View view = getLayoutInflater().inflate(R.layout.dialog_confirmar, null);
+
+        TextView tvMensaje = view.findViewById(R.id.tv_mensaje);
+        Button btnAceptar = view.findViewById(R.id.btn_aceptar);
+        Button btnCancel = view.findViewById(R.id.btn_cancel);
+
+        builder.setView(view);
+        dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+
+        tvMensaje.setText(context().getString(R.string.dialog_delete_msg));
+
+        btnAceptar.setOnClickListener(v -> {
+            loginPresenter.deleteUser(userActual.getEmail(), userActual.getPassword(), userActual.getIdUser());
+            dialog.dismiss();
+        });
+
+        btnCancel.setOnClickListener((View v) -> dialog.dismiss());
+
     }
 
     @Override
@@ -502,6 +535,13 @@ public class MenuActivity extends AppCompatActivity
     @Override
     public void renderLoginFacbook(LoginResponse loginResponse) {
         //Empty Method
+    }
+
+    @Override
+    public void deleteUserAction() {
+        UtilsPreference.deleteAll(context());
+        startActivity(new Intent(context(), LoginActivity.class));
+        finish();
     }
 
     @Override

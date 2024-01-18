@@ -117,6 +117,19 @@ public class LoginPresenter extends Presenter<LoginPresenter.ViewLogin> {
         addDisposableObserver(disposable);
     }
 
+    public void deleteUser(String email, String pass, int idUser){
+        getView().showLoading();
+        Disposable disposable = interactor.deleteUser(email, pass, idUser)
+                .doOnError(error -> getView().showServerError(error.getMessage()))
+                .subscribe(deleteUserResponse -> {
+                    getView().hideLoading();
+                    if (deleteUserResponse != null) {
+                        getView().deleteUserAction();
+                    }
+                }, Throwable::printStackTrace);
+        addDisposableObserver(disposable);
+    }
+
     @Override
     public void terminate() {
         super.terminate();
@@ -147,6 +160,7 @@ public class LoginPresenter extends Presenter<LoginPresenter.ViewLogin> {
         void renderResponseFacebook(UpdateResponse updateResponse);
 
         void renderLoginFacbook(LoginResponse loginResponse);
+        void deleteUserAction();
 
     }
 }

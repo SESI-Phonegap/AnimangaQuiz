@@ -66,7 +66,7 @@ public class RegistroActivity extends AppCompatActivity implements RegistroNuevo
         TextView tvAviso = findViewById(R.id.tv_aviso);
 
         tvAviso.setOnClickListener(v->{
-            Uri uri = Uri.parse("http://chrisscloud.ddns.net:8080/aviso/privacidad.html");
+            Uri uri = Uri.parse("https://chrisstek.com/AnimangaBackEnd/aviso/privacidad.html");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         });

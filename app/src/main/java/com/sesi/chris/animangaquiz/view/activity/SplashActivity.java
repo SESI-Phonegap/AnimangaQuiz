@@ -134,6 +134,11 @@ public class SplashActivity extends AppCompatActivity implements LoginPresenter.
     }
 
     @Override
+    public void deleteUserAction() {
+
+    }
+
+    @Override
     public Context context() {
         return this;
     }

@@ -34,4 +34,7 @@ public interface QuizServiceClient {
     Observable<LoginResponse> validaUsuarioFacebook(String userName);
     Observable<UpdateResponse> updateEsferas(String userName,String pass, int idUser, int esferas);
     Observable<List<Preguntas>> getQuestionsByAnimeImg(String userName, String pass, int idAnime);
+    Observable<UpdateResponse> deleteUser(String email,
+                                          String pass,
+                                          int userId);
 }

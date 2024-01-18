@@ -41,4 +41,11 @@ public class UtilsPreference {
         lstDataUser.add(prefs.getString(SAVE_PASS,DEFAULT_VALUE));
         return lstDataUser;
     }
+
+    public static void deleteAll(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(ANIMANGA, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
+        editor.apply();
+    }
 }
