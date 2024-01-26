@@ -29,7 +29,7 @@ import com.sesi.chris.animangaquiz.presenter.RegistroNuevoUsuarioPresenter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
 import com.sesi.chris.animangaquiz.view.utils.Utils;
 
-public class RegistroActivity extends AppCompatActivity implements RegistroNuevoUsuarioPresenter.ViewRegistro{
+public class RegistroActivity extends BaseActivity implements RegistroNuevoUsuarioPresenter.ViewRegistro{
 
     private ProgressBar pbRegistro;
     private Context context;
@@ -44,6 +44,7 @@ public class RegistroActivity extends AppCompatActivity implements RegistroNuevo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStatusBarGradiant(this);
         setContentView(R.layout.activity_registro);
         init();
     }

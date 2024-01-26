@@ -78,7 +78,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection.isOnline;
 
 @AndroidEntryPoint
-public class MenuActivity extends AppCompatActivity
+public class MenuActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, LoginPresenter.ViewLogin {
 
     private TextView tvUserName;
@@ -108,6 +108,7 @@ public class MenuActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        setStatusBarGradiant(this);
         init();
         // Try to restore dialog fragment if we were showing it prior to screen rotation
         if (savedInstanceState != null) {

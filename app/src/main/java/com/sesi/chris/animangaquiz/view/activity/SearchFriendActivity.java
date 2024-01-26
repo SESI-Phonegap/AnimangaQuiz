@@ -30,7 +30,7 @@ import com.sesi.chris.animangaquiz.presenter.SearchFriendPresenter;
 import com.sesi.chris.animangaquiz.view.adapter.FriendsAdapter;
 import java.util.List;
 
-public class SearchFriendActivity extends AppCompatActivity implements SearchFriendPresenter.ViewSearchFriend {
+public class SearchFriendActivity extends BaseActivity implements SearchFriendPresenter.ViewSearchFriend {
 
     private SearchFriendPresenter presenter;
     private RecyclerView rvFirends;
@@ -42,6 +42,7 @@ public class SearchFriendActivity extends AppCompatActivity implements SearchFri
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStatusBarGradiant(this);
         setContentView(R.layout.activity_search_friend);
         init();
     }

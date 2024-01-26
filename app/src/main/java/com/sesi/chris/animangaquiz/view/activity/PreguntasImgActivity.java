@@ -56,7 +56,7 @@ import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
 
 import java.util.List;
 
-public class PreguntasImgActivity extends AppCompatActivity implements PreguntasImgPresenter.ViewPreguntas {
+public class PreguntasImgActivity extends BaseActivity implements PreguntasImgPresenter.ViewPreguntas {
 
     private ProgressBar pb;
     private TextView tvNumeroPreguntas;
@@ -88,6 +88,7 @@ public class PreguntasImgActivity extends AppCompatActivity implements Preguntas
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStatusBarGradiant(this);
         setContentView(R.layout.activity_preguntas_img);
         init();
     }

@@ -40,7 +40,7 @@ import com.sesi.chris.animangaquiz.view.utils.UtilsPreference;
 import java.util.Arrays;
 import java.util.List;
 
-public class LoginActivity extends AppCompatActivity implements LoginPresenter.ViewLogin {
+public class LoginActivity extends BaseActivity implements LoginPresenter.ViewLogin {
 
     private LoginPresenter loginPresenter;
     private ProgressBar progressBar;
@@ -60,6 +60,7 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStatusBarGradiant(this);
         setContentView(R.layout.activity_login);
         init();
     }

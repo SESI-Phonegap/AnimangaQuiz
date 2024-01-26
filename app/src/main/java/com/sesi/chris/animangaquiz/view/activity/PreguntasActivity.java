@@ -46,7 +46,7 @@ import com.sesi.chris.animangaquiz.view.adapter.RespuestasAdapter;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
 import java.util.List;
 
-public class PreguntasActivity extends AppCompatActivity implements PreguntasPresenter.ViewPreguntas {
+public class PreguntasActivity extends BaseActivity implements PreguntasPresenter.ViewPreguntas {
 
     private static final String TRUE = "1";
     private static final int TIME_QUESTIONS = 16000;
@@ -83,6 +83,7 @@ public class PreguntasActivity extends AppCompatActivity implements PreguntasPre
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStatusBarGradiant(this);
         setContentView(R.layout.activity_preguntas);
         init();
     }

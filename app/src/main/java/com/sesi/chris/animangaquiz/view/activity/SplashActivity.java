@@ -23,12 +23,13 @@ import com.sesi.chris.animangaquiz.view.utils.UtilsPreference;
 
 import java.util.List;
 
-public class SplashActivity extends AppCompatActivity implements LoginPresenter.ViewLogin{
+public class SplashActivity extends BaseActivity implements LoginPresenter.ViewLogin{
 
     private LoginPresenter loginPresenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStatusBarGradiant(this);
         setContentView(R.layout.activity_splash);
         loginPresenter = new LoginPresenter(new LoginInteractor(new QuizClient()));
         loginPresenter.setView(this);
