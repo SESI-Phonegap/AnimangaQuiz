@@ -2,6 +2,7 @@ package com.sesi.chris.animangaquiz.view.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +23,10 @@ import android.provider.MediaStore;
 import com.google.android.gms.ads.RequestConfiguration;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -77,6 +81,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection.isOnline;
 
+@RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
 @AndroidEntryPoint
 public class MenuActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, LoginPresenter.ViewLogin {
@@ -154,10 +159,6 @@ public class MenuActivity extends BaseActivity
         imgAvatar.setOnClickListener(v ->
                 openGallery()
         );
-
-        if (checkExternalStoragePermission()) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 999);
-        }
     }
 
     private void initAds(){
@@ -167,9 +168,6 @@ public class MenuActivity extends BaseActivity
         MobileAds.setRequestConfiguration(configuration);
     }
 
-    private boolean checkExternalStoragePermission() {
-        return ActivityCompat.checkSelfPermission(context(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED;
-    }
 
     private void invokeShenlong() {
         loginPresenter.onUpdateGems(userActual.getUserName(),userActual.getPassword(),userActual.getIdUser(),userActual.getCoins() + 10000);
@@ -203,6 +201,15 @@ public class MenuActivity extends BaseActivity
             }
         });
     }
+    private final ActivityResultLauncher<String> mPermissionResult = registerForActivityResult(
+            new ActivityResultContracts.RequestPermission(),
+            result -> {
+                if (result) {
+                    openGallery();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Se requieren los permisos para continuar", Toast.LENGTH_LONG).show();
+                }
+            });
 
     private void cargarPublicidad() {
         if (isOnline(context())) {
@@ -262,23 +269,30 @@ public class MenuActivity extends BaseActivity
 
 
     private void openGallery() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (ActivityCompat.checkSelfPermission(context(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(MenuActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 999);
-            } else {
-                galleryFilter();
-            }
+        String permission = Manifest.permission.READ_EXTERNAL_STORAGE;
+        if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU){
+            permission = Manifest.permission.READ_MEDIA_IMAGES;
+        }
+        if (ActivityCompat.checkSelfPermission(context(), permission) != PackageManager.PERMISSION_GRANTED) {
+            mPermissionResult.launch(permission);
         } else {
             galleryFilter();
         }
     }
 
+
     public void galleryFilter() {
         List<Intent> targetGalleryIntents = new ArrayList<>();
         Intent galleryIntent = new Intent();
-        galleryIntent.setAction(Intent.ACTION_PICK);
+        galleryIntent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+        galleryIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
         galleryIntent.setType("image/*");
-        PackageManager pm = getApplicationContext().getPackageManager();
+        //PackageManager pm = getApplicationContext().getPackageManager();
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        galleryResult.launch(galleryIntent);
+        /*
         List<ResolveInfo> resInfos = pm.queryIntentActivities(galleryIntent, 0);
         if (!resInfos.isEmpty()) {
             for (ResolveInfo resInfo : resInfos) {
@@ -291,7 +305,8 @@ public class MenuActivity extends BaseActivity
                     intent.setAction(Intent.ACTION_PICK);
                     intent.setType("image/*");
                     intent.setPackage(packageName);
-                    targetGalleryIntents.add(intent);
+                    galleryResult.launch(intent);
+                    //targetGalleryIntents.add(intent);
                 }
             }
 
@@ -299,14 +314,52 @@ public class MenuActivity extends BaseActivity
                 Collections.sort(targetGalleryIntents, (o1, o2) -> o1.getStringExtra(APP_NAME).compareTo(o2.getStringExtra(APP_NAME)));
                 Intent chooserIntent = Intent.createChooser(targetGalleryIntents.remove(0), "Abrir Galeria");
                 chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetGalleryIntents.toArray(new Parcelable[]{}));
-                startActivityForResult(chooserIntent, PICK_IMAGE);
+                galleryResult.launch(chooserIntent);
+                //startActivityForResult(chooserIntent, PICK_IMAGE);
             } else {
                 Toast.makeText(getApplicationContext(), "No se encontro la galeria", Toast.LENGTH_LONG).show();
             }
-        }
+        }*/
     }
 
-    @Override
+    private final ActivityResultLauncher<Intent> galleryResult = registerForActivityResult( new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    try {
+                        Uri imageUri = result.getData().getData();
+
+                        String selectedImagePath;
+                        selectedImagePath = ImageFilePath.getPath(getApplication(), imageUri);
+                        File fileImage = new File(selectedImagePath);
+                        Long lSizeImage = getImageSizeInKb(fileImage.length());
+
+                        if (lSizeImage < 2000) {
+                            if (isOnline(context())) {
+                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                                imgAvatar.setImageBitmap(bitmap);
+                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                                byte[] imageBytes = baos.toByteArray();
+                                String sImgBase64 = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+                                Log.i("BASE64", sImgBase64);
+                                //guardar en la BD
+                                loginPresenter.onUpdateAvatar(userActual.getEmail(),
+                                        userActual.getPassword(),
+                                        userActual.getIdUser(),
+                                        sImgBase64);
+
+                            } else {
+                                Toast.makeText(context(), getString(R.string.noInternet), Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            Toast.makeText(context(), R.string.msgImagenError, Toast.LENGTH_LONG).show();
+                        }
+                    } catch (IOException e) {
+                        Log.e("Error-", e.getMessage());
+                    }
+                }
+            });
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
@@ -344,7 +397,7 @@ public class MenuActivity extends BaseActivity
             }
         }
     }
-
+*/
     public Long getImageSizeInKb(Long imageLength) {
         if (imageLength <= 0) {
             return 0L;

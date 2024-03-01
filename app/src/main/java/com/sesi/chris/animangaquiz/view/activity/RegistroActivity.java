@@ -36,6 +36,7 @@ public class RegistroActivity extends BaseActivity implements RegistroNuevoUsuar
     private RegistroNuevoUsuarioPresenter presenter;
     private String sGenero;
     private String sUserName;
+    private String email;
     private String sPassword;
     private EditText etEmail;
     EditText etPassword;
@@ -77,6 +78,7 @@ public class RegistroActivity extends BaseActivity implements RegistroNuevoUsuar
         btnRegistrar.setOnClickListener(v -> {
             if (UtilInternetConnection.isOnline(this)){
                 sUserName = etUsername.getText().toString();
+                email = etEmail.getText().toString();
                 String sNombre = etNombre.getText().toString();
                 String sEmail = etEmail.getText().toString();
                 String sEdad = etEdad.getText().toString();
@@ -170,7 +172,7 @@ public class RegistroActivity extends BaseActivity implements RegistroNuevoUsuar
         if (null != updateResponse){
             if (updateResponse.estatus.equals("200")){
                 Toast.makeText(context(),getString(R.string.msg_registro_exitoso),Toast.LENGTH_LONG).show();
-                presenter.onLogin(sUserName,sPassword);
+                presenter.onLogin(email,sPassword);
             } else {
                 Toast.makeText(context(),updateResponse.error,Toast.LENGTH_LONG).show();
             }
