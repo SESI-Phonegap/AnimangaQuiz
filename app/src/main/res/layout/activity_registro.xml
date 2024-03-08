@@ -49,6 +49,7 @@
                 android:layout_marginTop="@dimen/marginTopEditTextRe"
                 android:hint="@string/userName"
                 android:inputType="text"
+                android:maxLines="1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title" />
@@ -59,6 +60,7 @@
                 android:layout_marginTop="@dimen/marginTopEditTextRe"
                 android:hint="@string/nombre"
                 android:inputType="text"
+                android:maxLines="1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_userName" />
@@ -68,6 +70,7 @@
                 style="@style/styleEditText"
                 android:layout_marginTop="@dimen/marginTopEditTextRe"
                 android:hint="@string/email"
+                android:maxLines="1"
                 android:inputType="textEmailAddress"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -78,6 +81,7 @@
                 android:layout_marginTop="@dimen/marginTopEditTextRe"
                 android:hint="@string/edad"
                 android:inputType="number"
+                android:maxLines="1"
                 android:maxLength="2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -104,7 +108,7 @@
                     android:layout_marginTop="16dp"
                     android:text="@string/genero"
                     android:textColor="@color/text_primary_dark"
-                    android:textSize="@dimen/textSizeRegistro"
+                    android:textSize="@dimen/_17ssp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -130,12 +134,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/mujer"
+                        android:textSize="@dimen/_10sdp"
                         android:textStyle="italic|bold" />
 
                     <RadioButton
                         android:id="@+id/radioHombre"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/_10sdp"
                         android:text="@string/hombre"
                         android:textStyle="italic|bold"/>
                 </RadioGroup>
@@ -147,6 +153,7 @@
                 android:layout_marginTop="@dimen/marginTopEditTextRe"
                 android:hint="@string/password"
                 android:inputType="textPassword"
+                android:maxLines="1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/relativeRadio" />
@@ -156,6 +163,7 @@
                 android:layout_marginTop="@dimen/marginTopEditTextRe"
                 android:hint="@string/userNameFriend"
                 android:inputType="text"
+                android:maxLines="1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_password"
@@ -166,6 +174,7 @@
                 style="@style/styleBtn"
                 android:layout_marginTop="@dimen/marginBottomTop8dp"
                 android:text="@string/registrarse"
+                android:textSize="@dimen/_14sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_friendUserName" />
@@ -181,6 +190,7 @@
                 android:text="@string/avisoPrivacidad"
                 android:textColor="@android:color/holo_green_dark"
                 android:textStyle="italic"
+                android:textSize="@dimen/_13sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

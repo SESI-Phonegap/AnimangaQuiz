@@ -40,6 +40,8 @@
     <com.sesi.chris.animangaquiz.view.widget.AutoRecyclerView
         android:id="@+id/recyclerViewAnime"
         style="@style/styleRecyclerView"
+        tools:itemCount="5"
+        tools:listitem="@layout/item_anime"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.47"

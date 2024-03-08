@@ -21,6 +21,7 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 
 import com.google.android.gms.ads.RequestConfiguration;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -77,7 +78,6 @@ import java.util.Collections;
 import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection.isOnline;
 
@@ -90,7 +90,7 @@ public class MenuActivity extends BaseActivity
     private TextView tvEmail;
     private TextView tvGems;
     private TextView tvTotalScore;
-    private CircleImageView imgAvatar;
+    private ShapeableImageView imgAvatar;
     private ProgressBar progressBar;
     private LoginPresenter loginPresenter;
     private User userActual;

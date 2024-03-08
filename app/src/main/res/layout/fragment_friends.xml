@@ -10,6 +10,8 @@
         android:id="@+id/rv_friends"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        tools:itemCount="4"
+        tools:listitem="@layout/item_firends_by_user"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.523"

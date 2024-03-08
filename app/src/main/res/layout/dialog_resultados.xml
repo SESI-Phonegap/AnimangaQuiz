@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/titlePreguntasCorrectas"
-                android:textSize="@dimen/textviewTitleDialog"
+                android:textSize="@dimen/_18ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -48,7 +48,7 @@
                 android:layout_marginStart="16dp"
                 android:text="2/20"
                 android:textColor="@color/colorRed"
-                android:textSize="@dimen/textviewResultDialog"
+                android:textSize="@dimen/_18ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tv_title_preguntas_correctas"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -72,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/puntuacion"
-                android:textSize="@dimen/textviewTitleDialog"
+                android:textSize="@dimen/_18ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -85,7 +85,7 @@
                 android:layout_marginStart="16dp"
                 android:text="100500"
                 android:textColor="@color/colorRed"
-                android:textSize="@dimen/textviewResultDialog"
+                android:textSize="@dimen/_18ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tv_title_score"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -124,7 +124,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/gemas"
-                android:textSize="@dimen/textviewTitleDialog"
+                android:textSize="@dimen/_18ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -158,7 +158,7 @@
                     android:layout_toEndOf="@id/img_gems"
                     android:text="25000"
                     android:textColor="@color/colorRed"
-                    android:textSize="@dimen/textviewResultDialog"
+                    android:textSize="@dimen/_18ssp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/img_gems"
@@ -173,6 +173,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/AdReward"
+                android:textSize="@dimen/_15ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" />
@@ -184,6 +185,7 @@
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:text="@string/btnBannerBonificacion"
+                android:textSize="@dimen/_15ssp"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -198,6 +200,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="48dp"
             android:text="@string/btnAceptar"
+            android:textSize="@dimen/_14ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

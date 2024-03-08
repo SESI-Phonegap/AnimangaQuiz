@@ -14,10 +14,11 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgAvatar"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        app:shapeAppearance="@style/ImageViewRoundedCorners"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/ic_account_circle_white_48dp"
@@ -31,7 +32,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:text="@string/score"
-        android:textSize="12sp"
+        android:textSize="@dimen/_10ssp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,7 +56,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:text="50000"
-        android:textSize="12sp"
+        android:textSize="@dimen/_10ssp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,7 +70,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/nav_header_title"
         android:textStyle="bold"
-        android:textSize="14sp"
+        android:textSize="@dimen/_12ssp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgAvatar" />
 
@@ -79,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="@string/nav_header_subtitle"
-        android:textSize="11sp"
+        android:textSize="@dimen/_12ssp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_username" />
 

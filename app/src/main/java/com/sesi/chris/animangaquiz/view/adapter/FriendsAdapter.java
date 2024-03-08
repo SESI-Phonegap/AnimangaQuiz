@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.imageview.ShapeableImageView;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.view.utils.Utils;
@@ -15,7 +16,6 @@ import com.sesi.chris.animangaquiz.view.utils.Utils;
 import java.util.Collections;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendViewHolder>{
@@ -79,7 +79,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendVi
     public static  class FriendViewHolder extends RecyclerView.ViewHolder{
         TextView tvNombreUSer;
         TextView tvUserName;
-        CircleImageView imgUser;
+        ShapeableImageView imgUser;
         User user;
         View itemViewed;
 

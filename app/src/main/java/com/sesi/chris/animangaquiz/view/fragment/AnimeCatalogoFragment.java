@@ -170,7 +170,8 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
             if (sOpcion.equals(QUIZ_IMG)){
                 startQuizImg(idAnime,user);
             } else {
-                createDialogLevel(user);
+                startQuiz(idAnime, 1, user);
+                //createDialogLevel(user);
             }
         } else {
             Toast.makeText(context(), scoreResponse.getError(), Toast.LENGTH_LONG).show();

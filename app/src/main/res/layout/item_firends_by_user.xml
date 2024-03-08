@@ -7,13 +7,14 @@
     android:layout_height="wrap_content"
     android:background="@color/cardview_dark_background">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgUser"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        app:shapeAppearance="@style/ImageViewRoundedCorners"
         android:src="@drawable/iconuser"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

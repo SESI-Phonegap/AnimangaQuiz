@@ -103,7 +103,7 @@
     <string name="msg_registro_exitoso">Registro Exitoso !</string>
     <string name="datosincompletos">Datos incompletos</string>
     <string name="avisoPrivacidad"><u>Aviso de privacidad </u></string>
-    <string name="userNameFriend">userName de tu amigo</string>
+    <string name="userNameFriend">userName de tu amigo (opcional)</string>
 
     <!-- Activity Friends-->
     <string name="amigos">Amigos</string>
@@ -123,7 +123,7 @@
     <string name="header_subscriptions">Suscripciones</string>
 
     <!-- Activity PreguntasImg -->
-    <string name="titlePreguntas">¿Que personaje es?</string>
+    <string name="titlePreguntas">¿Quien es?</string>
     <string name="dialog_delete_msg">¿Deseas eliminar tu cuenta?</string>
 
 </resources>

@@ -64,3 +64,5 @@ app/release/app-release.aab
 .idea/misc.xml
 .idea/assetWizardSettings.xml
 .idea/jarRepositories.xml
+.idea/deploymentTargetDropDown.xml
+.idea/migrations.xml

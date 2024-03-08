@@ -7,10 +7,11 @@
     android:layout_height="wrap_content"
     android:background="@color/cardview_dark_background">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgUser"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        app:shapeAppearance="@style/ImageViewRoundedCorners"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -29,7 +30,7 @@
         android:padding="16dp"
         android:text="Chris_slash10"
         android:textColor="@color/text_primary_light"
-        android:textSize="18sp"
+        android:textSize="@dimen/_18ssp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imgUser"
@@ -45,7 +46,7 @@
         android:padding="16dp"
         android:text="Christian Gonzalez"
         android:textColor="@color/text_primary_light"
-        android:textSize="15sp"
+        android:textSize="@dimen/_15ssp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

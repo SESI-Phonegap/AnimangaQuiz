@@ -2,7 +2,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="@dimen/_170sdp"
     android:gravity="center"
     android:orientation="vertical"
     >
@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
+        android:src="@drawable/wallpaper"
         />
 
     <FrameLayout
@@ -28,7 +29,7 @@
             android:layout_height="match_parent"
             android:padding="16dp"
             android:textColor="@color/text_primary_light"
-            android:textSize="16sp"
+            android:textSize="@dimen/_13ssp"
             android:textStyle="bold"
             />
 

@@ -18,6 +18,11 @@
 
     </style>
 
+    <style name="ImageViewRoundedCorners" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
     <style name="styleEditText">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">@dimen/editTextHeigh</item>

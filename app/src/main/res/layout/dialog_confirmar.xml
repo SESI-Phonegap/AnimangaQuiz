@@ -14,6 +14,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="42dp"
         android:text="@string/msg_confirmacion"
+        android:textSize="@dimen/_13ssp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,6 +27,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginTop="24dp"
         android:text="@string/btnAceptar"
+        android:textSize="@dimen/_12ssp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_cancel"
         app:layout_constraintTop_toBottomOf="@+id/tv_mensaje" />
@@ -35,6 +37,8 @@
         style="@style/styleBtnDialogConfirm"
         android:layout_marginEnd="32dp"
         android:text="@string/btn_calcel"
+
+        android:textSize="@dimen/_12ssp"
         app:layout_constraintBaseline_toBaselineOf="@+id/btn_aceptar"
         app:layout_constraintEnd_toEndOf="parent" />
 

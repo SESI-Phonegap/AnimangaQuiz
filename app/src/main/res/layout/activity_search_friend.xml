@@ -29,7 +29,7 @@
             android:hint="@string/buscarAmigo"
             android:textColor="@color/text_primary_light"
             android:textColorHint="@color/text_primary_light"
-            android:textSize="@dimen/textSizeRegistro"
+            android:textSize="@dimen/_18ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,10 +41,12 @@
         android:id="@+id/rv_amigos"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+        tools:itemCount="4"
+        tools:listitem="@layout/item_friends" />
 
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"
