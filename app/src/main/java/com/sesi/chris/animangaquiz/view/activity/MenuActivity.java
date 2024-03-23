@@ -277,44 +277,10 @@ public class MenuActivity extends BaseActivity
 
 
     public void galleryFilter() {
-        List<Intent> targetGalleryIntents = new ArrayList<>();
-        Intent galleryIntent = new Intent();
-        galleryIntent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-        galleryIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-        galleryIntent.setType("image/*");
-        //PackageManager pm = getApplicationContext().getPackageManager();
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_PICK);
         intent.setType("image/*");
-        galleryResult.launch(galleryIntent);
-        /*
-        List<ResolveInfo> resInfos = pm.queryIntentActivities(galleryIntent, 0);
-        if (!resInfos.isEmpty()) {
-            for (ResolveInfo resInfo : resInfos) {
-                String packageName = resInfo.activityInfo.packageName;
-
-                if (!packageName.contains("com.google.android.apps.photos") && !packageName.equals("com.google.android.apps.plus")) {
-                    Intent intent = new Intent();
-                    intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
-                    intent.putExtra(APP_NAME, resInfo.loadLabel(pm).toString());
-                    intent.setAction(Intent.ACTION_PICK);
-                    intent.setType("image/*");
-                    intent.setPackage(packageName);
-                    galleryResult.launch(intent);
-                    //targetGalleryIntents.add(intent);
-                }
-            }
-
-            if (!targetGalleryIntents.isEmpty()) {
-                Collections.sort(targetGalleryIntents, (o1, o2) -> o1.getStringExtra(APP_NAME).compareTo(o2.getStringExtra(APP_NAME)));
-                Intent chooserIntent = Intent.createChooser(targetGalleryIntents.remove(0), "Abrir Galeria");
-                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetGalleryIntents.toArray(new Parcelable[]{}));
-                galleryResult.launch(chooserIntent);
-                //startActivityForResult(chooserIntent, PICK_IMAGE);
-            } else {
-                Toast.makeText(getApplicationContext(), "No se encontro la galeria", Toast.LENGTH_LONG).show();
-            }
-        }*/
+        galleryResult.launch(intent);
     }
 
     private final ActivityResultLauncher<Intent> galleryResult = registerForActivityResult( new ActivityResultContracts.StartActivityForResult(),
