@@ -2,7 +2,7 @@ package com.sesi.chris.animangaquiz.interactor;
 
 import com.sesi.chris.animangaquiz.data.api.client.QuizServiceClient;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
-import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 
 import io.reactivex.Observable;
 
@@ -14,7 +14,7 @@ public class RegistroNuevoUsuarioInteractor {
         this.quizServiceClient = quizServiceClient;
     }
 
-    public Observable<UpdateResponse> registroNuevoUsuario(String userNameFriend,String username,String nombre,String email,int edad,String genero,String password){
+    public Observable<UpdateResponseD> registroNuevoUsuario(String userNameFriend, String username, String nombre, String email, int edad, String genero, String password){
         return quizServiceClient.registroNuevoUsuario(userNameFriend,username,nombre,email,edad,genero,password);
     }
 

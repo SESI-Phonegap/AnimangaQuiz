@@ -15,7 +15,7 @@ import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
-import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 
@@ -28,6 +28,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+@Deprecated
 public class QuizRetrofitClient {
 
     private QuizRetrofitService quizRetrofitService;
@@ -74,8 +75,8 @@ public class QuizRetrofitClient {
                 .getType(), new PreguntasDeserializer<Preguntas>())
                 .registerTypeAdapter(new TypeToken<ScoreResponse>(){}
                 .getType(), new CheckLevelAndScoreDeserializer<ScoreResponse>())
-                .registerTypeAdapter(new TypeToken<UpdateResponse>(){}
-                .getType(), new UpdateDeserializer<UpdateResponse>())
+                .registerTypeAdapter(new TypeToken<UpdateResponseD>(){}
+                .getType(), new UpdateDeserializer<UpdateResponseD>())
                 .registerTypeAdapter(new TypeToken<List<Wallpaper>>(){}
                 .getType(),new WallpaperDeserializer<Wallpaper>())
                 .registerTypeAdapter(new TypeToken<List<User>>(){}

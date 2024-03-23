@@ -2,7 +2,7 @@ package com.sesi.chris.animangaquiz.interactor;
 
 import com.sesi.chris.animangaquiz.data.api.client.QuizServiceClient;
 import com.sesi.chris.animangaquiz.data.model.Anime;
-import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class WallpaperInteractor {
         return quizServiceClient.getWallpaperByAnime(userName,pass,idAnime);
     }
 
-    public Observable<UpdateResponse> updateGemas(String userName, String pass, int idUser, int gemas){
+    public Observable<UpdateResponseD> updateGemas(String userName, String pass, int idUser, int gemas){
         return quizServiceClient.updateGemas(userName,pass,idUser,gemas);
     }
 

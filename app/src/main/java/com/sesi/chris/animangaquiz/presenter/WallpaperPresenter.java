@@ -3,7 +3,7 @@ package com.sesi.chris.animangaquiz.presenter;
 import android.util.Log;
 
 import com.sesi.chris.animangaquiz.data.model.Anime;
-import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 import com.sesi.chris.animangaquiz.interactor.WallpaperInteractor;
 
@@ -106,7 +106,7 @@ public class WallpaperPresenter extends Presenter<WallpaperPresenter.ViewWallpap
 
         void launchAvatarByAnime(Anime anime);
 
-        void renderUpdateGemas(UpdateResponse updateResponse);
+        void renderUpdateGemas(UpdateResponseD updateResponse);
 
     }
 }

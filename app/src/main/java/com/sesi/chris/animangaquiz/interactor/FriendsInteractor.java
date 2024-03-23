@@ -1,7 +1,7 @@
 package com.sesi.chris.animangaquiz.interactor;
 
 import com.sesi.chris.animangaquiz.data.api.client.QuizServiceClient;
-import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.User;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class FriendsInteractor {
         return quizServiceClient.searchFriendByUserName(userName,pass,userNameQuery);
     }
 
-    public Observable<UpdateResponse> addFriendById(String userName, String pass, int idUser, int idFriend){
+    public Observable<UpdateResponseD> addFriendById(String userName, String pass, int idUser, int idFriend){
         return quizServiceClient.addFrienById(userName,pass,idUser,idFriend);
     }
 }

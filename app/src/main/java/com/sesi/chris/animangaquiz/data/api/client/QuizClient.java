@@ -6,7 +6,7 @@ import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
-import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 
@@ -60,7 +60,7 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient 
     }
 
     @Override
-    public Observable<UpdateResponse> updateLevelScoreGems(String userName, String pass, int gemas, int score, int level, int idUser, int idAnime) {
+    public Observable<UpdateResponseD> updateLevelScoreGems(String userName, String pass, int gemas, int score, int level, int idUser, int idAnime) {
         return getQuizService().updateLevelScoreGemsTotalScore(userName, pass, gemas, score, level, idUser, idAnime)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -74,14 +74,14 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient 
     }
 
     @Override
-    public Observable<UpdateResponse> updateGemas(String userName, String pass, int idUser, int gemas) {
+    public Observable<UpdateResponseD> updateGemas(String userName, String pass, int idUser, int gemas) {
         return getQuizService().updateGemas(userName, pass, idUser, gemas)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
-    public Observable<UpdateResponse> registroNuevoUsuario(String userNameFriend, String username, String nombre, String email, int edad, String genero, String password) {
+    public Observable<UpdateResponseD> registroNuevoUsuario(String userNameFriend, String username, String nombre, String email, int edad, String genero, String password) {
         return getQuizService().registroNuevoUsuario(userNameFriend, username, nombre, email, edad, genero, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -95,7 +95,7 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient 
     }
 
     @Override
-    public Observable<UpdateResponse> addFrienById(String userName, String pass, int idUser, int idFriend) {
+    public Observable<UpdateResponseD> addFrienById(String userName, String pass, int idUser, int idFriend) {
         return getQuizService().addFriendById(userName, pass, idUser, idFriend)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -116,7 +116,7 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient 
     }
 
     @Override
-    public Observable<UpdateResponse> updateAvatar(String userName, String pass, int idUser, String b64) {
+    public Observable<UpdateResponseD> updateAvatar(String userName, String pass, int idUser, String b64) {
         return getQuizService().updateAvatar(userName, pass, idUser, b64)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -130,7 +130,7 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient 
     }
 
     @Override
-    public Observable<UpdateResponse> updateEsferas(String userName, String pass, int idUser, int esferas) {
+    public Observable<UpdateResponseD> updateEsferas(String userName, String pass, int idUser, int esferas) {
         return getQuizService().updateEsferas(userName, pass, idUser, esferas)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -144,7 +144,7 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient 
     }
 
     @Override
-    public Observable<UpdateResponse> deleteUser(String email, String pass, int userId) {
+    public Observable<UpdateResponseD> deleteUser(String email, String pass, int userId) {
         return getQuizService().deleteUser(email, pass, userId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 

@@ -33,7 +33,7 @@ import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.Anime;
-import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 import com.sesi.chris.animangaquiz.interactor.WallpaperInteractor;
@@ -254,7 +254,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
     }
 
     @Override
-    public void renderUpdateGemas(UpdateResponse updateResponse) {
+    public void renderUpdateGemas(UpdateResponseD updateResponse) {
         if (null != updateResponse){
             Log.d("GEMASRESPONSE--",updateResponse.estatus);
             Log.d("GEMASRESPONSE--",updateResponse.error);

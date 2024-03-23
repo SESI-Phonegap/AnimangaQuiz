@@ -5,7 +5,7 @@ import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
-import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 import java.util.List;
@@ -53,13 +53,13 @@ public interface QuizRetrofitService {
 
     @POST(Constants.EndPoint.UPDATE_LEVEL_AND_SCORE)
     @FormUrlEncoded
-    Observable<UpdateResponse> updateLevelScoreGemsTotalScore(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
-                                                              @Field(Constants.ParametersBackEnd.PASS) String pass,
-                                                              @Field(Constants.ParametersBackEnd.GEMS) int gems,
-                                                              @Field(Constants.ParametersBackEnd.SCORE) int score,
-                                                              @Field(Constants.ParametersBackEnd.LEVEL) int level,
-                                                              @Field(Constants.ParametersBackEnd.ID_USER) int idUser,
-                                                              @Field(Constants.ParametersBackEnd.ID_ANIME) int idAnime);
+    Observable<UpdateResponseD> updateLevelScoreGemsTotalScore(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
+                                                               @Field(Constants.ParametersBackEnd.PASS) String pass,
+                                                               @Field(Constants.ParametersBackEnd.GEMS) int gems,
+                                                               @Field(Constants.ParametersBackEnd.SCORE) int score,
+                                                               @Field(Constants.ParametersBackEnd.LEVEL) int level,
+                                                               @Field(Constants.ParametersBackEnd.ID_USER) int idUser,
+                                                               @Field(Constants.ParametersBackEnd.ID_ANIME) int idAnime);
 
     @POST(Constants.EndPoint.GET_WALLPAPER_BY_ANIME)
     @FormUrlEncoded
@@ -69,20 +69,20 @@ public interface QuizRetrofitService {
 
     @POST(Constants.EndPoint.UPDATE_GEMAS)
     @FormUrlEncoded
-    Observable<UpdateResponse> updateGemas(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
-                                                 @Field(Constants.ParametersBackEnd.PASS) String pass,
-                                                 @Field(Constants.ParametersBackEnd.ID_USER) int idUser,
-                                                 @Field(Constants.ParametersBackEnd.GEMS) int gems);
+    Observable<UpdateResponseD> updateGemas(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
+                                            @Field(Constants.ParametersBackEnd.PASS) String pass,
+                                            @Field(Constants.ParametersBackEnd.ID_USER) int idUser,
+                                            @Field(Constants.ParametersBackEnd.GEMS) int gems);
 
     @POST(Constants.EndPoint.REGISTRO_NUEVO_USUARIO)
     @FormUrlEncoded
-    Observable<UpdateResponse> registroNuevoUsuario(@Field(Constants.ParametersBackEnd.USER_NAME_FRIEND) String userNameFriend,
-                                                    @Field(Constants.ParametersBackEnd.USER_NAME) String username,
-                                                    @Field(Constants.ParametersBackEnd.NOMBRE) String nombre,
-                                                    @Field(Constants.ParametersBackEnd.EMAIL) String email,
-                                                    @Field(Constants.ParametersBackEnd.EDAD) int edad,
-                                                    @Field(Constants.ParametersBackEnd.GENERO) String genero,
-                                                    @Field(Constants.ParametersBackEnd.PASS) String pass);
+    Observable<UpdateResponseD> registroNuevoUsuario(@Field(Constants.ParametersBackEnd.USER_NAME_FRIEND) String userNameFriend,
+                                                     @Field(Constants.ParametersBackEnd.USER_NAME) String username,
+                                                     @Field(Constants.ParametersBackEnd.NOMBRE) String nombre,
+                                                     @Field(Constants.ParametersBackEnd.EMAIL) String email,
+                                                     @Field(Constants.ParametersBackEnd.EDAD) int edad,
+                                                     @Field(Constants.ParametersBackEnd.GENERO) String genero,
+                                                     @Field(Constants.ParametersBackEnd.PASS) String pass);
 
     @POST(Constants.EndPoint.SEARCH_FRIEND_BY_USER_NAME)
     @FormUrlEncoded
@@ -92,10 +92,10 @@ public interface QuizRetrofitService {
 
     @POST(Constants.EndPoint.ADD_FRIEND_BY_ID)
     @FormUrlEncoded
-    Observable<UpdateResponse> addFriendById(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
-                                             @Field(Constants.ParametersBackEnd.PASS) String pass,
-                                             @Field(Constants.ParametersBackEnd.ID_USER) int idUser,
-                                             @Field(Constants.ParametersBackEnd.ID_FRIEND) int idFriend);
+    Observable<UpdateResponseD> addFriendById(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
+                                              @Field(Constants.ParametersBackEnd.PASS) String pass,
+                                              @Field(Constants.ParametersBackEnd.ID_USER) int idUser,
+                                              @Field(Constants.ParametersBackEnd.ID_FRIEND) int idFriend);
 
     @POST(Constants.EndPoint.GET_AVATARS_BY_ANIME)
     @FormUrlEncoded
@@ -110,10 +110,10 @@ public interface QuizRetrofitService {
 
     @POST(Constants.EndPoint.UPDATE_AVATAR)
     @FormUrlEncoded
-    Observable<UpdateResponse> updateAvatar(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
-                                            @Field(Constants.ParametersBackEnd.PASS) String pass,
-                                            @Field(Constants.ParametersBackEnd.ID_USER)int idUser,
-                                            @Field(Constants.ParametersBackEnd.AVATAR_BASE64)String b64);
+    Observable<UpdateResponseD> updateAvatar(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
+                                             @Field(Constants.ParametersBackEnd.PASS) String pass,
+                                             @Field(Constants.ParametersBackEnd.ID_USER)int idUser,
+                                             @Field(Constants.ParametersBackEnd.AVATAR_BASE64)String b64);
 
     @POST(Constants.EndPoint.CHECK_USER_FACEBOOK)
     @FormUrlEncoded
@@ -121,10 +121,10 @@ public interface QuizRetrofitService {
 
     @POST(Constants.EndPoint.UPDATE_ESFERAS)
     @FormUrlEncoded
-    Observable<UpdateResponse> updateEsferas(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
-                                             @Field(Constants.ParametersBackEnd.PASS) String pass,
-                                             @Field(Constants.ParametersBackEnd.ID_USER) int idUser,
-                                             @Field(Constants.ParametersBackEnd.ESFERAS) int esferas);
+    Observable<UpdateResponseD> updateEsferas(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
+                                              @Field(Constants.ParametersBackEnd.PASS) String pass,
+                                              @Field(Constants.ParametersBackEnd.ID_USER) int idUser,
+                                              @Field(Constants.ParametersBackEnd.ESFERAS) int esferas);
 
     @POST(Constants.EndPoint.GET_QUESTIONS_BY_ANIME_IMG)
     @FormUrlEncoded
@@ -133,7 +133,7 @@ public interface QuizRetrofitService {
                                                             @Field(Constants.ParametersBackEnd.ID_ANIME) int idAnime);
     @POST(Constants.EndPoint.DELETE_USER)
     @FormUrlEncoded
-    Observable<UpdateResponse> deleteUser(@Field(Constants.ParametersBackEnd.EMAIL) String email,
-                                          @Field(Constants.ParametersBackEnd.PASS) String pass,
-                                          @Field(Constants.ParametersBackEnd.ID_USER) int userId);
+    Observable<UpdateResponseD> deleteUser(@Field(Constants.ParametersBackEnd.EMAIL) String email,
+                                           @Field(Constants.ParametersBackEnd.PASS) String pass,
+                                           @Field(Constants.ParametersBackEnd.ID_USER) int userId);
     }

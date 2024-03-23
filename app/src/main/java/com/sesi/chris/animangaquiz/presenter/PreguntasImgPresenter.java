@@ -2,7 +2,7 @@ package com.sesi.chris.animangaquiz.presenter;
 
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
 import com.sesi.chris.animangaquiz.data.model.Respuesta;
-import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.interactor.PreguntasImgInteractor;
 
 import java.util.List;
@@ -78,9 +78,9 @@ public class PreguntasImgPresenter extends Presenter<PreguntasImgPresenter.ViewP
 
         void calcularPuntos(Respuesta respuesta);
 
-        void renderUpdateEsferas(UpdateResponse updateResponse);
+        void renderUpdateEsferas(UpdateResponseD updateResponse);
 
-        void renderUpdateScoreLevelGems(UpdateResponse updateResponse);
+        void renderUpdateScoreLevelGems(UpdateResponseD updateResponse);
 
     }
 }

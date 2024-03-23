@@ -2,11 +2,7 @@ package com.sesi.chris.animangaquiz.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -22,7 +18,7 @@ import android.widget.Toast;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
-import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.RegistroNuevoUsuarioInteractor;
 import com.sesi.chris.animangaquiz.presenter.RegistroNuevoUsuarioPresenter;
@@ -168,7 +164,7 @@ public class RegistroActivity extends BaseActivity implements RegistroNuevoUsuar
     }
 
     @Override
-    public void renderResponse(UpdateResponse updateResponse) {
+    public void renderResponse(UpdateResponseD updateResponse) {
         if (null != updateResponse){
             if (updateResponse.estatus.equals("200")){
                 Toast.makeText(context(),getString(R.string.msg_registro_exitoso),Toast.LENGTH_LONG).show();

@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,7 +22,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
-import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.FriendsInteractor;
 import com.sesi.chris.animangaquiz.presenter.SearchFriendPresenter;
@@ -107,7 +106,7 @@ public class SearchFriendActivity extends BaseActivity implements SearchFriendPr
     }
 
     @Override
-    public void renderAddFriend(UpdateResponse updateResponse) {
+    public void renderAddFriend(UpdateResponseD updateResponse) {
         progressBar.setVisibility(View.GONE);
         Toast.makeText(this,updateResponse.error,Toast.LENGTH_LONG).show();
         finish();

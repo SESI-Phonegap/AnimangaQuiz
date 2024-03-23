@@ -4,7 +4,7 @@ import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
-import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
 
@@ -19,22 +19,22 @@ public interface QuizServiceClient {
     Observable<List<Anime>> getAllAnimesForWallpaper(String userName, String pass);
     Observable<List<Preguntas>> getQuestionsByAnimeAndLevel(String userName, String pass, int idAnime, int level);
     Observable<ScoreResponse> checkScoreAndLevel(String userName, String pass, int idAnime, int idUser);
-    Observable<UpdateResponse> updateLevelScoreGems(String userName, String pass,
-                                                    int gemas, int score,
-                                                    int level, int idUser,
-                                                    int idAnime);
+    Observable<UpdateResponseD> updateLevelScoreGems(String userName, String pass,
+                                                     int gemas, int score,
+                                                     int level, int idUser,
+                                                     int idAnime);
     Observable<List<Wallpaper>> getWallpaperByAnime(String userName, String pass, int idAnime);
-    Observable<UpdateResponse> updateGemas(String userName, String pass, int idUser, int gemas);
-    Observable<UpdateResponse> registroNuevoUsuario(String userNameFriend, String username,String nombre,String email,int edad,String genero,String password);
+    Observable<UpdateResponseD> updateGemas(String userName, String pass, int idUser, int gemas);
+    Observable<UpdateResponseD> registroNuevoUsuario(String userNameFriend, String username, String nombre, String email, int edad, String genero, String password);
     Observable<List<User>> searchFriendByUserName(String userName, String pass, String userNameQuery);
-    Observable<UpdateResponse> addFrienById(String userName, String pass,int idUser, int idFriend);
+    Observable<UpdateResponseD> addFrienById(String userName, String pass, int idUser, int idFriend);
     Observable<List<Wallpaper>> getAvatarsByAnime(String userName, String pass, int idAnime);
     Observable<List<User>> getAllFriendsByUser(String userName, String pass);
-    Observable<UpdateResponse> updateAvatar(String userName,String pass, int idUser, String b64);
+    Observable<UpdateResponseD> updateAvatar(String userName, String pass, int idUser, String b64);
     Observable<LoginResponse> validaUsuarioFacebook(String userName);
-    Observable<UpdateResponse> updateEsferas(String userName,String pass, int idUser, int esferas);
+    Observable<UpdateResponseD> updateEsferas(String userName, String pass, int idUser, int esferas);
     Observable<List<Preguntas>> getQuestionsByAnimeImg(String userName, String pass, int idAnime);
-    Observable<UpdateResponse> deleteUser(String email,
-                                          String pass,
-                                          int userId);
+    Observable<UpdateResponseD> deleteUser(String email,
+                                           String pass,
+                                           int userId);
 }

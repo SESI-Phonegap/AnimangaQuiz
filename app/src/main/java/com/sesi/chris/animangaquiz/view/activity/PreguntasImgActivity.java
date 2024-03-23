@@ -1,7 +1,6 @@
 package com.sesi.chris.animangaquiz.view.activity;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
@@ -21,7 +20,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,7 +45,7 @@ import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
 import com.sesi.chris.animangaquiz.data.model.Respuesta;
-import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.PreguntasImgInteractor;
 import com.sesi.chris.animangaquiz.presenter.PreguntasImgPresenter;
@@ -278,13 +276,13 @@ public class PreguntasImgActivity extends BaseActivity implements PreguntasImgPr
     }
 
     @Override
-    public void renderUpdateEsferas(UpdateResponse updateResponse) {
+    public void renderUpdateEsferas(UpdateResponseD updateResponse) {
         Log.d("UPDATE-ESFERAS--",updateResponse.error);
         Toast.makeText(context(),updateResponse.error,Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void renderUpdateScoreLevelGems(UpdateResponse updateResponse) {
+    public void renderUpdateScoreLevelGems(UpdateResponseD updateResponse) {
         Log.d("UPDATE--",updateResponse.error);
         finish();
     }

@@ -3,11 +3,9 @@ package com.sesi.chris.animangaquiz.view.activity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -17,7 +15,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 
 import com.google.android.gms.ads.RequestConfiguration;
@@ -30,7 +27,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -57,7 +53,7 @@ import com.google.android.gms.ads.MobileAds;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
-import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.presenter.LoginPresenter;
@@ -74,7 +70,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -555,7 +550,7 @@ public class MenuActivity extends BaseActivity
     }
 
     @Override
-    public void updateGemsResponse(UpdateResponse updateResponse) {
+    public void updateGemsResponse(UpdateResponseD updateResponse) {
         Toast.makeText(context(), updateResponse.estatus + "-" + updateResponse.error, Toast.LENGTH_LONG).show();
         refreshUserData();
     }
@@ -566,7 +561,7 @@ public class MenuActivity extends BaseActivity
     }
 
     @Override
-    public void updateAvatarResponse(UpdateResponse updateResponse) {
+    public void updateAvatarResponse(UpdateResponseD updateResponse) {
         Toast.makeText(context(), updateResponse.estatus + "-" + updateResponse.error, Toast.LENGTH_LONG).show();
         refreshUserData();
     }
@@ -577,12 +572,12 @@ public class MenuActivity extends BaseActivity
     }
 
     @Override
-    public void renderResponse(UpdateResponse updateResponse) {
+    public void renderResponse(UpdateResponseD updateResponse) {
         //Empty Method
     }
 
     @Override
-    public void renderResponseFacebook(UpdateResponse updateResponse) {
+    public void renderResponseFacebook(UpdateResponseD updateResponse) {
         //Empty Method
     }
 

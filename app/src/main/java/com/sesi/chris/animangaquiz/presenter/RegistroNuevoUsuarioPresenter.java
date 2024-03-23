@@ -2,7 +2,7 @@ package com.sesi.chris.animangaquiz.presenter;
 
 import android.util.Log;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
-import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.interactor.RegistroNuevoUsuarioInteractor;
 import io.reactivex.disposables.Disposable;
 
@@ -55,7 +55,7 @@ public class RegistroNuevoUsuarioPresenter extends Presenter<RegistroNuevoUsuari
 
         void showServerError(String error);
 
-        void renderResponse(UpdateResponse updateResponse);
+        void renderResponse(UpdateResponseD updateResponse);
 
         void renderLogin(LoginResponse loginResponse);
     }

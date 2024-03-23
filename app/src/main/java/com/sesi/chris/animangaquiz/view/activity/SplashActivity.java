@@ -4,17 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
-import android.view.View;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
-import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.presenter.LoginPresenter;
@@ -100,7 +95,7 @@ public class SplashActivity extends BaseActivity implements LoginPresenter.ViewL
     }
 
     @Override
-    public void updateGemsResponse(UpdateResponse updateResponse) {
+    public void updateGemsResponse(UpdateResponseD updateResponse) {
 
     }
 
@@ -110,7 +105,7 @@ public class SplashActivity extends BaseActivity implements LoginPresenter.ViewL
     }
 
     @Override
-    public void updateAvatarResponse(UpdateResponse updateResponse) {
+    public void updateAvatarResponse(UpdateResponseD updateResponse) {
 
     }
 
@@ -120,12 +115,12 @@ public class SplashActivity extends BaseActivity implements LoginPresenter.ViewL
     }
 
     @Override
-    public void renderResponse(UpdateResponse updateResponse) {
+    public void renderResponse(UpdateResponseD updateResponse) {
 
     }
 
     @Override
-    public void renderResponseFacebook(UpdateResponse updateResponse) {
+    public void renderResponseFacebook(UpdateResponseD updateResponse) {
 
     }
 

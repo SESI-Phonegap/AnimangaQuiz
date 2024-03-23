@@ -2,7 +2,6 @@ package com.sesi.chris.animangaquiz.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.SpannableString;
@@ -17,9 +16,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -29,16 +25,17 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
+import com.sesi.chris.animangaquiz.data.dto.UserDto;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
-import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.presenter.LoginPresenter;
+import com.sesi.chris.animangaquiz.view.utils.Preference;
 import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
 import com.sesi.chris.animangaquiz.view.utils.Utils;
 import com.sesi.chris.animangaquiz.view.utils.UtilsPreference;
 import java.util.Arrays;
-import java.util.List;
 
 public class LoginActivity extends BaseActivity implements LoginPresenter.ViewLogin {
 
@@ -240,6 +237,7 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ViewLo
             if (cbGuardarUser.isChecked()) {
                 UtilsPreference.savePreferenceUserLogin(context(), user.getEmail(), user.getPassword());
             }
+            Preference.INSTANCE.setData(Preference.USER_DATA, new UserDto(user.getEmail(), user.getIdUser(), user.getPassword()), context);
             Intent intent = new Intent(context(),MenuActivity.class);
             intent.putExtra("user",user);
             startActivity(intent);
@@ -251,7 +249,7 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ViewLo
     }
 
     @Override
-    public void updateGemsResponse(UpdateResponse updateResponse) {
+    public void updateGemsResponse(UpdateResponseD updateResponse) {
         Toast.makeText(context(),R.string.msgGemas + updateResponse.estatus,Toast.LENGTH_LONG).show();
     }
 
@@ -261,7 +259,7 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ViewLo
     }
 
     @Override
-    public void updateAvatarResponse(UpdateResponse updateResponse) {
+    public void updateAvatarResponse(UpdateResponseD updateResponse) {
         //Empty Method
     }
 
@@ -271,12 +269,12 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ViewLo
     }
 
     @Override
-    public void renderResponse(UpdateResponse updateResponse) {
+    public void renderResponse(UpdateResponseD updateResponse) {
         Toast.makeText(context(),updateResponse.error,Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void renderResponseFacebook(UpdateResponse updateResponse) {
+    public void renderResponseFacebook(UpdateResponseD updateResponse) {
         if (null != updateResponse){
             if (updateResponse.estatus.equals("200")){
                 Toast.makeText(context(),getString(R.string.msg_registro_exitoso),Toast.LENGTH_LONG).show();

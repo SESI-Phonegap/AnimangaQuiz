@@ -1,6 +1,6 @@
 package com.sesi.chris.animangaquiz.presenter;
 
-import com.sesi.chris.animangaquiz.data.model.UpdateResponse;
+import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import io.reactivex.disposables.Disposable;
@@ -147,17 +147,17 @@ public class LoginPresenter extends Presenter<LoginPresenter.ViewLogin> {
 
         void renderLogin(LoginResponse loginResponse);
 
-        void updateGemsResponse(UpdateResponse updateResponse);
+        void updateGemsResponse(UpdateResponseD updateResponse);
 
         void showUpdateGemsError();
 
-        void updateAvatarResponse(UpdateResponse updateResponse);
+        void updateAvatarResponse(UpdateResponseD updateResponse);
 
         void showUpdateAvatarError();
 
-        void renderResponse(UpdateResponse updateResponse);
+        void renderResponse(UpdateResponseD updateResponse);
 
-        void renderResponseFacebook(UpdateResponse updateResponse);
+        void renderResponseFacebook(UpdateResponseD updateResponse);
 
         void renderLoginFacbook(LoginResponse loginResponse);
         void deleteUserAction();
