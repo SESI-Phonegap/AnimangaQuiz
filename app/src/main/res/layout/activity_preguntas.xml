@@ -73,7 +73,7 @@
             android:layout_marginTop="16dp"
             android:text="Cual es la raza de goku, vegeta,piccolo, freezer, y todos los guerreros z"
             android:textColor="@color/text_primary_dark"
-            android:textSize="@dimen/_14sdp"
+            android:textSize="@dimen/_15sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
