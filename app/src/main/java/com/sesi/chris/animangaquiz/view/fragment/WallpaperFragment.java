@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
+import com.sesi.chris.animangaquiz.data.dto.InternetDto;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.User;
@@ -41,7 +42,7 @@ import com.sesi.chris.animangaquiz.presenter.WallpaperPresenter;
 import com.sesi.chris.animangaquiz.view.activity.MenuActivity;
 import com.sesi.chris.animangaquiz.view.adapter.AnimeAdapter;
 import com.sesi.chris.animangaquiz.view.adapter.WallpaperAdapter;
-import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
+import com.sesi.chris.animangaquiz.view.utils.InternetUtil;
 import com.sesi.chris.animangaquiz.view.utils.Utils;
 import java.util.List;
 
@@ -101,7 +102,8 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         user = (User) requireActivity().getIntent().getSerializableExtra("user");
         Log.i("Wallpaper user", user.toString());
         setupRecyclerViewAnimes();
-        if (UtilInternetConnection.isOnline(context())){
+        InternetDto internetDto = InternetUtil.INSTANCE.getConnection(context());
+        if (internetDto.isOnline()){
             if (null != user){
                 presenter.getAllAnimes(user.getEmail(),user.getPassword());
             } else {
@@ -237,7 +239,8 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
 
     @Override
     public void launchWallpaperByanime(Anime anime) {
-        if (UtilInternetConnection.isOnline(context())){
+        InternetDto internetDto = InternetUtil.INSTANCE.getConnection(context());
+        if (internetDto.isOnline()){
             presenter.getWallpaperByAnime(user.getEmail(),user.getPassword(),anime.getIdAnime());
         } else {
             Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
@@ -246,7 +249,8 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
 
     @Override
     public void launchAvatarByAnime(Anime anime) {
-        if (UtilInternetConnection.isOnline(context())){
+        InternetDto internetDto = InternetUtil.INSTANCE.getConnection(context());
+        if (internetDto.isOnline()){
             presenter.getAvatarsByAnime(user.getEmail(),user.getPassword(),anime.getIdAnime());
         } else {
             Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
@@ -271,8 +275,8 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
     private void restaGemas(){
         int gemasDisponibles = ((MenuActivity) requireActivity()).getUserActual().getCoins();
         //Update Gemas
-        int gemasUpdate = gemasDisponibles - costoWalpaper;
-        presenter.updateGemas(user.getEmail(),user.getPassword(),user.getIdUser(),gemasUpdate);
+        //int gemasUpdate = gemasDisponibles - costoWalpaper;
+        presenter.updateGemas(user.getEmail(),user.getPassword(),user.getIdUser(), -costoWalpaper);
     }
 
     private void guardarWallpaper(String url, String formato){
@@ -333,6 +337,7 @@ public class WallpaperFragment extends Fragment implements WallpaperPresenter.Vi
         String date = (DateFormat.format("yyyyMMdd_hhmmss", new java.util.Date()).toString());
         String fname = "Image-" + date + format;
 
+        Toast.makeText(getContext(), "Iniciando Descarga!", Toast.LENGTH_LONG).show();
         Long lastDownload = dm.enqueue(new DownloadManager.Request(Uri.parse(url))
                 .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE)
                 .setAllowedOverRoaming(false)

@@ -18,15 +18,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
+import com.sesi.chris.animangaquiz.data.dto.InternetDto;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.FriendsByUserInteractor;
 import com.sesi.chris.animangaquiz.presenter.FriendsByUserPresenter;
 import com.sesi.chris.animangaquiz.view.activity.LoginActivity;
 import com.sesi.chris.animangaquiz.view.activity.SearchFriendActivity;
 import com.sesi.chris.animangaquiz.view.adapter.FriendsByUserAdapter;
-import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
+import com.sesi.chris.animangaquiz.view.utils.InternetUtil;
+
 import java.util.List;
-import java.util.Objects;
 
 
 public class FriendsFragment extends Fragment implements FriendsByUserPresenter.ViewFriendsByUser {
@@ -74,7 +75,8 @@ public class FriendsFragment extends Fragment implements FriendsByUserPresenter.
         rvFriends = viewRoot.findViewById(R.id.rv_friends);
         User user = (User) requireActivity().getIntent().getSerializableExtra("user");
         setupRecyclerView();
-        if (UtilInternetConnection.isOnline(context())){
+        InternetDto internetDto = InternetUtil.INSTANCE.getConnection(context());
+        if (internetDto.isOnline()){
             if (null != user){
                 presenter.getAllFriendsByUser(user.getEmail(),user.getPassword());
             } else {

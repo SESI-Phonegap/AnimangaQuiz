@@ -25,14 +25,15 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
+import com.sesi.chris.animangaquiz.data.dto.InternetDto;
 import com.sesi.chris.animangaquiz.data.dto.UserDto;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.presenter.LoginPresenter;
+import com.sesi.chris.animangaquiz.view.utils.InternetUtil;
 import com.sesi.chris.animangaquiz.view.utils.Preference;
-import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
 import com.sesi.chris.animangaquiz.view.utils.Utils;
 import com.sesi.chris.animangaquiz.view.utils.UtilsPreference;
 import java.util.Arrays;
@@ -88,7 +89,8 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ViewLo
         btnLogin.setOnClickListener(v -> {
             String email = etEmail.getText().toString();
             if (Utils.isValidEmail(email) && !etPassword.getText().toString().isEmpty()){
-                if (UtilInternetConnection.isOnline(context())) {
+                InternetDto internetDto = InternetUtil.INSTANCE.getConnection(context());
+                if (internetDto.isOnline()) {
                     blockUi();
                     loginPresenter.onLogin(etEmail.getText().toString(), etPassword.getText().toString());
                 } else {
@@ -143,7 +145,8 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ViewLo
                         sFacebookName = object.getString(FACEBOOK_NAME);
                         sFacebookEmail = object.getString(FACEBOOK_EMAIL);
 
-                        if (UtilInternetConnection.isOnline(context())) {
+                        InternetDto internetDto = InternetUtil.INSTANCE.getConnection(context());
+                        if (internetDto.isOnline()) {
                             loginPresenter.validaUsuarioFacebook(sFacebookId);
                         } else {
                             Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
@@ -173,7 +176,8 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ViewLo
         if (AccessToken.getCurrentAccessToken() != null){
             blockUi();
             String sFaceIdEmail = AccessToken.getCurrentAccessToken().getUserId();
-            if (UtilInternetConnection.isOnline(context())) {
+            InternetDto internetDto = InternetUtil.INSTANCE.getConnection(context());
+            if (internetDto.isOnline()) {
                 loginPresenter.validaUsuarioFacebook(sFaceIdEmail);
             } else {
                 Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();

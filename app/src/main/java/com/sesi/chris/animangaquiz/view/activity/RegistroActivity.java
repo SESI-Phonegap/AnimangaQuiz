@@ -17,12 +17,13 @@ import android.widget.Toast;
 
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
+import com.sesi.chris.animangaquiz.data.dto.InternetDto;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.RegistroNuevoUsuarioInteractor;
 import com.sesi.chris.animangaquiz.presenter.RegistroNuevoUsuarioPresenter;
-import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
+import com.sesi.chris.animangaquiz.view.utils.InternetUtil;
 import com.sesi.chris.animangaquiz.view.utils.Utils;
 
 public class RegistroActivity extends BaseActivity implements RegistroNuevoUsuarioPresenter.ViewRegistro{
@@ -72,7 +73,8 @@ public class RegistroActivity extends BaseActivity implements RegistroNuevoUsuar
         radioGroup.setOnCheckedChangeListener((radioGroup1, id) -> sGenero = id == R.id.radioHombre ? "H" : "M");
 
         btnRegistrar.setOnClickListener(v -> {
-            if (UtilInternetConnection.isOnline(this)){
+            InternetDto internetDto = InternetUtil.INSTANCE.getConnection(context());
+            if (internetDto.isOnline()){
                 sUserName = etUsername.getText().toString();
                 email = etEmail.getText().toString();
                 String sNombre = etNombre.getText().toString();

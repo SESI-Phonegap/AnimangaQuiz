@@ -13,13 +13,10 @@ import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.sesi.chris.animangaquiz.data.api.billing.BillingManagerV6.Companion.L_GEMS_20000
 import com.sesi.chris.animangaquiz.data.api.billing.BillingManagerV6.Companion.MED_GEMS_10000
-import com.sesi.chris.animangaquiz.data.api.client.QuizClient
 import com.sesi.chris.animangaquiz.data.dto.UpdateGemsDto
 import com.sesi.chris.animangaquiz.data.dto.UserDto
 import com.sesi.chris.animangaquiz.databinding.FragmentPurchaseBinding
-import com.sesi.chris.animangaquiz.interactor.LoginInteractor
-import com.sesi.chris.animangaquiz.presenter.LoginPresenter
-import com.sesi.chris.animangaquiz.presenter.LoginPresenter.ViewLogin
+import com.sesi.chris.animangaquiz.view.activity.MenuActivity
 import com.sesi.chris.animangaquiz.view.adapter.BillingProductsAdapter
 import com.sesi.chris.animangaquiz.view.utils.Preference
 import dagger.hilt.android.AndroidEntryPoint
@@ -96,6 +93,7 @@ class BillingPurchaseFragment : Fragment(), BillingProductsAdapter.RvAction {
             isUpdated ->
             if (isUpdated){
                 Log.i("BillingFragment", "Se agregaron las gemas")
+                (requireActivity() as MenuActivity).refreshUserData()
             } else {
                 Log.i("BillingFragment", "Error")
             }

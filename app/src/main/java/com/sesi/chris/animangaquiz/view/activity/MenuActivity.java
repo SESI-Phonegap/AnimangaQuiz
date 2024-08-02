@@ -52,6 +52,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
+import com.sesi.chris.animangaquiz.data.dto.InternetDto;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.User;
@@ -62,19 +63,17 @@ import com.sesi.chris.animangaquiz.view.fragment.BillingPurchaseFragment;
 import com.sesi.chris.animangaquiz.view.fragment.FriendsFragment;
 import com.sesi.chris.animangaquiz.view.fragment.WallpaperFragment;
 import com.sesi.chris.animangaquiz.view.utils.ImageFilePath;
+import com.sesi.chris.animangaquiz.view.utils.InternetUtil;
 import com.sesi.chris.animangaquiz.view.utils.Utils;
 import com.sesi.chris.animangaquiz.view.utils.UtilsPreference;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
-import static com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection.isOnline;
 
 @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
 @AndroidEntryPoint
@@ -207,7 +206,8 @@ public class MenuActivity extends BaseActivity
             });
 
     private void cargarPublicidad() {
-        if (isOnline(context())) {
+        InternetDto internetDto = InternetUtil.INSTANCE.getConnection(context());
+        if (internetDto.isOnline()) {
             mAdview = findViewById(R.id.adView);
             AdRequest adRequest = new AdRequest.Builder().build();
             mAdview.loadAd(adRequest);
@@ -226,7 +226,8 @@ public class MenuActivity extends BaseActivity
     }
 
     public void refreshUserData() {
-        if (isOnline(context())) {
+        InternetDto internetDto = InternetUtil.INSTANCE.getConnection(context());
+        if (internetDto.isOnline()) {
             loginPresenter.onLogin(userActual.getEmail(), userActual.getPassword());
         } else {
             Toast.makeText(context(), getString(R.string.noInternet), Toast.LENGTH_LONG).show();
@@ -247,6 +248,7 @@ public class MenuActivity extends BaseActivity
 
     public void changeFragment(Fragment fragment, int resource, boolean isRoot, boolean backStack) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        refreshUserData();
 
         if (isRoot) {
             transaction.add(resource, fragment);
@@ -295,7 +297,8 @@ public class MenuActivity extends BaseActivity
                         Long lSizeImage = getImageSizeInKb(fileImage.length());
 
                         if (lSizeImage < 2000) {
-                            if (isOnline(context())) {
+                            InternetDto internetDto = InternetUtil.INSTANCE.getConnection(context());
+                            if (internetDto.isOnline()) {
                                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
                                 imgAvatar.setImageBitmap(bitmap);

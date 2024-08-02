@@ -35,6 +35,7 @@ import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
+import com.sesi.chris.animangaquiz.data.dto.InternetDto;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
 import com.sesi.chris.animangaquiz.data.model.Respuesta;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
@@ -42,7 +43,8 @@ import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.PreguntasInteractor;
 import com.sesi.chris.animangaquiz.presenter.PreguntasPresenter;
 import com.sesi.chris.animangaquiz.view.adapter.RespuestasAdapter;
-import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
+import com.sesi.chris.animangaquiz.view.utils.InternetUtil;
+
 import java.util.List;
 
 public class PreguntasActivity extends BaseActivity implements PreguntasPresenter.ViewPreguntas {
@@ -109,7 +111,8 @@ public class PreguntasActivity extends BaseActivity implements PreguntasPresente
         level = bundle.getInt("level");
         iActualScore = bundle.getInt("score");
         setupRecyclerView();
-        if (UtilInternetConnection.isOnline(context())) {
+        InternetDto internetDto = InternetUtil.INSTANCE.getConnection(context());
+        if (internetDto.isOnline()) {
             // Use an activity context to get the rewarded video instance.
             loadAdReward();
             cargarInterstitial();
@@ -399,7 +402,8 @@ public class PreguntasActivity extends BaseActivity implements PreguntasPresente
     }
 
     public void updataLevelScoreGems(String userName, String pass, int gems, int score, int level,int idUser, int idAnime) {
-        if (UtilInternetConnection.isOnline(context())) {
+        InternetDto internetDto = InternetUtil.INSTANCE.getConnection(context());
+        if (internetDto.isOnline()) {
             presenter.updateLevelSocreGems(userName,pass,gems,score,level,idUser,idAnime);
         } else {
             Toast.makeText(context(), getString(R.string.noInternet), Toast.LENGTH_LONG).show();

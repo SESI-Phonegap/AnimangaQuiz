@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
+import com.sesi.chris.animangaquiz.data.dto.InternetDto;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.Score;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
@@ -34,7 +35,7 @@ import com.sesi.chris.animangaquiz.view.activity.LoginActivity;
 import com.sesi.chris.animangaquiz.view.activity.PreguntasActivity;
 import com.sesi.chris.animangaquiz.view.activity.PreguntasImgActivity;
 import com.sesi.chris.animangaquiz.view.adapter.AnimeAdapter;
-import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
+import com.sesi.chris.animangaquiz.view.utils.InternetUtil;
 import com.sesi.chris.animangaquiz.view.utils.Utils;
 
 import java.util.List;
@@ -103,7 +104,8 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
         progressBar = rootView.findViewById(R.id.pb_login);
         user = (User) requireActivity().getIntent().getSerializableExtra("user");
         setupRecyclerView();
-        if (UtilInternetConnection.isOnline(context())) {
+        InternetDto internetDto = InternetUtil.INSTANCE.getConnection(context());
+        if (internetDto.isOnline()) {
             if (null != user) {
                 if (sOpcion.equals(QUIZ_IMG)) {
                     menuPresenter.getAllAnimesImg(user.getEmail(), user.getPassword());
@@ -185,7 +187,8 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
 
     @Override
     public void launchAnimeTest(Anime anime) {
-        if (UtilInternetConnection.isOnline(context())) {
+        InternetDto internetDto = InternetUtil.INSTANCE.getConnection(context());
+        if (internetDto.isOnline()) {
             idAnime = anime.getIdAnime();
             menuPresenter.checkScoreAndLevel(user.getEmail(), user.getPassword(), anime.getIdAnime(), user.getIdUser());
 

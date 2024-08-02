@@ -8,12 +8,13 @@ import android.widget.Toast;
 
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
+import com.sesi.chris.animangaquiz.data.dto.InternetDto;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.presenter.LoginPresenter;
-import com.sesi.chris.animangaquiz.view.utils.UtilInternetConnection;
+import com.sesi.chris.animangaquiz.view.utils.InternetUtil;
 import com.sesi.chris.animangaquiz.view.utils.UtilsPreference;
 
 import java.util.List;
@@ -44,7 +45,8 @@ public class SplashActivity extends BaseActivity implements LoginPresenter.ViewL
     private void sharedPreferenceLogin() {
         List<String> lstDataUser = UtilsPreference.getUserDataLogin(this);
         if (!lstDataUser.get(0).isEmpty() && !lstDataUser.get(1).isEmpty()) {
-            if (UtilInternetConnection.isOnline(context())) {
+            InternetDto internetDto = InternetUtil.INSTANCE.getConnection(context());
+            if (internetDto.isOnline()) {
                 loginPresenter.onLogin(lstDataUser.get(0), lstDataUser.get(1));
             } else {
                 Toast.makeText(context(), getString(R.string.noInternet), Toast.LENGTH_LONG).show();
