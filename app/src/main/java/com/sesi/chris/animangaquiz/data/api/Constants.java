@@ -23,7 +23,7 @@ public class Constants {
         public static final String UPDATE_LEVEL_AND_SCORE = "/AnimangaBackEnd/service/updateScoreAndGems.php";
         public static final String GET_WALLPAPER_BY_ANIME = "/AnimangaBackEnd/service/getWallpaperByAnime.php";
         public static final String UPDATE_GEMAS = "/AnimangaBackEnd/service/updateGems.php";
-        public static final String REGISTRO_NUEVO_USUARIO = "/AnimangaBackEnd/service/registroNuevoUsuario.php";
+        public static final String REGISTRO_NUEVO_USUARIO = "AnimangaBackEnd/service/registroNuevoUsuario.php";
         public static final String SEARCH_FRIEND_BY_USER_NAME = "/AnimangaBackEnd/service/searchFriendByUserName.php";
         public static final String ADD_FRIEND_BY_ID = "/AnimangaBackEnd/service/addFriendById.php";
         public static final String GET_AVATARS_BY_ANIME = "/AnimangaBackEnd/service/getAvatarsByAnime.php";

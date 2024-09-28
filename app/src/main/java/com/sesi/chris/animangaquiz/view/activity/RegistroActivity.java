@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.dto.InternetDto;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
@@ -83,7 +84,8 @@ public class RegistroActivity extends BaseActivity implements RegistroNuevoUsuar
                 sPassword = etPassword.getText().toString();
 
                 if (!sUserName.equals("") && !sNombre.equals("") && Utils.isValidEmail(sEmail) && !sEdad.equals("") && Utils.isValidPass(sPassword) && sGenero != null){
-                    presenter.registroNuevoUsuario(etUserNameFriend.getText().toString(),sUserName,sNombre,sEmail,Integer.parseInt(sEdad),sGenero,sPassword);
+                    NewUserRequest request = new NewUserRequest(sUserName,sNombre,email,Integer.parseInt(sEdad),sGenero,sPassword, etUserNameFriend.getText().toString());
+                    presenter.registroNuevoUsuario(request);
                 } else {
                     Toast.makeText(context(),getString(R.string.datosincompletos),Toast.LENGTH_LONG).show();
                 }

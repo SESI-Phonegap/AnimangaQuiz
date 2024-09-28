@@ -1,5 +1,7 @@
 package com.sesi.chris.animangaquiz.presenter;
 
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
@@ -13,9 +15,9 @@ public class LoginPresenter extends Presenter<LoginPresenter.ViewLogin> {
         this.interactor = interactor;
     }
 
-    public void onLogin(String email, String password) {
+    public void onLogin(Credentials request) {
         getView().showLoading();
-        Disposable disposable = interactor.login(email, password)
+        Disposable disposable = interactor.login(request)
                 .doOnError(error ->
                         getView().showServerError(error.getMessage()))
                 .subscribe(login -> {
@@ -78,9 +80,9 @@ public class LoginPresenter extends Presenter<LoginPresenter.ViewLogin> {
         addDisposableObserver(disposable);
     }
 
-    public void onRegisterNewUser(String userNameFriend, String userName,String nombre,String email,int edad,String genero,String password){
+    public void onRegisterNewUser(NewUserRequest request){
        getView().showLoading();
-       Disposable disposable = interactor.registroNuevoUsuario(userNameFriend,userName,nombre,email,edad,genero,password)
+       Disposable disposable = interactor.registroNuevoUsuario(request)
                 .doOnError(error -> getView().showServerError(error.getMessage()))
                 .subscribe(updateResponse -> {
                     if (null != updateResponse){
@@ -91,9 +93,9 @@ public class LoginPresenter extends Presenter<LoginPresenter.ViewLogin> {
         addDisposableObserver(disposable);
     }
 
-    public void onRegisterNewUserFacebook(String userNameFriend, String userName,String nombre,String email,int edad,String genero,String password){
+    public void onRegisterNewUserFacebook(NewUserRequest request){
         getView().showLoading();
-        Disposable disposable = interactor.registroNuevoUsuario(userNameFriend,userName,nombre,email,edad,genero,password)
+        Disposable disposable = interactor.registroNuevoUsuario(request)
                 .doOnError(error -> getView().showServerError(error.getMessage()))
                 .subscribe(updateResponse -> {
                     if (null != updateResponse){

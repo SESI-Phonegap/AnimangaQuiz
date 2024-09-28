@@ -52,6 +52,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.dto.InternetDto;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
@@ -228,7 +229,8 @@ public class MenuActivity extends BaseActivity
     public void refreshUserData() {
         InternetDto internetDto = InternetUtil.INSTANCE.getConnection(context());
         if (internetDto.isOnline()) {
-            loginPresenter.onLogin(userActual.getEmail(), userActual.getPassword());
+            Credentials request = new Credentials(userActual.getEmail(), userActual.getPassword());
+            loginPresenter.onLogin(request);
         } else {
             Toast.makeText(context(), getString(R.string.noInternet), Toast.LENGTH_LONG).show();
         }

@@ -1,6 +1,9 @@
 package com.sesi.chris.animangaquiz.presenter;
 
 import android.util.Log;
+
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.interactor.RegistroNuevoUsuarioInteractor;
@@ -14,9 +17,9 @@ public class RegistroNuevoUsuarioPresenter extends Presenter<RegistroNuevoUsuari
         this.interactor = interactor;
     }
 
-    public void registroNuevoUsuario(String userNameFriend, String username,String nombre,String email,int edad,String genero,String password){
+    public void registroNuevoUsuario(NewUserRequest request){
         getView().showLoading();
-        Disposable disposable = interactor.registroNuevoUsuario(userNameFriend,username,nombre,email,edad,genero,password)
+        Disposable disposable = interactor.registroNuevoUsuario(request)
                 .doOnError(error -> {
                     Log.e("Error-",error.getMessage());
                     getView().hideLoading();
@@ -33,7 +36,8 @@ public class RegistroNuevoUsuarioPresenter extends Presenter<RegistroNuevoUsuari
 
     public void onLogin(String email, String password){
         getView().showLoading();
-        Disposable disposable = interactor.login(email,password).doOnError(error -> getView().showServerError(error.getMessage())).subscribe(login -> {
+        Credentials request = new Credentials(email,password);
+        Disposable disposable = interactor.login(request).doOnError(error -> getView().showServerError(error.getMessage())).subscribe(login -> {
             if (null != login){
                 getView().hideLoading();
                 getView().renderLogin(login);

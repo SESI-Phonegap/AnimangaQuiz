@@ -3,6 +3,7 @@ package com.sesi.chris.animangaquiz.data.api.retrofit;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.sesi.chris.animangaquiz.BuildConfig;
 import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.api.retrofit.deserializer.AnimeResponseDeserializer;
 import com.sesi.chris.animangaquiz.data.api.retrofit.deserializer.CheckLevelAndScoreDeserializer;
@@ -43,7 +44,7 @@ public class QuizRetrofitClient {
     }
 
     private Retrofit retrofitBuilder() {
-        return new Retrofit.Builder().baseUrl(Constants.URL_BASE)
+        return new Retrofit.Builder().baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(getQuizDeserializer()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(getOkHttpClient())

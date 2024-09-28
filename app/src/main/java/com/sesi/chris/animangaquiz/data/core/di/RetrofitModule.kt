@@ -1,5 +1,6 @@
 package com.sesi.chris.animangaquiz.data.core.di
 
+import com.sesi.chris.animangaquiz.BuildConfig
 import com.sesi.chris.animangaquiz.data.api.Constants
 import com.sesi.chris.animangaquiz.data.api.retrofit.RetrofitClient
 import dagger.Module
@@ -20,7 +21,7 @@ class RetrofitModule {
     @Provides
     fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(Constants.URL_BASE)
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(getOkHttpClient())
             .build()

@@ -1,5 +1,7 @@
 package com.sesi.chris.animangaquiz.data.api.client;
 
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
@@ -13,7 +15,7 @@ import java.util.List;
 import io.reactivex.Observable;
 
 public interface QuizServiceClient {
-    Observable<LoginResponse> login(String email, String pass);
+    Observable<LoginResponse> login(Credentials request);
     Observable<List<Anime>> getAllAnimes(String userName, String pass);
     Observable<List<Anime>> getAllAnimesImg(String userName, String pass);
     Observable<List<Anime>> getAllAnimesForWallpaper(String userName, String pass);
@@ -25,7 +27,7 @@ public interface QuizServiceClient {
                                                      int idAnime);
     Observable<List<Wallpaper>> getWallpaperByAnime(String userName, String pass, int idAnime);
     Observable<UpdateResponseD> updateGemas(String userName, String pass, int idUser, int gemas);
-    Observable<UpdateResponseD> registroNuevoUsuario(String userNameFriend, String username, String nombre, String email, int edad, String genero, String password);
+    Observable<UpdateResponseD> registroNuevoUsuario(NewUserRequest request);
     Observable<List<User>> searchFriendByUserName(String userName, String pass, String userNameQuery);
     Observable<UpdateResponseD> addFrienById(String userName, String pass, int idUser, int idFriend);
     Observable<List<Wallpaper>> getAvatarsByAnime(String userName, String pass, int idAnime);

@@ -2,6 +2,8 @@ package com.sesi.chris.animangaquiz.data.api.client;
 
 
 import com.sesi.chris.animangaquiz.data.api.retrofit.QuizRetrofitClient;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
@@ -18,8 +20,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class QuizClient extends QuizRetrofitClient implements QuizServiceClient {
     @Override
-    public Observable<LoginResponse> login(String email, String pass) {
-        return getQuizService().login(email, pass)
+    public Observable<LoginResponse> login(Credentials request) {
+        return getQuizService().login(request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -81,8 +83,8 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient 
     }
 
     @Override
-    public Observable<UpdateResponseD> registroNuevoUsuario(String userNameFriend, String username, String nombre, String email, int edad, String genero, String password) {
-        return getQuizService().registroNuevoUsuario(userNameFriend, username, nombre, email, edad, genero, password)
+    public Observable<UpdateResponseD> registroNuevoUsuario(NewUserRequest request) {
+        return getQuizService().registroNuevoUsuario(request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

@@ -25,6 +25,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.dto.InternetDto;
 import com.sesi.chris.animangaquiz.data.dto.UserDto;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
@@ -92,7 +93,8 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ViewLo
                 InternetDto internetDto = InternetUtil.INSTANCE.getConnection(context());
                 if (internetDto.isOnline()) {
                     blockUi();
-                    loginPresenter.onLogin(etEmail.getText().toString(), etPassword.getText().toString());
+                    Credentials request = new Credentials(etEmail.getText().toString(), etPassword.getText().toString());
+                    loginPresenter.onLogin(request);
                 } else {
                     Toast.makeText(context(),getString(R.string.noInternet),Toast.LENGTH_LONG).show();
                 }
@@ -301,7 +303,7 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ViewLo
             startActivity(intent);
             finish();
         } else {
-            loginPresenter.onRegisterNewUserFacebook("",sFacebookId,sFacebookName,sFacebookEmail,0,"","");
+            //loginPresenter.onRegisterNewUserFacebook("",sFacebookId,sFacebookName,sFacebookEmail,0,"","");
         }
     }
 

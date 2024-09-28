@@ -1,6 +1,8 @@
 package com.sesi.chris.animangaquiz.interactor;
 
 import com.sesi.chris.animangaquiz.data.api.client.QuizServiceClient;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 
@@ -14,11 +16,11 @@ public class RegistroNuevoUsuarioInteractor {
         this.quizServiceClient = quizServiceClient;
     }
 
-    public Observable<UpdateResponseD> registroNuevoUsuario(String userNameFriend, String username, String nombre, String email, int edad, String genero, String password){
-        return quizServiceClient.registroNuevoUsuario(userNameFriend,username,nombre,email,edad,genero,password);
+    public Observable<UpdateResponseD> registroNuevoUsuario(NewUserRequest request){
+        return quizServiceClient.registroNuevoUsuario(request);
     }
 
-    public Observable<LoginResponse> login(String email, String pass){
-        return quizServiceClient.login(email,pass);
+    public Observable<LoginResponse> login(Credentials request){
+        return quizServiceClient.login(request);
     }
 }
