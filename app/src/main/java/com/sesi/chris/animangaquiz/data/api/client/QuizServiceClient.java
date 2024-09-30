@@ -18,7 +18,7 @@ public interface QuizServiceClient {
     Observable<LoginResponse> login(Credentials request);
     Observable<List<Anime>> getAllAnimes(Credentials request);
     Observable<List<Anime>> getAllAnimesImg(Credentials request);
-    Observable<List<Anime>> getAllAnimesForWallpaper(String userName, String pass);
+    Observable<List<Anime>> getAllAnimesForWallpaper(Credentials request);
     Observable<List<Preguntas>> getQuestionsByAnimeAndLevel(String userName, String pass, int idAnime, int level);
     Observable<ScoreResponse> checkScoreAndLevel(String userName, String pass, int idAnime, int idUser);
     Observable<UpdateResponseD> updateLevelScoreGems(String userName, String pass,

@@ -2,6 +2,7 @@ package com.sesi.chris.animangaquiz.presenter;
 
 import android.util.Log;
 
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
@@ -21,7 +22,8 @@ public class WallpaperPresenter extends Presenter<WallpaperPresenter.ViewWallpap
 
     public void getAllAnimes(String userName, String pass){
         getView().showLoading();
-        Disposable disposable = wallpaperInteractor.getAnimesForWallpaper(userName,pass)
+        Credentials request = new Credentials(userName,pass);
+        Disposable disposable = wallpaperInteractor.getAnimesForWallpaper(request)
                 .doOnError(error -> getView().showServerError(error.getMessage()))
                 .subscribe(animes -> {
             if (!animes.isEmpty()){
