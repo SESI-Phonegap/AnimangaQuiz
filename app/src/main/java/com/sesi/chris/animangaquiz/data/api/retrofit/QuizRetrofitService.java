@@ -3,6 +3,7 @@ package com.sesi.chris.animangaquiz.data.api.retrofit;
 import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.CheckLevelAndScoreRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetWallpaperByAnimeRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.QuestionByAnimeLevelRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateLevelScoreGemsTotalScoreRequest;
@@ -51,9 +52,7 @@ public interface QuizRetrofitService {
 
     @POST(Constants.EndPoint.GET_WALLPAPER_BY_ANIME)
     @FormUrlEncoded
-    Observable<List<Wallpaper>> getWallpaperByAnime(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
-                                                    @Field(Constants.ParametersBackEnd.PASS) String pass,
-                                                    @Field(Constants.ParametersBackEnd.ID_ANIME) int idAnime);
+    Observable<List<Wallpaper>> getWallpaperByAnime(@Body GetWallpaperByAnimeRequest request);
 
     @POST(Constants.EndPoint.UPDATE_GEMAS)
     @FormUrlEncoded

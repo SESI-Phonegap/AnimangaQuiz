@@ -3,6 +3,7 @@ package com.sesi.chris.animangaquiz.presenter;
 import android.util.Log;
 
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetWallpaperByAnimeRequest;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
@@ -38,7 +39,8 @@ public class WallpaperPresenter extends Presenter<WallpaperPresenter.ViewWallpap
 
     public void getWallpaperByAnime(String userName, String pass, int idAnime){
         getView().showLoading();
-        Disposable disposable = wallpaperInteractor.getWallpaperByAnime(userName,pass,idAnime)
+        GetWallpaperByAnimeRequest request = new GetWallpaperByAnimeRequest(userName,pass,idAnime);
+        Disposable disposable = wallpaperInteractor.getWallpaperByAnime(request)
                 .doOnError(error -> getView().showServerError(error.getMessage()))
                 .subscribe(lstWallpaper -> {
             if (!lstWallpaper.isEmpty()){
