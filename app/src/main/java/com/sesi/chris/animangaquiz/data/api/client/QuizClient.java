@@ -2,6 +2,7 @@ package com.sesi.chris.animangaquiz.data.api.client;
 
 
 import com.sesi.chris.animangaquiz.data.api.retrofit.QuizRetrofitClient;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.CheckLevelAndScoreRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.QuestionByAnimeLevelRequest;
@@ -56,8 +57,8 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient 
     }
 
     @Override
-    public Observable<ScoreResponse> checkScoreAndLevel(String userName, String pass, int idAnime, int idUser) {
-        return getQuizService().checkLevelAndScore(userName, pass, idAnime, idUser)
+    public Observable<ScoreResponse> checkScoreAndLevel(CheckLevelAndScoreRequest request) {
+        return getQuizService().checkLevelAndScore(request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

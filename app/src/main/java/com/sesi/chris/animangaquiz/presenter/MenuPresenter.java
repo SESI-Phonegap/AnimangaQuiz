@@ -1,5 +1,6 @@
 package com.sesi.chris.animangaquiz.presenter;
 
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.CheckLevelAndScoreRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
@@ -49,7 +50,8 @@ public class MenuPresenter extends Presenter<MenuPresenter.ViewMenu>{
 
     public void checkScoreAndLevel(String userName, String pass, int idAnime, int idUser){
         getView().showLoading();
-        Disposable disposable = interactor.checkScoreAndLevel(userName,pass,idAnime,idUser)
+        CheckLevelAndScoreRequest request = new CheckLevelAndScoreRequest(userName,pass,idAnime,idUser);
+        Disposable disposable = interactor.checkScoreAndLevel(request)
                 .doOnError(error ->
                 getView().showServerError(error.getMessage())
                 )

@@ -1,5 +1,6 @@
 package com.sesi.chris.animangaquiz.data.api.client;
 
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.CheckLevelAndScoreRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.QuestionByAnimeLevelRequest;
@@ -21,7 +22,7 @@ public interface QuizServiceClient {
     Observable<List<Anime>> getAllAnimesImg(Credentials request);
     Observable<List<Anime>> getAllAnimesForWallpaper(Credentials request);
     Observable<List<Preguntas>> getQuestionsByAnimeAndLevel(QuestionByAnimeLevelRequest request);
-    Observable<ScoreResponse> checkScoreAndLevel(String userName, String pass, int idAnime, int idUser);
+    Observable<ScoreResponse> checkScoreAndLevel(CheckLevelAndScoreRequest request);
     Observable<UpdateResponseD> updateLevelScoreGems(String userName, String pass,
                                                      int gemas, int score,
                                                      int level, int idUser,

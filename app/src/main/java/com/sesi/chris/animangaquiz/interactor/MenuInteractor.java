@@ -1,6 +1,7 @@
 package com.sesi.chris.animangaquiz.interactor;
 
 import com.sesi.chris.animangaquiz.data.api.client.QuizServiceClient;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.CheckLevelAndScoreRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
@@ -23,8 +24,8 @@ public class MenuInteractor {
         return quizServiceClient.getAllAnimesImg(request);
     }
 
-    public Observable<ScoreResponse> checkScoreAndLevel(String userName, String pass, int idAnime, int idUser){
-        return quizServiceClient.checkScoreAndLevel(userName,pass,idAnime,idUser);
+    public Observable<ScoreResponse> checkScoreAndLevel(CheckLevelAndScoreRequest request){
+        return quizServiceClient.checkScoreAndLevel(request);
     }
 
 }

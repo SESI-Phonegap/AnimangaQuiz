@@ -1,6 +1,7 @@
 package com.sesi.chris.animangaquiz.data.api.retrofit;
 
 import com.sesi.chris.animangaquiz.data.api.Constants;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.CheckLevelAndScoreRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.QuestionByAnimeLevelRequest;
@@ -41,10 +42,7 @@ public interface QuizRetrofitService {
 
     @POST(Constants.EndPoint.CHECK_LEVEL_AND_SCORE_BY_ANIME_AND_USER)
     @FormUrlEncoded
-    Observable<ScoreResponse> checkLevelAndScore(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
-                                                 @Field(Constants.ParametersBackEnd.PASS) String pass,
-                                                 @Field(Constants.ParametersBackEnd.ID_ANIME) int idAnime,
-                                                 @Field(Constants.ParametersBackEnd.ID_USER) int idUser);
+    Observable<ScoreResponse> checkLevelAndScore(@Body CheckLevelAndScoreRequest request);
 
     @POST(Constants.EndPoint.UPDATE_LEVEL_AND_SCORE)
     @FormUrlEncoded
