@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sesi.chris.animangaquiz.BuildConfig;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.model.Anime;
@@ -35,7 +36,7 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.AnimeViewHol
         holder.anime = anime;
         holder.tvAnimeNombre.setText(anime.getName());
         Picasso.get()
-                .load(Constants.URL_BASE + "/AnimangaBackEnd" + anime.getImgUrl())
+                .load(BuildConfig.BASE_URL + anime.getImgUrl())
                 .into(holder.imgAnime);
         //Glide.with(holder.itemView.getContext()).load(Constants.URL_BASE+anime.getImgUrl()).into(holder.imgAnime);
         holder.itemView.setOnClickListener(v -> {

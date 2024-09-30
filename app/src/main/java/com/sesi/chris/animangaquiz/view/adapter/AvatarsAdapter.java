@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sesi.chris.animangaquiz.BuildConfig;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
@@ -37,7 +38,7 @@ public class AvatarsAdapter extends RecyclerView.Adapter<AvatarsAdapter.AvatarVi
         Wallpaper avatar = lstAvatar.get(position);
         holder.avatar = avatar;
         Picasso.get()
-                .load(Constants.URL_BASE+holder.avatar.getUrl())
+                .load(BuildConfig.BASE_URL+holder.avatar.getUrl())
                 .into(holder.imgAvatar);
 
         holder.imgAvatar.setOnClickListener(v -> {

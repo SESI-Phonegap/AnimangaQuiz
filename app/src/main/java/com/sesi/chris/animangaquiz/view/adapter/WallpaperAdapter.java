@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sesi.chris.animangaquiz.BuildConfig;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
@@ -38,7 +39,7 @@ public class WallpaperAdapter extends RecyclerView.Adapter<WallpaperAdapter.Wall
         Wallpaper wallpaper = lstWallpaper.get(position);
         holder.wallpaper = wallpaper;
         holder.tvCosto.setText(String.valueOf(wallpaper.getCosto()));
-        String imgUrl = Constants.URL_BASE+"/"+ holder.wallpaper.getUrl();
+        String imgUrl = BuildConfig.BASE_URL+"/"+ holder.wallpaper.getUrl();
         Picasso.get()
                 .load(imgUrl)
                 .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)

@@ -40,6 +40,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
+import com.sesi.chris.animangaquiz.BuildConfig;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.Constants;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
@@ -296,7 +297,7 @@ public class PreguntasImgActivity extends BaseActivity implements PreguntasImgPr
         if (index < lstPreguntas.size()) {
             Preguntas pregunta = lstPreguntas.get(index);
             puntos = pregunta.getPuntos();
-            Glide.with(context).load(Constants.URL_BASE+"/"+pregunta.getQuestion()).listener(new RequestListener<Drawable>() {
+            Glide.with(context).load(BuildConfig.BASE_URL +"/"+pregunta.getQuestion()).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;

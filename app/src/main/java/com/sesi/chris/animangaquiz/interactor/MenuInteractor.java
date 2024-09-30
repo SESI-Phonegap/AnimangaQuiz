@@ -1,6 +1,7 @@
 package com.sesi.chris.animangaquiz.interactor;
 
 import com.sesi.chris.animangaquiz.data.api.client.QuizServiceClient;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
 import java.util.List;
@@ -14,8 +15,8 @@ public class MenuInteractor {
         this.quizServiceClient = quizServiceClient;
     }
 
-    public Observable<List<Anime>> animes(String userName, String pass){
-        return quizServiceClient.getAllAnimes(userName,pass);
+    public Observable<List<Anime>> animes(Credentials request){
+        return quizServiceClient.getAllAnimes(request);
     }
 
     public Observable<List<Anime>> getAnimesImg(String userName, String pass){

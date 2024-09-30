@@ -1,5 +1,6 @@
 package com.sesi.chris.animangaquiz.presenter;
 
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.ScoreResponse;
 import com.sesi.chris.animangaquiz.interactor.MenuInteractor;
@@ -14,9 +15,9 @@ public class MenuPresenter extends Presenter<MenuPresenter.ViewMenu>{
         this.interactor = interactor;
     }
 
-    public void getAllAnimes(String userName, String pass){
+    public void getAllAnimes(Credentials request){
         getView().showLoading();
-        Disposable disposable = interactor.animes(userName,pass)
+        Disposable disposable = interactor.animes(request)
                 .subscribe(animes -> {
             if (!animes.isEmpty()){
                 getView().hideLoading();

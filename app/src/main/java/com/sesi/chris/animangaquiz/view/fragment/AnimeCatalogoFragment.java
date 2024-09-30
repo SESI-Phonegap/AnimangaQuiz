@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.dto.InternetDto;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.Score;
@@ -110,7 +111,8 @@ public class AnimeCatalogoFragment extends Fragment implements MenuPresenter.Vie
                 if (sOpcion.equals(QUIZ_IMG)) {
                     menuPresenter.getAllAnimesImg(user.getEmail(), user.getPassword());
                 } else {
-                    menuPresenter.getAllAnimes(user.getEmail(), user.getPassword());
+                    Credentials request = new Credentials(user.getEmail(), user.getPassword());
+                    menuPresenter.getAllAnimes(request);
                 }
             } else {
                 Toast.makeText(context(), "Ocurrio un error", Toast.LENGTH_LONG).show();
