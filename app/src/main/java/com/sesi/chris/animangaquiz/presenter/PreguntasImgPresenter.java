@@ -1,5 +1,6 @@
 package com.sesi.chris.animangaquiz.presenter;
 
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateLevelScoreGemsTotalScoreRequest;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
 import com.sesi.chris.animangaquiz.data.model.Respuesta;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
@@ -48,7 +49,8 @@ public class PreguntasImgPresenter extends Presenter<PreguntasImgPresenter.ViewP
 
     public void updateLevelSocreGems(String userName, String pass, int gemas, int score, int level, int idUser, int idAnime) {
         getView().showLoading();
-        Disposable disposable = interactor.updateLevelScoreGems(userName, pass, gemas, score, level, idUser, idAnime)
+        UpdateLevelScoreGemsTotalScoreRequest request = new UpdateLevelScoreGemsTotalScoreRequest(userName, pass, gemas, score, level, idUser, idAnime);
+        Disposable disposable = interactor.updateLevelScoreGems(request)
                 .doOnError(error -> {
                     getView().showServerError(error.getMessage());
                     getView().hideLoading();

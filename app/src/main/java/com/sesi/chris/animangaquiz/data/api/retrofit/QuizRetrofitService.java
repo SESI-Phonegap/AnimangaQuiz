@@ -5,6 +5,7 @@ import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.CheckLevelAnd
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.QuestionByAnimeLevelRequest;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateLevelScoreGemsTotalScoreRequest;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
@@ -46,13 +47,7 @@ public interface QuizRetrofitService {
 
     @POST(Constants.EndPoint.UPDATE_LEVEL_AND_SCORE)
     @FormUrlEncoded
-    Observable<UpdateResponseD> updateLevelScoreGemsTotalScore(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
-                                                               @Field(Constants.ParametersBackEnd.PASS) String pass,
-                                                               @Field(Constants.ParametersBackEnd.GEMS) int gems,
-                                                               @Field(Constants.ParametersBackEnd.SCORE) int score,
-                                                               @Field(Constants.ParametersBackEnd.LEVEL) int level,
-                                                               @Field(Constants.ParametersBackEnd.ID_USER) int idUser,
-                                                               @Field(Constants.ParametersBackEnd.ID_ANIME) int idAnime);
+    Observable<UpdateResponseD> updateLevelScoreGemsTotalScore(@Body UpdateLevelScoreGemsTotalScoreRequest request);
 
     @POST(Constants.EndPoint.GET_WALLPAPER_BY_ANIME)
     @FormUrlEncoded
