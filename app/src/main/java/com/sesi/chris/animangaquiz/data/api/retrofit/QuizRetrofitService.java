@@ -28,8 +28,7 @@ public interface QuizRetrofitService {
 
     @POST(Constants.EndPoint.GET_ALL_ANIMES_IMG)
     @FormUrlEncoded
-    Observable<List<Anime>> getAllAnimesImg(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
-                                         @Field(Constants.ParametersBackEnd.PASS) String pass);
+    Observable<List<Anime>> getAllAnimesImg(@Body Credentials request);
 
     @POST(Constants.EndPoint.GET_ALL_ANIMES_FOR_WALLPAPER)
     @FormUrlEncoded

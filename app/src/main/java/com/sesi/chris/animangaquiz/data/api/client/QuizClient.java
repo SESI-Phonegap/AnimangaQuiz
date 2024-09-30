@@ -34,8 +34,8 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient 
     }
 
     @Override
-    public Observable<List<Anime>> getAllAnimesImg(String userName, String pass) {
-        return getQuizService().getAllAnimesImg(userName, pass)
+    public Observable<List<Anime>> getAllAnimesImg(Credentials request) {
+        return getQuizService().getAllAnimesImg(request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

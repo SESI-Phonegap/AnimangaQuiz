@@ -30,8 +30,9 @@ public class MenuPresenter extends Presenter<MenuPresenter.ViewMenu>{
     }
 
     public void getAllAnimesImg(String userName, String pass){
+        Credentials request = new Credentials(userName,pass);
         getView().showLoading();
-        Disposable disposable = interactor.getAnimesImg(userName, pass)
+        Disposable disposable = interactor.getAnimesImg(request)
                 .doOnError(error -> {
                     getView().hideLoading();
                     getView().showServerError(error.getMessage());
