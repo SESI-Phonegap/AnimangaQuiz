@@ -4,6 +4,7 @@ package com.sesi.chris.animangaquiz.data.api.client;
 import com.sesi.chris.animangaquiz.data.api.retrofit.QuizRetrofitClient;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.QuestionByAnimeLevelRequest;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
@@ -48,8 +49,8 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient 
     }
 
     @Override
-    public Observable<List<Preguntas>> getQuestionsByAnimeAndLevel(String userName, String pass, int idAnime, int level) {
-        return getQuizService().getQuestionsByAnimeAndLevel(userName, pass, idAnime, level)
+    public Observable<List<Preguntas>> getQuestionsByAnimeAndLevel(QuestionByAnimeLevelRequest request) {
+        return getQuizService().getQuestionsByAnimeAndLevel(request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

@@ -1,5 +1,6 @@
 package com.sesi.chris.animangaquiz.presenter;
 
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.QuestionByAnimeLevelRequest;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
 import com.sesi.chris.animangaquiz.data.model.Respuesta;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
@@ -17,7 +18,8 @@ public class PreguntasPresenter extends Presenter<PreguntasPresenter.ViewPregunt
 
     public void getQuestionsByAnimeAndLevel(String userName, String pass, int idAnime, int level) {
         getView().showLoading();
-        Disposable disposable = interactor.preguntasByAnimeAndLevel(userName, pass, idAnime, level)
+        QuestionByAnimeLevelRequest request = new QuestionByAnimeLevelRequest(userName, pass, idAnime, level);
+        Disposable disposable = interactor.preguntasByAnimeAndLevel(request)
                 .doOnError(error -> {
                     getView().showServerError(error.getMessage());
                     getView().hideLoading();
