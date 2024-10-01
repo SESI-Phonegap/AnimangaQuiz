@@ -5,6 +5,7 @@ import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.AddFriendById
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.CheckLevelAndScoreRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetAvatarsByAnimeRequest;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetQuestionsByAnimeImgRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetWallpaperByAnimeRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.QuestionByAnimeLevelRequest;
@@ -97,9 +98,7 @@ public interface QuizRetrofitService {
 
     @POST(Constants.EndPoint.GET_QUESTIONS_BY_ANIME_IMG)
     @FormUrlEncoded
-    Observable<List<Preguntas>> getQuestionsByAnimeImg(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
-                                                            @Field(Constants.ParametersBackEnd.PASS) String pass,
-                                                            @Field(Constants.ParametersBackEnd.ID_ANIME) int idAnime);
+    Observable<List<Preguntas>> getQuestionsByAnimeImg(@Body GetQuestionsByAnimeImgRequest request);
     @POST(Constants.EndPoint.DELETE_USER)
     @FormUrlEncoded
     Observable<UpdateResponseD> deleteUser(@Field(Constants.ParametersBackEnd.EMAIL) String email,

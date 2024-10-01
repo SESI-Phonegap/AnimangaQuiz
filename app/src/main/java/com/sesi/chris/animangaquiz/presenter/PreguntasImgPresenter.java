@@ -1,5 +1,6 @@
 package com.sesi.chris.animangaquiz.presenter;
 
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetQuestionsByAnimeImgRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateEsferasRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateLevelScoreGemsTotalScoreRequest;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
@@ -20,7 +21,8 @@ public class PreguntasImgPresenter extends Presenter<PreguntasImgPresenter.ViewP
 
     public void getQuestionsByAnimeImg(String userName, String pass, int idAnime) {
         getView().showLoading();
-        Disposable disposable = interactor.preguntasByAnimeImg(userName, pass, idAnime)
+        GetQuestionsByAnimeImgRequest request = new GetQuestionsByAnimeImgRequest(userName, pass, idAnime);
+        Disposable disposable = interactor.preguntasByAnimeImg(request)
                 .doOnError(error -> {
                     getView().hideLoading();
                     getView().showServerError(error.getMessage());

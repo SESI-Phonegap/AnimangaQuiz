@@ -6,6 +6,7 @@ import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.AddFriendById
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.CheckLevelAndScoreRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetAvatarsByAnimeRequest;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetQuestionsByAnimeImgRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetWallpaperByAnimeRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.QuestionByAnimeLevelRequest;
@@ -149,8 +150,8 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient 
     }
 
     @Override
-    public Observable<List<Preguntas>> getQuestionsByAnimeImg(String userName, String pass, int idAnime) {
-        return getQuizService().getQuestionsByAnimeImg(userName, pass, idAnime)
+    public Observable<List<Preguntas>> getQuestionsByAnimeImg(GetQuestionsByAnimeImgRequest request) {
+        return getQuizService().getQuestionsByAnimeImg(request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

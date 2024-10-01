@@ -4,6 +4,7 @@ import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.AddFriendById
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.CheckLevelAndScoreRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetAvatarsByAnimeRequest;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetQuestionsByAnimeImgRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetWallpaperByAnimeRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.QuestionByAnimeLevelRequest;
@@ -42,7 +43,7 @@ public interface QuizServiceClient {
     Observable<UpdateResponseD> updateAvatar(UpdateAvatarRequest request);
     Observable<LoginResponse> validaUsuarioFacebook(String userName);
     Observable<UpdateResponseD> updateEsferas(UpdateEsferasRequest request);
-    Observable<List<Preguntas>> getQuestionsByAnimeImg(String userName, String pass, int idAnime);
+    Observable<List<Preguntas>> getQuestionsByAnimeImg(GetQuestionsByAnimeImgRequest request);
     Observable<UpdateResponseD> deleteUser(String email,
                                            String pass,
                                            int userId);
