@@ -6,6 +6,7 @@ import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetWallpaperByAnimeRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.QuestionByAnimeLevelRequest;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.SearchFriendByUserNameRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateGemasRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateLevelScoreGemsTotalScoreRequest;
 import com.sesi.chris.animangaquiz.data.model.Anime;
@@ -64,9 +65,7 @@ public interface QuizRetrofitService {
 
     @POST(Constants.EndPoint.SEARCH_FRIEND_BY_USER_NAME)
     @FormUrlEncoded
-    Observable<List<User>> searchFriendByUserName(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
-                                                  @Field(Constants.ParametersBackEnd.PASS) String pass,
-                                                  @Field(Constants.ParametersBackEnd.USER_NAME_QUERY) String userNameQuery);
+    Observable<List<User>> searchFriendByUserName(@Body SearchFriendByUserNameRequest request);
 
     @POST(Constants.EndPoint.ADD_FRIEND_BY_ID)
     @FormUrlEncoded

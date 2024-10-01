@@ -5,6 +5,7 @@ import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetWallpaperByAnimeRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.QuestionByAnimeLevelRequest;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.SearchFriendByUserNameRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateGemasRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateLevelScoreGemsTotalScoreRequest;
 import com.sesi.chris.animangaquiz.data.model.Anime;
@@ -30,7 +31,7 @@ public interface QuizServiceClient {
     Observable<List<Wallpaper>> getWallpaperByAnime(GetWallpaperByAnimeRequest request);
     Observable<UpdateResponseD> updateGemas(UpdateGemasRequest request);
     Observable<UpdateResponseD> registroNuevoUsuario(NewUserRequest request);
-    Observable<List<User>> searchFriendByUserName(String userName, String pass, String userNameQuery);
+    Observable<List<User>> searchFriendByUserName(SearchFriendByUserNameRequest request);
     Observable<UpdateResponseD> addFrienById(String userName, String pass, int idUser, int idFriend);
     Observable<List<Wallpaper>> getAvatarsByAnime(String userName, String pass, int idAnime);
     Observable<List<User>> getAllFriendsByUser(String userName, String pass);

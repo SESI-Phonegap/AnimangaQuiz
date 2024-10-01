@@ -1,5 +1,6 @@
 package com.sesi.chris.animangaquiz.presenter;
 
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.SearchFriendByUserNameRequest;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.FriendsInteractor;
@@ -15,8 +16,9 @@ public class SearchFriendPresenter extends Presenter<SearchFriendPresenter.ViewS
     }
 
     public void searchFriend(String userName, String pass, String userNameQuery){
+        SearchFriendByUserNameRequest request = new SearchFriendByUserNameRequest(userName, pass, userNameQuery);
         getView().showLoading();
-        Disposable disposable = interactor.searchFriendsByUserName(userName,pass,userNameQuery)
+        Disposable disposable = interactor.searchFriendsByUserName(request)
                 .doOnError(error->{
                     getView().showServerError(error.getMessage());
                     getView().hideLoading();

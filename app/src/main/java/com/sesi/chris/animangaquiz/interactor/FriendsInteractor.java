@@ -1,6 +1,7 @@
 package com.sesi.chris.animangaquiz.interactor;
 
 import com.sesi.chris.animangaquiz.data.api.client.QuizServiceClient;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.SearchFriendByUserNameRequest;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.User;
 
@@ -15,8 +16,8 @@ public class FriendsInteractor {
         this.quizServiceClient = quizServiceClient;
     }
 
-    public Observable<List<User>> searchFriendsByUserName(String userName, String pass, String userNameQuery){
-        return quizServiceClient.searchFriendByUserName(userName,pass,userNameQuery);
+    public Observable<List<User>> searchFriendsByUserName(SearchFriendByUserNameRequest request){
+        return quizServiceClient.searchFriendByUserName(request);
     }
 
     public Observable<UpdateResponseD> addFriendById(String userName, String pass, int idUser, int idFriend){
