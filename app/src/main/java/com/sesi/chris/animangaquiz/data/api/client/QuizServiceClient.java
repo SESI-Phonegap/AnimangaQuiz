@@ -8,6 +8,8 @@ import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetWallpaperB
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.QuestionByAnimeLevelRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.SearchFriendByUserNameRequest;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateAvatarRequest;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateEsferasRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateGemasRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateLevelScoreGemsTotalScoreRequest;
 import com.sesi.chris.animangaquiz.data.model.Anime;
@@ -37,9 +39,9 @@ public interface QuizServiceClient {
     Observable<UpdateResponseD> addFrienById(AddFriendByIdRequest request);
     Observable<List<Wallpaper>> getAvatarsByAnime(GetAvatarsByAnimeRequest request);
     Observable<List<User>> getAllFriendsByUser(Credentials request);
-    Observable<UpdateResponseD> updateAvatar(String userName, String pass, int idUser, String b64);
+    Observable<UpdateResponseD> updateAvatar(UpdateAvatarRequest request);
     Observable<LoginResponse> validaUsuarioFacebook(String userName);
-    Observable<UpdateResponseD> updateEsferas(String userName, String pass, int idUser, int esferas);
+    Observable<UpdateResponseD> updateEsferas(UpdateEsferasRequest request);
     Observable<List<Preguntas>> getQuestionsByAnimeImg(String userName, String pass, int idAnime);
     Observable<UpdateResponseD> deleteUser(String email,
                                            String pass,

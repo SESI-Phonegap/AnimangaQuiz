@@ -2,6 +2,8 @@ package com.sesi.chris.animangaquiz.presenter;
 
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateAvatarRequest;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateEsferasRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateGemasRequest;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
@@ -52,7 +54,8 @@ public class LoginPresenter extends Presenter<LoginPresenter.ViewLogin> {
 
     public void onUpdateEsferas(String userName, String pass, int idUser, int esferas ){
         getView().showLoading();
-        Disposable disposable = interactor.updateEsferas(userName, pass, idUser, esferas)
+        UpdateEsferasRequest request = new UpdateEsferasRequest(userName,pass,idUser,esferas);
+        Disposable disposable = interactor.updateEsferas(request)
                 .doOnError(error -> getView().showServerError(error.getMessage()))
                 .subscribe(updateResponse -> {
                     if (null != updateResponse){
@@ -67,7 +70,8 @@ public class LoginPresenter extends Presenter<LoginPresenter.ViewLogin> {
 
     public void onUpdateAvatar(String userName, String pass, int idUser, String b64){
         getView().showLoading();
-        Disposable disposable = interactor.updateAvatar(userName,pass,idUser,b64)
+        UpdateAvatarRequest request = new UpdateAvatarRequest(userName,pass,idUser,b64);
+        Disposable disposable = interactor.updateAvatar(request)
                 .doOnError(error -> {
                     getView().showServerError(error.getMessage());
                     getView().hideLoading();

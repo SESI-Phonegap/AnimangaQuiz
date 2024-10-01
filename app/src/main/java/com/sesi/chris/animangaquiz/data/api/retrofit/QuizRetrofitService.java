@@ -9,6 +9,8 @@ import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetWallpaperB
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.QuestionByAnimeLevelRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.SearchFriendByUserNameRequest;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateAvatarRequest;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateEsferasRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateGemasRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateLevelScoreGemsTotalScoreRequest;
 import com.sesi.chris.animangaquiz.data.model.Anime;
@@ -83,10 +85,7 @@ public interface QuizRetrofitService {
 
     @POST(Constants.EndPoint.UPDATE_AVATAR)
     @FormUrlEncoded
-    Observable<UpdateResponseD> updateAvatar(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
-                                             @Field(Constants.ParametersBackEnd.PASS) String pass,
-                                             @Field(Constants.ParametersBackEnd.ID_USER)int idUser,
-                                             @Field(Constants.ParametersBackEnd.AVATAR_BASE64)String b64);
+    Observable<UpdateResponseD> updateAvatar(@Body UpdateAvatarRequest request);
 
     @POST(Constants.EndPoint.CHECK_USER_FACEBOOK)
     @FormUrlEncoded
@@ -94,10 +93,7 @@ public interface QuizRetrofitService {
 
     @POST(Constants.EndPoint.UPDATE_ESFERAS)
     @FormUrlEncoded
-    Observable<UpdateResponseD> updateEsferas(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
-                                              @Field(Constants.ParametersBackEnd.PASS) String pass,
-                                              @Field(Constants.ParametersBackEnd.ID_USER) int idUser,
-                                              @Field(Constants.ParametersBackEnd.ESFERAS) int esferas);
+    Observable<UpdateResponseD> updateEsferas(@Body UpdateEsferasRequest request);
 
     @POST(Constants.EndPoint.GET_QUESTIONS_BY_ANIME_IMG)
     @FormUrlEncoded

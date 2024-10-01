@@ -2,6 +2,7 @@ package com.sesi.chris.animangaquiz.interactor;
 
 import com.sesi.chris.animangaquiz.data.api.client.QuizServiceClient;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.QuestionByAnimeLevelRequest;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateEsferasRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateLevelScoreGemsTotalScoreRequest;
 import com.sesi.chris.animangaquiz.data.model.Preguntas;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
@@ -25,7 +26,7 @@ public class PreguntasInteractor {
         return quizServiceClient.updateLevelScoreGems(request);
     }
 
-    public Observable<UpdateResponseD> updateEsferas(String userName, String pass, int idUser, int esferas){
-        return quizServiceClient.updateEsferas(userName,pass,idUser,esferas);
+    public Observable<UpdateResponseD> updateEsferas(UpdateEsferasRequest request){
+        return quizServiceClient.updateEsferas(request);
     }
 }

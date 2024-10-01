@@ -10,6 +10,8 @@ import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetWallpaperB
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.QuestionByAnimeLevelRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.SearchFriendByUserNameRequest;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateAvatarRequest;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateEsferasRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateGemasRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateLevelScoreGemsTotalScoreRequest;
 import com.sesi.chris.animangaquiz.data.model.Anime;
@@ -126,8 +128,8 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient 
     }
 
     @Override
-    public Observable<UpdateResponseD> updateAvatar(String userName, String pass, int idUser, String b64) {
-        return getQuizService().updateAvatar(userName, pass, idUser, b64)
+    public Observable<UpdateResponseD> updateAvatar(UpdateAvatarRequest request) {
+        return getQuizService().updateAvatar(request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -140,8 +142,8 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient 
     }
 
     @Override
-    public Observable<UpdateResponseD> updateEsferas(String userName, String pass, int idUser, int esferas) {
-        return getQuizService().updateEsferas(userName, pass, idUser, esferas)
+    public Observable<UpdateResponseD> updateEsferas(UpdateEsferasRequest request) {
+        return getQuizService().updateEsferas(request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
