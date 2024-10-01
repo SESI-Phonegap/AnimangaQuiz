@@ -3,6 +3,7 @@ package com.sesi.chris.animangaquiz.interactor;
 import com.sesi.chris.animangaquiz.data.api.client.QuizServiceClient;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateGemasRequest;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 
@@ -20,8 +21,8 @@ public class LoginInteractor {
         return quizServiceClient.login(request);
     }
 
-    public Observable<UpdateResponseD> updateGems(String userName, String pass, int idUser, int gemas ){
-        return quizServiceClient.updateGemas(userName,pass,idUser,gemas);
+    public Observable<UpdateResponseD> updateGems(UpdateGemasRequest request ){
+        return quizServiceClient.updateGemas(request);
     }
 
     public Observable<UpdateResponseD> updateAvatar(String userName, String pass, int idUser, String b64){

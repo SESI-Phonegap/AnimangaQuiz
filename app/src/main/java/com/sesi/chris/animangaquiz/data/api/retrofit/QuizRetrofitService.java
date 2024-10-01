@@ -6,6 +6,7 @@ import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetWallpaperByAnimeRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.QuestionByAnimeLevelRequest;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateGemasRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateLevelScoreGemsTotalScoreRequest;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
@@ -56,20 +57,7 @@ public interface QuizRetrofitService {
 
     @POST(Constants.EndPoint.UPDATE_GEMAS)
     @FormUrlEncoded
-    Observable<UpdateResponseD> updateGemas(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
-                                            @Field(Constants.ParametersBackEnd.PASS) String pass,
-                                            @Field(Constants.ParametersBackEnd.ID_USER) int idUser,
-                                            @Field(Constants.ParametersBackEnd.GEMS) int gems);
-
-    /*@POST(Constants.EndPoint.REGISTRO_NUEVO_USUARIO)
-    @FormUrlEncoded
-    Observable<UpdateResponseD> registroNuevoUsuario(@Field(Constants.ParametersBackEnd.USER_NAME_FRIEND) String userNameFriend,
-                                                     @Field(Constants.ParametersBackEnd.USER_NAME) String username,
-                                                     @Field(Constants.ParametersBackEnd.NOMBRE) String nombre,
-                                                     @Field(Constants.ParametersBackEnd.EMAIL) String email,
-                                                     @Field(Constants.ParametersBackEnd.EDAD) int edad,
-                                                     @Field(Constants.ParametersBackEnd.GENERO) String genero,
-                                                     @Field(Constants.ParametersBackEnd.PASS) String pass);*/
+    Observable<UpdateResponseD> updateGemas(@Body UpdateGemasRequest request);
 
     @POST(Constants.EndPoint.REGISTRO_NUEVO_USUARIO)
     Observable<UpdateResponseD> registroNuevoUsuario(@Body NewUserRequest request);

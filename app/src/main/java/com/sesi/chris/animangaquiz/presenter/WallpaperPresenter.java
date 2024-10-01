@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetWallpaperByAnimeRequest;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateGemasRequest;
 import com.sesi.chris.animangaquiz.data.model.Anime;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.data.model.Wallpaper;
@@ -71,7 +72,8 @@ public class WallpaperPresenter extends Presenter<WallpaperPresenter.ViewWallpap
 
     public void updateGemas(String userName, String pass, int idUser, int gemas){
         getView().showLoading();
-        Disposable disposable = wallpaperInteractor.updateGemas(userName,pass,idUser,gemas)
+        UpdateGemasRequest request = new UpdateGemasRequest(userName,pass,idUser,gemas);
+        Disposable disposable = wallpaperInteractor.updateGemas(request)
                 .doOnError(error -> Log.e("Error-",error.getMessage()))
                 .subscribe(updateResponse -> {
                     if (null != updateResponse){

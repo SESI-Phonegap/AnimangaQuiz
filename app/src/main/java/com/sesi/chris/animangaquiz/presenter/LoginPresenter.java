@@ -2,6 +2,7 @@ package com.sesi.chris.animangaquiz.presenter;
 
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateGemasRequest;
 import com.sesi.chris.animangaquiz.data.model.UpdateResponseD;
 import com.sesi.chris.animangaquiz.interactor.LoginInteractor;
 import com.sesi.chris.animangaquiz.data.model.LoginResponse;
@@ -33,7 +34,8 @@ public class LoginPresenter extends Presenter<LoginPresenter.ViewLogin> {
     }
 
     public void onUpdateGems(String userName, String password, int idUser, int gemas){
-        Disposable disposable = interactor.updateGems(userName,password,idUser,gemas)
+        UpdateGemasRequest request = new UpdateGemasRequest(userName,password,idUser,gemas);
+        Disposable disposable = interactor.updateGems(request)
                 .doOnError(error ->
                         getView().showServerError(error.getMessage()))
                 .subscribe(updateResponse -> {
