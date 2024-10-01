@@ -79,8 +79,7 @@ public interface QuizRetrofitService {
 
     @POST(Constants.EndPoint.GET_ALL_FRIENDS_BY_USER)
     @FormUrlEncoded
-    Observable<List<User>> getAllFriendsByUser(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
-                                               @Field(Constants.ParametersBackEnd.PASS) String pass);
+    Observable<List<User>> getAllFriendsByUser(@Body Credentials request);
 
     @POST(Constants.EndPoint.UPDATE_AVATAR)
     @FormUrlEncoded

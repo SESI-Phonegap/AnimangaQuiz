@@ -36,7 +36,7 @@ public interface QuizServiceClient {
     Observable<List<User>> searchFriendByUserName(SearchFriendByUserNameRequest request);
     Observable<UpdateResponseD> addFrienById(AddFriendByIdRequest request);
     Observable<List<Wallpaper>> getAvatarsByAnime(GetAvatarsByAnimeRequest request);
-    Observable<List<User>> getAllFriendsByUser(String userName, String pass);
+    Observable<List<User>> getAllFriendsByUser(Credentials request);
     Observable<UpdateResponseD> updateAvatar(String userName, String pass, int idUser, String b64);
     Observable<LoginResponse> validaUsuarioFacebook(String userName);
     Observable<UpdateResponseD> updateEsferas(String userName, String pass, int idUser, int esferas);

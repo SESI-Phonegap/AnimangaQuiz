@@ -1,5 +1,6 @@
 package com.sesi.chris.animangaquiz.presenter;
 
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.model.User;
 import com.sesi.chris.animangaquiz.interactor.FriendsByUserInteractor;
 import java.util.List;
@@ -14,8 +15,9 @@ public class FriendsByUserPresenter extends Presenter<FriendsByUserPresenter.Vie
     }
 
     public void getAllFriendsByUser(String userName, String pass) {
+        Credentials request = new Credentials(userName, pass);
         getView().showLoading();
-        Disposable disposable = interactor.getAllFriendsByUser(userName, pass)
+        Disposable disposable = interactor.getAllFriendsByUser(request)
                 .doOnError(error -> {
                     getView().showServerError(error.getMessage());
                     getView().hideLoading();

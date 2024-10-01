@@ -1,6 +1,7 @@
 package com.sesi.chris.animangaquiz.interactor;
 
 import com.sesi.chris.animangaquiz.data.api.client.QuizServiceClient;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
 import com.sesi.chris.animangaquiz.data.model.User;
 import java.util.List;
 import io.reactivex.Observable;
@@ -13,8 +14,8 @@ public class FriendsByUserInteractor {
         this.quizServiceClient = quizServiceClient;
     }
 
-    public Observable<List<User>> getAllFriendsByUser(String userName, String pass){
-        return quizServiceClient.getAllFriendsByUser(userName, pass);
+    public Observable<List<User>> getAllFriendsByUser(Credentials request){
+        return quizServiceClient.getAllFriendsByUser(request);
     }
 
 }
