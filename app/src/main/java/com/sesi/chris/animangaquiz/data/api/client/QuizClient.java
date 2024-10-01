@@ -5,6 +5,7 @@ import com.sesi.chris.animangaquiz.data.api.retrofit.QuizRetrofitClient;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.AddFriendByIdRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.CheckLevelAndScoreRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.DeleteUserRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetAvatarsByAnimeRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetQuestionsByAnimeImgRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetWallpaperByAnimeRequest;
@@ -157,8 +158,8 @@ public class QuizClient extends QuizRetrofitClient implements QuizServiceClient 
     }
 
     @Override
-    public Observable<UpdateResponseD> deleteUser(String email, String pass, int userId) {
-        return getQuizService().deleteUser(email, pass, userId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    public Observable<UpdateResponseD> deleteUser(DeleteUserRequest request) {
+        return getQuizService().deleteUser(request).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
 }

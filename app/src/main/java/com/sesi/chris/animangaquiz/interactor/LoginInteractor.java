@@ -2,6 +2,7 @@ package com.sesi.chris.animangaquiz.interactor;
 
 import com.sesi.chris.animangaquiz.data.api.client.QuizServiceClient;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.DeleteUserRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateAvatarRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateEsferasRequest;
@@ -43,8 +44,8 @@ public class LoginInteractor {
         return quizServiceClient.updateEsferas(request);
     }
 
-    public Observable<UpdateResponseD> deleteUser(String email, String pass, int idUser) {
-        return quizServiceClient.deleteUser(email, pass, idUser);
+    public Observable<UpdateResponseD> deleteUser(DeleteUserRequest request) {
+        return quizServiceClient.deleteUser(request);
     }
 
 }

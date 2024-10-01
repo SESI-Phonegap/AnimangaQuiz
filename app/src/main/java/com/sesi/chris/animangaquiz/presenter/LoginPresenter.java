@@ -1,6 +1,7 @@
 package com.sesi.chris.animangaquiz.presenter;
 
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.DeleteUserRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateAvatarRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.UpdateEsferasRequest;
@@ -126,8 +127,9 @@ public class LoginPresenter extends Presenter<LoginPresenter.ViewLogin> {
     }
 
     public void deleteUser(String email, String pass, int idUser){
+        DeleteUserRequest request = new DeleteUserRequest(email,pass,idUser);
         getView().showLoading();
-        Disposable disposable = interactor.deleteUser(email, pass, idUser)
+        Disposable disposable = interactor.deleteUser(request)
                 .doOnError(error -> getView().showServerError(error.getMessage()))
                 .subscribe(deleteUserResponse -> {
                     getView().hideLoading();
