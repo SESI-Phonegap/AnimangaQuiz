@@ -1,8 +1,10 @@
 package com.sesi.chris.animangaquiz.data.api.retrofit;
 
 import com.sesi.chris.animangaquiz.data.api.Constants;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.AddFriendByIdRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.CheckLevelAndScoreRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
+import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetAvatarsByAnimeRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.GetWallpaperByAnimeRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.NewUserRequest;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.QuestionByAnimeLevelRequest;
@@ -69,16 +71,11 @@ public interface QuizRetrofitService {
 
     @POST(Constants.EndPoint.ADD_FRIEND_BY_ID)
     @FormUrlEncoded
-    Observable<UpdateResponseD> addFriendById(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
-                                              @Field(Constants.ParametersBackEnd.PASS) String pass,
-                                              @Field(Constants.ParametersBackEnd.ID_USER) int idUser,
-                                              @Field(Constants.ParametersBackEnd.ID_FRIEND) int idFriend);
+    Observable<UpdateResponseD> addFriendById(@Body AddFriendByIdRequest request);
 
     @POST(Constants.EndPoint.GET_AVATARS_BY_ANIME)
     @FormUrlEncoded
-    Observable<List<Wallpaper>> getAvatarsByAnime(@Field(Constants.ParametersBackEnd.USER_NAME) String username,
-                                                  @Field(Constants.ParametersBackEnd.PASS) String pass,
-                                                  @Field(Constants.ParametersBackEnd.ID_ANIME) int idAnime);
+    Observable<List<Wallpaper>> getAvatarsByAnime(@Body GetAvatarsByAnimeRequest request);
 
     @POST(Constants.EndPoint.GET_ALL_FRIENDS_BY_USER)
     @FormUrlEncoded
