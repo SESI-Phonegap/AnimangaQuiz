@@ -22,6 +22,7 @@ import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -152,7 +153,7 @@ public class MenuActivity extends BaseActivity
         });
 
         imgAvatar.setOnClickListener(v ->
-                openGallery()
+                galleryFilter()
         );
     }
 
@@ -196,15 +197,6 @@ public class MenuActivity extends BaseActivity
             }
         });
     }
-    private final ActivityResultLauncher<String> mPermissionResult = registerForActivityResult(
-            new ActivityResultContracts.RequestPermission(),
-            result -> {
-                if (result) {
-                    openGallery();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Se requieren los permisos para continuar", Toast.LENGTH_LONG).show();
-                }
-            });
 
     private void cargarPublicidad() {
         InternetDto internetDto = InternetUtil.INSTANCE.getConnection(context());
@@ -267,80 +259,28 @@ public class MenuActivity extends BaseActivity
     }
 
 
-    private void openGallery() {
-        String permission = Manifest.permission.READ_EXTERNAL_STORAGE;
-        if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU){
-            permission = Manifest.permission.READ_MEDIA_IMAGES;
-        }
-        if (ActivityCompat.checkSelfPermission(context(), permission) != PackageManager.PERMISSION_GRANTED) {
-            mPermissionResult.launch(permission);
-        } else {
-            galleryFilter();
-        }
-    }
-
-
     public void galleryFilter() {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_PICK);
         intent.setType("image/*");
-        galleryResult.launch(intent);
+        //galleryResult.launch(intent);
+        pickMedia.launch(new PickVisualMediaRequest.Builder().setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE).build());
     }
 
-    private final ActivityResultLauncher<Intent> galleryResult = registerForActivityResult( new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    try {
-                        Uri imageUri = result.getData().getData();
-
-                        String selectedImagePath;
-                        selectedImagePath = ImageFilePath.getPath(getApplication(), imageUri);
-                        File fileImage = new File(selectedImagePath);
-                        Long lSizeImage = getImageSizeInKb(fileImage.length());
-
-                        if (lSizeImage < 2000) {
-                            InternetDto internetDto = InternetUtil.INSTANCE.getConnection(context());
-                            if (internetDto.isOnline()) {
-                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                                imgAvatar.setImageBitmap(bitmap);
-                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                                byte[] imageBytes = baos.toByteArray();
-                                String sImgBase64 = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-                                Log.i("BASE64", sImgBase64);
-                                //guardar en la BD
-                                loginPresenter.onUpdateAvatar(userActual.getEmail(),
-                                        userActual.getPassword(),
-                                        userActual.getIdUser(),
-                                        sImgBase64);
-
-                            } else {
-                                Toast.makeText(context(), getString(R.string.noInternet), Toast.LENGTH_LONG).show();
-                            }
-                        } else {
-                            Toast.makeText(context(), R.string.msgImagenError, Toast.LENGTH_LONG).show();
-                        }
-                    } catch (IOException e) {
-                        Log.e("Error-", e.getMessage());
-                    }
-                }
-            });
-    /*@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
+    private final // Registers a photo picker activity launcher in single-select mode.
+    ActivityResultLauncher<PickVisualMediaRequest> pickMedia = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
+        if (uri != null) {
             try {
-                Uri imageUri = data.getData();
-
                 String selectedImagePath;
-                selectedImagePath = ImageFilePath.getPath(getApplication(), imageUri);
+                selectedImagePath = ImageFilePath.getPath(getApplication(), uri);
                 File fileImage = new File(selectedImagePath);
                 Long lSizeImage = getImageSizeInKb(fileImage.length());
 
                 if (lSizeImage < 2000) {
-                    if (isOnline(context())) {
+                    InternetDto internetDto = InternetUtil.INSTANCE.getConnection(context());
+                    if (internetDto.isOnline()) {
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
                         imgAvatar.setImageBitmap(bitmap);
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                         byte[] imageBytes = baos.toByteArray();
@@ -362,8 +302,8 @@ public class MenuActivity extends BaseActivity
                 Log.e("Error-", e.getMessage());
             }
         }
-    }
-*/
+    });
+
     public Long getImageSizeInKb(Long imageLength) {
         if (imageLength <= 0) {
             return 0L;
