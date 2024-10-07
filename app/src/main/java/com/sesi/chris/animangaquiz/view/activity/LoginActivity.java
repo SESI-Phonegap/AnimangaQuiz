@@ -23,6 +23,7 @@ import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.sesi.chris.animangaquiz.R;
 import com.sesi.chris.animangaquiz.data.api.client.QuizClient;
 import com.sesi.chris.animangaquiz.data.api.retrofit.model.request.Credentials;
@@ -44,7 +45,7 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ViewLo
     private LoginPresenter loginPresenter;
     private ProgressBar progressBar;
     private EditText etEmail;
-    private EditText etPassword;
+    private TextInputEditText etPassword;
     private Context context;
     private CheckBox cbGuardarUser;
     private CallbackManager callbackManager;
